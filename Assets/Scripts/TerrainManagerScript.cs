@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// is this class needed? TBD. would like to use terrain manager for most of the work.
-public class TerrainDisplayScript : MonoBehaviour
+public class TerrainManagerScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,8 +16,7 @@ public class TerrainDisplayScript : MonoBehaviour
         
     }
 
-    public void Cleanup() {
-
+    public void Cleanup(float beginX, bool isLeft) {
+        
     }
-    
 }
