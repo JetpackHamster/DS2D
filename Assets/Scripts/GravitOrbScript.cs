@@ -26,32 +26,46 @@ public class GravitOrbScript : MonoBehaviour
             float ydist = transform.position.y - targetObj.transform.position.y;
             float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
 
+            int xdir = 1;
+            if(xdist < 0) {
+                xdir = -1;
+            }
+            int ydir = 1;
+            if (ydist < 0) {
+                ydir = -1;
+            }
+
+            // use vector.normalize like method to set vector magnitude to 1 and then set it's magnitude seperately
+            // just need to get direction with these below lines
+
             // limit force by checking for very close
-            if (Mathf.Abs(xdist) < 0.2)
+            if (Mathf.Abs(xdist) > 0.5F)
             {
-                if (Mathf.Abs(ydist) < 2)
+                if (Mathf.Abs(ydist) > 0.5F)
                 {
                     // both x,y vel changed
                     RB.velocity = new Vector2(
-                        RB.velocity.x - (100F * Time.deltaTime) / (Mathf.Pow(xdist, 2)),
-                        RB.velocity.y - (100F * Time.deltaTime) / (Mathf.Pow(ydist, 2))
-                        );
+                        RB.velocity.x - (10F * Time.deltaTime) * xdir * Mathf.Abs(1/ydist)  / (Mathf.Pow(xdist, 2)),
+                        RB.velocity.y - (10F * Time.deltaTime) * ydir * Mathf.Abs(1/xdist) / (Mathf.Pow(ydist, 2))
+                        ); 
+                        
+                    
                 } else
                 {
                     // just x vel changed
                     RB.velocity = new Vector2(
-                        RB.velocity.x - (100F * Time.deltaTime) / (Mathf.Pow(xdist, 2)),
+                        RB.velocity.x - (10F * Time.deltaTime) * xdir * Mathf.Abs(1/ydist) / (Mathf.Pow(xdist, 2)),
                         RB.velocity.y
-                        );
+                        ); 
                 }
                 
-            } else
+            } else if (Mathf.Abs(ydist) > 0.5F)
             {
                 // just y vel changed
                 RB.velocity = new Vector2(
                     RB.velocity.x,
-                    RB.velocity.y - (100F * Time.deltaTime) / (Mathf.Pow(ydist, 2))
-                    );
+                    RB.velocity.y - (10F * Time.deltaTime) * ydir * Mathf.Abs(1/xdist) / (Mathf.Pow(ydist, 2))
+                    ); 
             }
             
         }
