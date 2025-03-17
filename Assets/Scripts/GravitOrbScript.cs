@@ -38,8 +38,11 @@ public class GravitOrbScript : MonoBehaviour
             // use vector.normalize like method to set vector magnitude to 1 and then set it's magnitude seperately
             // just need to get direction with these below lines
 
+            Vector2 fVector = new Vector2(xdist, ydist);
+            fVector.Normalize();
+
             // limit force by checking for very close
-            if (Mathf.Abs(xdist) > 0.5F)
+            /*if (Mathf.Abs(xdist) > 0.5F)
             {
                 if (Mathf.Abs(ydist) > 0.5F)
                 {
@@ -66,7 +69,7 @@ public class GravitOrbScript : MonoBehaviour
                     RB.velocity.x,
                     RB.velocity.y - (10F * Time.deltaTime) * ydir * Mathf.Abs(1/xdist) / (Mathf.Pow(ydist, 2))
                     ); 
-            }
+            }*/
             
         }
     }
