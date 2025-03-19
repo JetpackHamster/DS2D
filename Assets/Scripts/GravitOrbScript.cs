@@ -40,10 +40,11 @@ public class GravitOrbScript : MonoBehaviour
 
             Vector2 fVector = new Vector2(xdist, ydist);
             fVector.Normalize();
+            fVector *= Time.deltaTime;
             
             // set to correct magnitude unless very close
-            if(totaldist > 1) {
-                fVector *= (1/Mathf.Pow(totaldist, 2));
+            if(totaldist > 0.1) {
+                fVector *= (100/Mathf.Pow(totaldist, 2));
             } else {
                 fVector /= 10;
             }

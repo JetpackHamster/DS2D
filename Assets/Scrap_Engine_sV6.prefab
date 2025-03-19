@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3078887559272351906}
   - component: {fileID: 2668698207043873626}
   - component: {fileID: 4210550931179976564}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scrap_Engine_sV6
   m_TagString: Untagged
   m_Icon: {fileID: 0}

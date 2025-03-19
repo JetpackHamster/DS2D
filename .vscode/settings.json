@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DS2D.sln"
+    "dotnet.defaultSolution": "DS2D.sln",
+    "problems.visibility": false
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8549956284742319102}
   - component: {fileID: 5160009488043500037}
   - component: {fileID: 1605703077585531789}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scrap_Pipe_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}

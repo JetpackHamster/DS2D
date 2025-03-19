@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7118535334492326214}
   - component: {fileID: 4992675848780842339}
   - component: {fileID: 6901895788141356640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scrap_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
