@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+//using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TerrainCircleSpawnerScript : MonoBehaviour
@@ -10,6 +12,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
     private float spawnerX;
     private float timer = 0;
     public float heightOffset = 4;
+    public GameObject[] spawnedObjs;
 
     //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Mathf.PerlinNoise1D.html
 
@@ -33,7 +36,9 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
                 spawnPipe();
                 timer = 0;
                 heightOffset += 0.005F;
-
+                if (Random.Range(0F, 10F) > 9.8F) {
+                    Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
+                }
             }
         
             // move forward

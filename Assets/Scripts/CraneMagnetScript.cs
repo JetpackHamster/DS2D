@@ -17,7 +17,8 @@ public class CraneMagnetScript : MonoBehaviour
     void Start()
     {
         craneEnabled = false;
-            parentpos = GetComponentInParent<Transform>(false).position;
+        parentpos = GetComponentInParent<Transform>(false).position;
+
     }
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {
@@ -26,6 +27,55 @@ public class CraneMagnetScript : MonoBehaviour
         } else {
             return 1;
         }
+    }
+
+    // called when something is in the trigger area
+    private void OnTriggerStay2D(Collider2D otherC2D) {
+        //Debug.Log("thing moven't");
+
+        Rigidbody2D otherRB = otherC2D.GetComponentInParent<Rigidbody2D>();
+        
+        // if left click then increase other's velocity toward magnet
+        if (Input.GetMouseButton(0))
+        {
+            
+
+            // find distances
+            float xdist = otherC2D.GetComponentInParent<Transform>().position.x - transform.position.x;
+            float ydist = otherC2D.GetComponentInParent<Transform>().position.y - transform.position.y;
+            float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
+
+            int xdir = 1;
+            if(xdist < 0) {
+                xdir = -1;
+            }
+            int ydir = 1;
+            if (ydist < 0) {
+                ydir = -1;
+            }
+
+            // use vector.Normalize to set vector magnitude to 1 and then set correct magnitude seperately
+            // just need to get direction with these below lines
+
+            Vector2 fVector = new Vector2(xdist, ydist);
+            fVector.Normalize();
+            fVector *= Time.deltaTime;
+            
+            // set to correct magnitude unless very close
+            if(totaldist > 0.3) {
+                fVector *= (100/Mathf.Pow(totaldist, 2));
+                /*while (fVector.magnitude > 10) {
+                    Debug.Log("force over limit");
+                    fVector *= 0.9F;
+                }*/
+            } else {
+                fVector /= 10;
+            }
+            otherRB.velocity -= fVector;
+            
+            
+        }
+
     }
 
     // Update is called once per frame

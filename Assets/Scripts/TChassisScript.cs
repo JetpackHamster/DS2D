@@ -7,7 +7,7 @@ public class TChassisScript : MonoBehaviour
     public Rigidbody2D SRRigidbody;
     public float jumpStrength = 10;
     
-    public HingeJoint2D[] ArrayHJ;
+    HingeJoint2D[] ArrayHJ;
     public GameObject[] ArrayWheels;
     public float wheelMotorSpeed = 600F;
     public float wheelTopSpeed = 2F;
@@ -20,9 +20,8 @@ public class TChassisScript : MonoBehaviour
         // do a little happy hop yay
         SRRigidbody.velocity = Vector2.up * 10;
 
-        wheelDiameters = new float[ArrayWheels.Length];
-
         // get wheel sizes and store in array, to be used for wheelspeed sync
+        wheelDiameters = new float[ArrayWheels.Length];
         for (int i = 0; i < ArrayWheels.Length; i++)
         {
             Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>());
@@ -34,6 +33,13 @@ public class TChassisScript : MonoBehaviour
             
             
         }   
+
+        // get hingejoints from wheel array and store in array
+        ArrayHJ = new HingeJoint2D[ArrayWheels.Length];
+        for (int i = 0; i < ArrayWheels.Length; i++)
+        {
+            ArrayHJ[i] = ArrayWheels[i].GetComponent<HingeJoint2D>();
+        }
 
     }
 

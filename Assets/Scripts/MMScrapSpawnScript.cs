@@ -35,6 +35,6 @@ public class MMScrapSpawnScript : MonoBehaviour
     void spawn()
     {
         // spawn a new object with the position of the spawner that is a random object from the list
-        Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x, transform.position.y, 0), new Quaternion(0, 0, Random.Range(0F, 1F), 0));
+        Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x, transform.position.y, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
     }
 }

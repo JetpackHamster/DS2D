@@ -10,7 +10,11 @@ public class MouseCrosshairScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Disable VSync to use targetFrameRate
+        QualitySettings.vSyncCount = 0;
+
+        // Set target frame rate to 120 FPS
+        Application.targetFrameRate = 120;
     }
 
     // Update is called once per frame
