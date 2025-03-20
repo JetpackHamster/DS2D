@@ -43,8 +43,12 @@ public class GravitOrbScript : MonoBehaviour
             fVector *= Time.deltaTime;
             
             // set to correct magnitude unless very close
-            if(totaldist > 0.1) {
+            if(totaldist > 0.2) {
                 fVector *= (100/Mathf.Pow(totaldist, 2));
+                while (fVector.magnitude > 10) {
+                    Debug.Log("force over limit");
+                    fVector *= 0.9F;
+                }
             } else {
                 fVector /= 10;
             }

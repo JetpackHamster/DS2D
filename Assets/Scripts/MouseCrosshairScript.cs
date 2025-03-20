@@ -16,18 +16,20 @@ public class MouseCrosshairScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // RMB hold spawns things
         if(Input.GetMouseButton(1))
         {
             Instantiate(thingSpawnable, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }
-
-            if (Input.GetMouseButtonDown(0))
+        // MMB hold activates collision
+        if (Input.GetMouseButtonDown(2))
         {
             collider.enabled = true;
-        } else if (Input.GetMouseButtonUp(0))
+        } else if (Input.GetMouseButtonUp(2))
         {
             collider.enabled = false;
         }
+        // set position to mouse position
         Vector3 mousePos = cam.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z);
     }

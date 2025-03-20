@@ -1954,7 +1954,7 @@ PolygonCollider2D:
     m_Bits: 4294967295
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 255
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1998,7 +1998,7 @@ MonoBehaviour:
   craneEnabled: 0
   pointer: {fileID: 142068659}
   xyLimits:
-  - 0.1
+  - -0.1
   - 0.3
   - 0
   - 0.2
@@ -2010,7 +2010,7 @@ AreaEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562829338}
-  m_Enabled: 1
+  m_Enabled: 0
   m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2
@@ -2029,7 +2029,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562829338}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -4151,7 +4151,7 @@ GameObject:
   - component: {fileID: 1720876572}
   - component: {fileID: 1720876571}
   - component: {fileID: 1720876570}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gravitorb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4337,7 +4337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RB: {fileID: 1824341209}
-  targetObj: {fileID: 142068659}
+  targetObj: {fileID: 562829338}
 --- !u!1 &1966073661
 GameObject:
   m_ObjectHideFlags: 0
