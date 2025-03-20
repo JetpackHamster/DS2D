@@ -13,6 +13,8 @@ public class TChassisScript : MonoBehaviour
     public float wheelTopSpeed = 2F;
     float wheelTargetSpeed = 0F;
     float[] wheelDiameters;
+    public float fuelQty;
+    public float fuelLimit;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,10 @@ public class TChassisScript : MonoBehaviour
             ArrayHJ[i] = ArrayWheels[i].GetComponent<HingeJoint2D>();
         }
 
+        // set fuel
+        fuelQty = 20F;
+        fuelLimit = 30F;
+
     }
 
     // Update is called once per frame
@@ -64,7 +70,7 @@ public class TChassisScript : MonoBehaviour
         {
             Debug.Log(wheelTargetSpeed);
         }*/
-        if (Input.GetKey(KeyCode.A)) // make wheels go more left
+        if (Input.GetKey(KeyCode.A) && fuelQty > 0) // make wheels go more left
         {
             //SRRigidbody.velocity += Vector2.left * jumpStrength;
             
@@ -76,7 +82,7 @@ public class TChassisScript : MonoBehaviour
             setWheelSpeed(wheelTargetSpeed);
         } else {
         
-            if (Input.GetKey(KeyCode.D)) // make wheels go more right
+            if (Input.GetKey(KeyCode.D) && fuelQty > 0) // make wheels go more right
             {
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
 
@@ -101,7 +107,9 @@ public class TChassisScript : MonoBehaviour
                 {
                     wheelTargetSpeed = 0;
                 }
-                
+                // decrease fuel qty by time and wheelspeed
+                fuelQty -= wheelTargetSpeed * Time.deltaTime;
+                Debug.Log("fuel: " + fuelQty);
             }
 
         } 
