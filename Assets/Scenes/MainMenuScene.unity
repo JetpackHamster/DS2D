@@ -563,6 +563,9 @@ MonoBehaviour:
   - {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
   - {fileID: 6269092990122627440, guid: af493e3005d6de84c97bf322705a6d57, type: 3}
   - {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
+  - {fileID: 384262184926286563, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
+  - {fileID: 6302419789694249459, guid: d10ed19144e22924886dcefb4c39b234, type: 3}
+  - {fileID: 3361529960488582457, guid: 33fa66971cdab514ea021ddbaa15389a, type: 3}
   spawnDelay: 0.1
   heightOffset: 4
 --- !u!212 &343259769
