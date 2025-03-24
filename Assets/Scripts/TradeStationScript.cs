@@ -13,6 +13,10 @@ public class TradeStationScript : MonoBehaviour
     //int leftofXlimit;
     //int leftofYlimit;
     Canvas canvas;
+    public GameObject[] sellList;
+    public GameObject[] sellTiles;
+    public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
+    private float magMultiplier;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +25,10 @@ public class TradeStationScript : MonoBehaviour
         UIEnabled = false;
         canvas.enabled = false;
         //parentpos = GetComponentInParent<Transform>(false).position;
+        sellList = new GameObject[12];
+        sellTiles = new GameObject[12];
+        seekedObjs = new GameObject[12];
+        magMultiplier = 1F;
         
     }
     // check direction first float is from second float
@@ -32,55 +40,57 @@ public class TradeStationScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) // enable UI when player enter
+    private void OnTriggerEnter2D(Collider2D collision) // enable UI when player enter, add sell objects to list
     {
-        Debug.Log("enter" + collision.transform.name);
-        if (collision.transform.name == "Player") {
+        Debug.Log("enter: " + collision.transform.name);
+        if (collision.transform.name == "Player") { // display UI open prompt (currently full UI) if player detected
             //Debug.Log("playerentered");
             UIEnabled = true;
             canvas.enabled = true;
+        } else if (!sellList.Contains(collision)) { // if not player and not in sell list, add to sell list
+            int i = 0;
+            while(sellList[i] != null) { // find empty slot index
+                i++;
+            }
+            if (i < sellList.length()) { // add to slot if within limits
+            sellList[i] = collision;
+            } else {
+                Debug.Log("sellList full");
+            }
+
+            // create new image tile in canvas
+            sellTiles[i] = Instantiate(sellTile, canvas.transform.position, canvas.transform.rotation);
+
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) // disable UI when player leave
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.name == "Player") {
+        if (collision.transform.name == "Player") { // disable UI when player leave
             UIEnabled = false;
             canvas.enabled = false;
+        } else if (!sellList.Contains(collision)) { // if not player and in sell list, remove from sell list
+            sellList.remove(collision);
         }
     }
 
     // called when something is in the trigger area
     private void OnTriggerStay2D(Collider2D collision) {
-        Debug.Log("thing moven't: " + collision.transform.name);
+        //Debug.Log("thing present: " + collision.transform.name);
         
-        if (collision.transform.name == "Player") {
-            //UIEnabled = true;
-        } else {
+        if (collision.transform.name != "Player") { // if not player
             Rigidbody2D otherRB = collision.GetComponentInParent<Rigidbody2D>();
             
-            // if left click then increase other's velocity toward magnet
-            if (Input.GetKey(KeyCode.T))
+            // if other is seeked, increase other's velocity toward magnet
+            if (/*Input.GetKey(KeyCode.T) &&*/ seekedObjs.contains(collision)) // if in seeked objs, attract
             {
-                // find distances
+                // find distances to offset point
                 float xdist = collision.GetComponentInParent<Transform>().position.x - (transform.position.x-1F);
                 float ydist = collision.GetComponentInParent<Transform>().position.y - (transform.position.y + 2F);
                 float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
 
-                /*int xdir = 1;
-                if(xdist < 0) {
-                    xdir = -1;
-                }
-                int ydir = 1;
-                if (ydist < 0) {
-                    ydir = -1;
-                }*/
-
-                // use vector.Normalize to set vector magnitude to 1 and then set correct magnitude seperately
-                // just need to get direction with these below lines
-
-                Vector2 fVector = new Vector2(xdist, ydist);
-                fVector.Normalize();
+                Vector2 fVector = new Vector2(xdist, ydist); // set vector direction
+                fVector.Normalize(); // set vector magnitude to 1
                 fVector *= Time.deltaTime;
                 
                 // set to correct magnitude unless very close
@@ -93,10 +103,10 @@ public class TradeStationScript : MonoBehaviour
                 } else {
                     fVector /= 10;
                 }
+                fVector *= magMultiplier;
                 otherRB.velocity -= fVector;
-                
-                
             }
+            
         }
 
     }
@@ -104,52 +114,17 @@ public class TradeStationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // toggle crane with C
-        if (Input.GetKeyDown(KeyCode.U)) {
+        // toggle UI?
+        /*if (Input.GetKeyDown(KeyCode.U)) {
             UIEnabled = !UIEnabled;
             //Debug.Log("UIEnabled: " + UIEnabled);
-        }
-
-        // if UI time do UI things
-        /*if (UIEnabled) { // wait these are crane things ....
-            float xdist = -1 * (transform.position.x - pointer.transform.position.x);
-            float ydist = -1 * (transform.position.y - pointer.transform.position.y);
-            float xpos = transform.localPosition.x;// - parentpos.x;
-            float ypos = transform.localPosition.y;// - parentpos.y;
-            
-            //Debug.Log("xdist, ydist: " + xdist + ", " + ydist);
-            
-            // move axes that aren't out of bounds if cursor not at same spot as magnet
-            if (Mathf.Abs(xdist) > 0.2 || Mathf.Abs(ydist) > 0.2) {
-                if (xpos <= xyLimits[1] && xpos >= xyLimits[0]) {
-                    //Debug.Log("crane x within limits");
-                    if (ypos <= xyLimits[3] && ypos >= xyLimits[2]) {
-                        //Debug.Log("crane xy within limits");
-                        // move x, y
-                        fVector = new Vector2(xdist, ydist);
-                    } else {
-                        // attempt recenter y, move x
-                        fVector = new Vector2(xpos, directionOfLimit(ypos, xyLimits[3]));
-                    }
-                } else {
-                    if (ypos <= xyLimits[3] && ypos >= xyLimits[2]) {
-                        //Debug.Log("crane y within limits");
-                        // attempt recenter x, move y
-                        fVector = new Vector2(directionOfLimit(xpos, xyLimits[1]), ydist);
-                    } else {
-                        // attempt recenter
-                        fVector = new Vector2(directionOfLimit(xpos, xyLimits[1]), directionOfLimit(ypos, xyLimits[3]));
-                        //Debug.Log("all out of bounds; crane y, limit: " + ypos + " " + xyLimits[2]);
-                    }
-                }
-                fVector.Normalize();
-                fVector *= Time.deltaTime * 0.2F;
-                
-                transform.localPosition = new Vector3(transform.localPosition.x + fVector.x, transform.localPosition.y + fVector.y, transform.localPosition.z);
-
-            }
-            
         }*/
-
+        
+        if (seekedObjs.isEmpty()){ // reset magMultiplier when all seekedObjs collected
+            Debug.Log("magMultiplier reset, value was " + magMultiplier);
+            magMultiplier = 1F;
+        } else {
+            magMultiplier += 0.1F * Time.deltaTime; // increase multiplier as long as magnet in use
+        }
     }
 }
