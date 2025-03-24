@@ -109,7 +109,7 @@ public class TChassisScript : MonoBehaviour
                 }
                 // decrease fuel qty by time and wheelspeed
                 fuelQty -= wheelTargetSpeed * Time.deltaTime;
-                Debug.Log("fuel: " + fuelQty);
+                //Debug.Log("fuel: " + fuelQty);
             }
 
         } 

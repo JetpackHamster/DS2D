@@ -12,13 +12,16 @@ public class TradeStationScript : MonoBehaviour
     //Vector3 parentpos;
     //int leftofXlimit;
     //int leftofYlimit;
+    Canvas canvas;
 
     // Start is called before the first frame update
     void Start()
     {
+        canvas = GameObject.Find("StructureUICanvas").GetComponent<Canvas>();
         UIEnabled = false;
+        canvas.enabled = false;
         //parentpos = GetComponentInParent<Transform>(false).position;
-
+        
     }
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {
@@ -29,49 +32,71 @@ public class TradeStationScript : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision) // enable UI when player enter
+    {
+        Debug.Log("enter" + collision.transform.name);
+        if (collision.transform.name == "Player") {
+            //Debug.Log("playerentered");
+            UIEnabled = true;
+            canvas.enabled = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) // disable UI when player leave
+    {
+        if (collision.transform.name == "Player") {
+            UIEnabled = false;
+            canvas.enabled = false;
+        }
+    }
+
     // called when something is in the trigger area
-    private void OnTriggerStay2D(Collider2D otherC2D) {
-        //Debug.Log("thing moven't");
-
-        Rigidbody2D otherRB = otherC2D.GetComponentInParent<Rigidbody2D>();
+    private void OnTriggerStay2D(Collider2D collision) {
+        Debug.Log("thing moven't: " + collision.transform.name);
         
-        // if left click then increase other's velocity toward magnet
-        if (Input.GetKey(KeyCode.T))
-        {
-            // find distances
-            float xdist = otherC2D.GetComponentInParent<Transform>().position.x - transform.position.x;
-            float ydist = otherC2D.GetComponentInParent<Transform>().position.y - transform.position.y;
-            float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
-
-            /*int xdir = 1;
-            if(xdist < 0) {
-                xdir = -1;
-            }
-            int ydir = 1;
-            if (ydist < 0) {
-                ydir = -1;
-            }*/
-
-            // use vector.Normalize to set vector magnitude to 1 and then set correct magnitude seperately
-            // just need to get direction with these below lines
-
-            Vector2 fVector = new Vector2(xdist, ydist);
-            fVector.Normalize();
-            fVector *= Time.deltaTime;
+        if (collision.transform.name == "Player") {
+            //UIEnabled = true;
+        } else {
+            Rigidbody2D otherRB = collision.GetComponentInParent<Rigidbody2D>();
             
-            // set to correct magnitude unless very close
-            if(totaldist > 0.3) {
-                fVector *= (100/Mathf.Pow(totaldist, 2));
-                /*while (fVector.magnitude > 10) { // force limit
-                    Debug.Log("force over limit");
-                    fVector *= 0.9F;
+            // if left click then increase other's velocity toward magnet
+            if (Input.GetKey(KeyCode.T))
+            {
+                // find distances
+                float xdist = collision.GetComponentInParent<Transform>().position.x - (transform.position.x-1F);
+                float ydist = collision.GetComponentInParent<Transform>().position.y - (transform.position.y + 2F);
+                float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
+
+                /*int xdir = 1;
+                if(xdist < 0) {
+                    xdir = -1;
+                }
+                int ydir = 1;
+                if (ydist < 0) {
+                    ydir = -1;
                 }*/
-            } else {
-                fVector /= 10;
+
+                // use vector.Normalize to set vector magnitude to 1 and then set correct magnitude seperately
+                // just need to get direction with these below lines
+
+                Vector2 fVector = new Vector2(xdist, ydist);
+                fVector.Normalize();
+                fVector *= Time.deltaTime;
+                
+                // set to correct magnitude unless very close
+                if(totaldist > 0.5) {
+                    fVector *= (100/Mathf.Pow(totaldist, 2));
+                    /*while (fVector.magnitude > 10) { // force limit
+                        Debug.Log("force over limit");
+                        fVector *= 0.9F;
+                    }*/
+                } else {
+                    fVector /= 10;
+                }
+                otherRB.velocity -= fVector;
+                
+                
             }
-            otherRB.velocity -= fVector;
-            
-            
         }
 
     }
