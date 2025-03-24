@@ -9,12 +9,17 @@ public class TChassisScript : MonoBehaviour
     
     HingeJoint2D[] ArrayHJ;
     public GameObject[] ArrayWheels;
+
     public float wheelMotorSpeed = 600F;
     public float wheelTopSpeed = 2F;
     float wheelTargetSpeed = 0F;
+    public float EngineSpeed = 0F;
     float[] wheelDiameters;
     public float fuelQty;
     public float fuelLimit;
+
+    // torque curve should be: sqrtx - x, 0 <= x <= 0.35
+    // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
 
     // Start is called before the first frame update
     void Start()
