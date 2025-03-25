@@ -14,7 +14,7 @@ public class sellTileScript : MonoBehaviour
         Button button = GetComponent<Button>();
         button.onClick.AddListener(sell);
 
-        StationScript = gameObject.GetComponentInParent<TradeStationScript>();
+        StationScript = GameObject.Find("TradeStation").GetComponentInChildren<TradeStationScript>();
     }
 
     // Update is called once per frame

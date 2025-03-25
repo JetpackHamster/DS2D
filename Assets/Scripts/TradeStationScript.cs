@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
+
 //using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -64,9 +66,11 @@ public class TradeStationScript : MonoBehaviour
             Debug.Log("new sellTile: " + collision.transform.name);
             sellTiles[i] = Instantiate(
                 sellTile, new Vector3(
-                    canvas.transform.position.x + Random.Range(-100F, 100F),
+                    canvas.transform.position.x + Random.Range(-0.1F, 0.1F),
                      canvas.transform.position.y, canvas.transform.position.z),
-                      canvas.transform.rotation);
+                     canvas.transform.rotation);
+            sellTiles[i].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
+            sellTiles[i].GetComponentInChildren<Image>().SourceImage = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
 
         }
     }
@@ -76,8 +80,17 @@ public class TradeStationScript : MonoBehaviour
         if (collision.transform.name == "Player") { // disable UI when player leave
             UIEnabled = false;
             canvas.enabled = false;
-        } else if (!UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and in sell list, remove from sell list
+        } else if (UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and in sell list, remove from sell list
+            Debug.Log("Attempt remove " + collision.transform.name);
             UnityEditor.ArrayUtility.Remove(ref sellList, collision.gameObject);
+            int index = 0;
+            for (int i = 0; i < sellTiles.Length; i++) {
+                if (sellTiles[i] != null && sellTiles[i].GetComponentInChildren<sellTileScript>().obj == collision.gameObject) {
+                    index = i;
+                }
+            }
+            GameObject.Destroy(sellTiles[index]);
+            sellTiles[index] = null;
         }
     }
 

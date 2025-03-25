@@ -84,7 +84,7 @@ public class CraneMagnetScript : MonoBehaviour
         // toggle crane with C
         if (Input.GetKeyDown(KeyCode.C)) {
             craneEnabled = !craneEnabled;
-            Debug.Log("craneEnabled: " + craneEnabled);
+            //Debug.Log("craneEnabled: " + craneEnabled);
         }
 
         // if crane time do crane things
