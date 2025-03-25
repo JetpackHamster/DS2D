@@ -21,6 +21,7 @@ public class TChassisScript : MonoBehaviour
     public float maxMotorForce = 80F;
     public float idleSpeed = 10F;
     public float frameFuelUsage = 0F;
+    public float clutch = 0F;
 
     // torque curve should be: sqrtx - x, 0 <= x <= 0.35
     // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
@@ -98,10 +99,13 @@ public class TChassisScript : MonoBehaviour
         {
             //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
-            // if not at top speed go faster
-            if (wheelTargetSpeed > (motorTopSpeed * -1))
+            // if reverse and not at top speed go faster
+            if (motorspeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -1))
             {
-                wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
+               motorSpeed -= 0.1F * Time.deltaTime;
+               // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
+            } else if (motorspeed > (idleSpeed/ (10F))){ // braking when go forward
+                motorSpeed += 0.2F * Time.deltaTime;
             }
             setWheelSpeed(wheelTargetSpeed);
         } else {
