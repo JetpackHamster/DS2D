@@ -17,6 +17,7 @@ public class TChassisScript : MonoBehaviour
     float[] wheelDiameters;
     public float fuelQty;
     public float fuelLimit;
+    public float motorForce;
 
     // torque curve should be: sqrtx - x, 0 <= x <= 0.35
     // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
@@ -51,6 +52,9 @@ public class TChassisScript : MonoBehaviour
         // set fuel
         fuelQty = 20F;
         fuelLimit = 30F;
+        bool lowFuelNotified = false;
+
+        motorForce = 50F; // check original force first probably, this will be changed live according to torque curve
 
     }
 
@@ -113,8 +117,11 @@ public class TChassisScript : MonoBehaviour
                     wheelTargetSpeed = 0;
                 }
                 // decrease fuel qty by time and wheelspeed
-                fuelQty -= wheelTargetSpeed * Time.deltaTime;
-                //Debug.Log("fuel: " + fuelQty);
+                fuelQty -= Mathf.Abs(wheelTargetSpeed) * Time.deltaTime;
+                if(fuelQty < fuelLimit / 10F && !lowFuelNotified) { // debug low fuel warning, might upgrade to UI later
+                    Debug.Log("fuel <10%: " + fuelQty);
+                    lowFuelNotified = true;
+                }
             }
 
         } 
