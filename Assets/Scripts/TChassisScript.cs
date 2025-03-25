@@ -11,13 +11,16 @@ public class TChassisScript : MonoBehaviour
     public GameObject[] ArrayWheels;
 
     public float wheelMotorSpeed = 600F;
-    public float wheelTopSpeed = 2F;
+    public float motorTopSpeed = 2F;
     float wheelTargetSpeed = 0F;
     public float EngineSpeed = 0F;
     float[] wheelDiameters;
     public float fuelQty;
     public float fuelLimit;
     public float motorForce;
+    public float maxMotorForce = 80F;
+    public float idleSpeed = 10F;
+    public float frameFuelUsage = 0F;
 
     // torque curve should be: sqrtx - x, 0 <= x <= 0.35
     // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
@@ -56,17 +59,29 @@ public class TChassisScript : MonoBehaviour
 
         motorForce = 50F; // check original force first probably, this will be changed live according to torque curve
 
+        /*
+        plan:
+        change motor speed slightly with inputs, otherwise goes to idle value
+        motor speed changed slightly by difference to wheelspeed? (allow wheelspeed to affect motorspeed back)
+
+        change motor speed direction when at idle value and hold other direction input
+        set motor force to low when no inputs
+        set motor force to a multiplier of the torque curve value(dependent of motorspeed) that ramps up to 1x when either input
+        wheel target speed set to 0 unless inputs, then uses ramping multiplier up to motorspeed
+
+
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.X)) // cursed rotation
+        if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) // do a jumpy
         {
             SRRigidbody.velocity += Vector2.up * jumpStrength;
         }
@@ -79,12 +94,12 @@ public class TChassisScript : MonoBehaviour
         {
             Debug.Log(wheelTargetSpeed);
         }*/
-        if (Input.GetKey(KeyCode.A) && fuelQty > 0) // make wheels go more left
+        if (Input.GetKey(KeyCode.A) && fuelQty > 0) // make motorspeed go more left
         {
-            //SRRigidbody.velocity += Vector2.left * jumpStrength;
+            //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
             // if not at top speed go faster
-            if (wheelTargetSpeed > (wheelTopSpeed * -1))
+            if (wheelTargetSpeed > (motorTopSpeed * -1))
             {
                 wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
             }
@@ -96,13 +111,13 @@ public class TChassisScript : MonoBehaviour
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
 
                 // if not at top speed go faster
-                if (wheelTargetSpeed < wheelTopSpeed)
+                if (wheelTargetSpeed < motorTopSpeed)
                 {
                     wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
                 }
                 setWheelSpeed(wheelTargetSpeed);
             }
-            else // deceleration
+            else // deceleration (to idle motor speed)
             {
                 //if (false)//SRRigidbody.velocity.x > 5)
                 // previously disabled useMotor for all here
@@ -110,14 +125,23 @@ public class TChassisScript : MonoBehaviour
                 // set wheels to the speed
                 setWheelSpeed(wheelTargetSpeed);
                 // make the speed smaller
-                wheelTargetSpeed /= (1 + 0.25F * Time.deltaTime);
-                // if wheel speed very small make it nothing
+                wheelTargetSpeed /= (1 + 0.25F * Time.deltaTime); // wheel target speed goes down to 0
+                motorSpeed + idleSpeed /= (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
+                
+                // if wheel target speed very small make it 0
                 if ((wheelTargetSpeed < 0.01 && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01 && wheelTargetSpeed < 0))
                 {
                     wheelTargetSpeed = 0;
                 }
-                // decrease fuel qty by time and wheelspeed
-                fuelQty -= Mathf.Abs(wheelTargetSpeed) * Time.deltaTime;
+
+                // decrease fuel qty by estimate of motor work
+                if(wheelTargetSpeed < motorSpeed) { // if motor trying to make wheels faster
+                    frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
+                } else {
+                    frameFuelUsage = Mathf.Abs(motorSpeed / 10) * Time.deltaTime;
+                }
+                fuelQty -= frameFuelUsage;
+
                 if(fuelQty < fuelLimit / 10F && !lowFuelNotified) { // debug low fuel warning, might upgrade to UI later
                     Debug.Log("fuel <10%: " + fuelQty);
                     lowFuelNotified = true;
