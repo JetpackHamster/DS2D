@@ -40,8 +40,8 @@ public class MainCamScript : MonoBehaviour
         }
         // add mouseScroll input to camera zoom velocity
         camZoomV += Input.mouseScrollDelta.y * camZoomSpeed * 1000 * Time.deltaTime;
-        if (camZoomV != 0) {
+        /*if (camZoomV != 0) {
             Debug.Log(camZoomV);
-        }
+        }*/
     }
 }

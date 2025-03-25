@@ -31,7 +31,7 @@ public class CraneMagnetScript : MonoBehaviour
 
     // called when something is in the trigger area
     private void OnTriggerStay2D(Collider2D otherC2D) {
-        //Debug.Log("thing moven't");
+        //Debug.Log(otherC2D.gameObject.transform.name);
 
         Rigidbody2D otherRB = otherC2D.GetComponentInParent<Rigidbody2D>();
         

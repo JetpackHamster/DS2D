@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class TradeStationScript : MonoBehaviour
     //int leftofXlimit;
     //int leftofYlimit;
     Canvas canvas;
+    public GameObject sellTile;
     public GameObject[] sellList;
     public GameObject[] sellTiles;
     public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
@@ -47,19 +49,24 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("playerentered");
             UIEnabled = true;
             canvas.enabled = true;
-        } else if (!sellList.Contains(collision)) { // if not player and not in sell list, add to sell list
+        } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
             int i = 0;
             while(sellList[i] != null) { // find empty slot index
                 i++;
             }
-            if (i < sellList.length()) { // add to slot if within limits
-            sellList[i] = collision;
+            if (i < sellList.Length) { // add to slot if within limits
+            sellList[i] = collision.gameObject;
             } else {
                 Debug.Log("sellList full");
             }
 
             // create new image tile in canvas
-            sellTiles[i] = Instantiate(sellTile, canvas.transform.position, canvas.transform.rotation);
+            Debug.Log("new sellTile: " + collision.transform.name);
+            sellTiles[i] = Instantiate(
+                sellTile, new Vector3(
+                    canvas.transform.position.x + Random.Range(-100F, 100F),
+                     canvas.transform.position.y, canvas.transform.position.z),
+                      canvas.transform.rotation);
 
         }
     }
@@ -69,8 +76,8 @@ public class TradeStationScript : MonoBehaviour
         if (collision.transform.name == "Player") { // disable UI when player leave
             UIEnabled = false;
             canvas.enabled = false;
-        } else if (!sellList.Contains(collision)) { // if not player and in sell list, remove from sell list
-            sellList.remove(collision);
+        } else if (!UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and in sell list, remove from sell list
+            UnityEditor.ArrayUtility.Remove(ref sellList, collision.gameObject);
         }
     }
 
@@ -82,7 +89,7 @@ public class TradeStationScript : MonoBehaviour
             Rigidbody2D otherRB = collision.GetComponentInParent<Rigidbody2D>();
             
             // if other is seeked, increase other's velocity toward magnet
-            if (/*Input.GetKey(KeyCode.T) &&*/ seekedObjs.contains(collision)) // if in seeked objs, attract
+            if (/*Input.GetKey(KeyCode.T) &&*/ UnityEditor.ArrayUtility.Contains<GameObject>(seekedObjs, collision.gameObject)) // if in seeked objs, attract
             {
                 // find distances to offset point
                 float xdist = collision.GetComponentInParent<Transform>().position.x - (transform.position.x-1F);
@@ -120,7 +127,14 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("UIEnabled: " + UIEnabled);
         }*/
         
-        if (seekedObjs.isEmpty()){ // reset magMultiplier when all seekedObjs collected
+        int numNull = 0; // count empty slots in array
+        for(int i = 0; i < seekedObjs.Length; i++) {
+            if(seekedObjs[i] == null) {
+                numNull++;
+            }
+        }
+
+        if (numNull ==0) { // reset magMultiplier when all seekedObjs collected
             Debug.Log("magMultiplier reset, value was " + magMultiplier);
             magMultiplier = 1F;
         } else {
