@@ -22,6 +22,7 @@ public class TChassisScript : MonoBehaviour
     public float idleSpeed = 10F;
     public float frameFuelUsage = 0F;
     public float clutch = 0F;
+    bool lowFuelNotified;
 
     // torque curve should be: sqrtx - x, 0 <= x <= 0.35
     // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
@@ -56,7 +57,7 @@ public class TChassisScript : MonoBehaviour
         // set fuel
         fuelQty = 20F;
         fuelLimit = 30F;
-        bool lowFuelNotified = false;
+        lowFuelNotified = false;
 
         motorForce = 50F; // check original force first probably, this will be changed live according to torque curve
 
@@ -120,7 +121,7 @@ public class TChassisScript : MonoBehaviour
             
             // increase clutch engagement
             if (clutch < 1F) {
-                clutch += 0.3 * Time.deltaTime;
+                clutch += 0.3F * Time.deltaTime;
             } else {
                 clutch = 1F;
             }
@@ -148,7 +149,7 @@ public class TChassisScript : MonoBehaviour
 
                 // increase clutch engagement
                 if (clutch < 1F) {
-                    clutch += 0.3 * Time.deltaTime;
+                    clutch += 0.3F * Time.deltaTime;
                 } else {
                     clutch = 1F;
                 }
@@ -166,10 +167,10 @@ public class TChassisScript : MonoBehaviour
                 setWheelSpeed(wheelTargetSpeed);
                 // make the speed smaller
                 wheelTargetSpeed /= (1 + 0.25F * Time.deltaTime); // wheel target speed goes down to 0
-                EngineSpeed + idleSpeed /= (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
+                EngineSpeed = EngineSpeed + idleSpeed / (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
                 
                 // if wheel target speed very small make it 0
-                if ((wheelTargetSpeed < 0.01 && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01 && wheelTargetSpeed < 0))
+                if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
                 {
                     wheelTargetSpeed = 0;
                 }
@@ -201,7 +202,7 @@ public class TChassisScript : MonoBehaviour
         for(int i = 0; i < ArrayHJ.Length; i++)
         {
             var motor1 = ArrayHJ[i].motor;
-            motor1.EngineSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535*wheelDiameters[i]));
+            motor1.motorSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535F*wheelDiameters[i]));
             //motor1.force = motorForce;
             ArrayHJ[i].motor = motor1;
         }

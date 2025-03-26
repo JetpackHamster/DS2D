@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
+//using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 
 //using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -46,7 +47,7 @@ public class TradeStationScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // enable UI when player enter, add sell objects to list
     {
-        Debug.Log("enter: " + collision.transform.name);
+        //Debug.Log("enter: " + collision.transform.name);
         if (collision.transform.name == "Player") { // display UI open prompt (currently full UI) if player detected
             //Debug.Log("playerentered");
             UIEnabled = true;
@@ -70,7 +71,7 @@ public class TradeStationScript : MonoBehaviour
                      canvas.transform.position.y, canvas.transform.position.z),
                      canvas.transform.rotation);
             sellTiles[i].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
-            sellTiles[i].GetComponentInChildren<Image>().SourceImage = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
+            sellTiles[i].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
 
         }
     }
@@ -81,7 +82,7 @@ public class TradeStationScript : MonoBehaviour
             UIEnabled = false;
             canvas.enabled = false;
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and in sell list, remove from sell list
-            Debug.Log("Attempt remove " + collision.transform.name);
+            //Debug.Log("Attempt remove " + collision.transform.name);
             UnityEditor.ArrayUtility.Remove(ref sellList, collision.gameObject);
             int index = 0;
             for (int i = 0; i < sellTiles.Length; i++) {
