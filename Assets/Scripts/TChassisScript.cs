@@ -99,7 +99,7 @@ public class TChassisScript : MonoBehaviour
         {
             Debug.Log(wheelTargetSpeed);
         }*/
-        if (Input.GetKey(KeyCode.A)) // make EngineSpeed go more left
+        if (Input.GetKey(KeyCode.A)) // make EngineSpeed go more left, engage clutch
         {
             //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
@@ -126,7 +126,7 @@ public class TChassisScript : MonoBehaviour
             // reset clutch
             clutch = 0F;
 
-            if (Input.GetKey(KeyCode.D) && fuelQty > 0) // make wheels go more right
+            if (Input.GetKey(KeyCode.D)) // make EngineSpeed go more right, engage clutch
             {
 
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
