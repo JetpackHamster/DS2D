@@ -63,12 +63,12 @@ public class TChassisScript : MonoBehaviour
         /*
         plan:
         change motor speed slightly with inputs, otherwise goes to idle value
-        motor speed changed slightly by difference to wheelspeed? (allow wheelspeed to affect motorspeed back)
+        motor speed changed slightly by difference to wheelspeed? (allow wheelspeed to affect EngineSpeed back)
 
         change motor speed direction when at idle value and hold other direction input
         set motor force to low when no inputs
-        set motor force to a multiplier of the torque curve value(dependent of motorspeed) that ramps up to 1x when either input
-        wheel target speed set to 0 unless inputs, then uses ramping multiplier up to motorspeed
+        set motor force to a multiplier of the torque curve value(dependent of EngineSpeed) that ramps up to 1x when either input
+        wheel target speed set to 0 unless inputs, then uses ramping multiplier up to EngineSpeed
 
 
         */
@@ -77,6 +77,10 @@ public class TChassisScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // set motorForce here with torquecurve?? lerp motor info to graph domain??
+        //
+        
+
         if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
@@ -95,34 +99,60 @@ public class TChassisScript : MonoBehaviour
         {
             Debug.Log(wheelTargetSpeed);
         }*/
-        if (Input.GetKey(KeyCode.A) && fuelQty > 0) // make motorspeed go more left
+        if (Input.GetKey(KeyCode.A)) // make EngineSpeed go more left
         {
             //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
             // if reverse and not at top speed go faster
-            if (motorspeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -1))
+            if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -1) && fuelQty > 0)
             {
-               motorSpeed -= 0.1F * Time.deltaTime;
+               EngineSpeed -= 0.1F * Time.deltaTime;
                // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-            } else if (motorspeed > (idleSpeed/ (10F))){ // braking when go forward
-                motorSpeed += 0.2F * Time.deltaTime;
+            } else if (EngineSpeed > (idleSpeed/ (10F))){ // braking when go forward
+                EngineSpeed += 0.2F * Time.deltaTime;
             }
+            
+            // increase clutch engagement
+            if (clutch < 1F) {
+                clutch += 0.3 * Time.deltaTime;
+            } else {
+                clutch = 1F;
+            }
+            // change wheel target speed to match engine according to clutch engagement
+            wheelTargetSpeed += EngineSpeed * clutch;
             setWheelSpeed(wheelTargetSpeed);
         } else {
-        
+            
+            // reset clutch
+            clutch = 0F;
+
             if (Input.GetKey(KeyCode.D) && fuelQty > 0) // make wheels go more right
             {
+
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
 
-                // if not at top speed go faster
-                if (wheelTargetSpeed < motorTopSpeed)
+                // if forward and not at top speed go faster
+                if (EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > (motorTopSpeed * 1) && fuelQty > 0)
                 {
-                    wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
+                EngineSpeed += 0.1F * Time.deltaTime;
+                // wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
+                } else if (EngineSpeed < (idleSpeed/ (10F))){ // braking when go backward
+                    EngineSpeed -= 0.2F * Time.deltaTime;
+                }
+
+                // increase clutch engagement
+                if (clutch < 1F) {
+                    clutch += 0.3 * Time.deltaTime;
+                } else {
+                    clutch = 1F;
                 }
                 setWheelSpeed(wheelTargetSpeed);
             }
             else // deceleration (to idle motor speed)
             {
+                // reset clutch
+                clutch = 0F;
+
                 //if (false)//SRRigidbody.velocity.x > 5)
                 // previously disabled useMotor for all here
 
@@ -130,7 +160,7 @@ public class TChassisScript : MonoBehaviour
                 setWheelSpeed(wheelTargetSpeed);
                 // make the speed smaller
                 wheelTargetSpeed /= (1 + 0.25F * Time.deltaTime); // wheel target speed goes down to 0
-                motorSpeed + idleSpeed /= (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
+                EngineSpeed + idleSpeed /= (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
                 
                 // if wheel target speed very small make it 0
                 if ((wheelTargetSpeed < 0.01 && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01 && wheelTargetSpeed < 0))
@@ -139,10 +169,10 @@ public class TChassisScript : MonoBehaviour
                 }
 
                 // decrease fuel qty by estimate of motor work
-                if(wheelTargetSpeed < motorSpeed) { // if motor trying to make wheels faster
+                if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
                     frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
                 } else {
-                    frameFuelUsage = Mathf.Abs(motorSpeed / 10) * Time.deltaTime;
+                    frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
                 }
                 fuelQty -= frameFuelUsage;
 
@@ -165,7 +195,7 @@ public class TChassisScript : MonoBehaviour
         for(int i = 0; i < ArrayHJ.Length; i++)
         {
             var motor1 = ArrayHJ[i].motor;
-            motor1.motorSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535*wheelDiameters[i]));
+            motor1.EngineSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535*wheelDiameters[i]));
             ArrayHJ[i].motor = motor1;
         }
     }
