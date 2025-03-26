@@ -70,6 +70,12 @@ public class TChassisScript : MonoBehaviour
         set motor force to a multiplier of the torque curve value(dependent of EngineSpeed) that ramps up to 1x when either input
         wheel target speed set to 0 unless inputs, then uses ramping multiplier up to EngineSpeed
 
+        scripting TODO:
+        enable motor force change in (setWheelspeed?)
+        change motor force according to torquecurve and clutch
+        increase motor force when braking
+        disengage clutch when braking
+        
 
         */
     }
@@ -104,12 +110,12 @@ public class TChassisScript : MonoBehaviour
             //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
             // if reverse and not at top speed go faster
-            if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -1) && fuelQty > 0)
+            if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -0.9) && fuelQty > 0)
             {
                EngineSpeed -= 0.1F * Time.deltaTime;
                // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-            } else if (EngineSpeed > (idleSpeed/ (10F))){ // braking when go forward
-                EngineSpeed += 0.2F * Time.deltaTime;
+            } else if (EngineSpeed > (idleSpeed / (10F))){ // braking when go forward
+                wheelTargetSpeed -= 0.2F * Time.deltaTime;
             }
             
             // increase clutch engagement
@@ -132,12 +138,12 @@ public class TChassisScript : MonoBehaviour
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
 
                 // if forward and not at top speed go faster
-                if (EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > (motorTopSpeed * 1) && fuelQty > 0)
+                if (EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > (motorTopSpeed * 0.9) && fuelQty > 0)
                 {
                 EngineSpeed += 0.1F * Time.deltaTime;
                 // wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-                } else if (EngineSpeed < (idleSpeed/ (10F))){ // braking when go backward
-                    EngineSpeed -= 0.2F * Time.deltaTime;
+                } else if (EngineSpeed < (idleSpeed / (-10F))){ // braking when go backward
+                    wheelTargetSpeed += 0.2F * Time.deltaTime;
                 }
 
                 // increase clutch engagement
@@ -196,6 +202,7 @@ public class TChassisScript : MonoBehaviour
         {
             var motor1 = ArrayHJ[i].motor;
             motor1.EngineSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535*wheelDiameters[i]));
+            //motor1.force = motorForce;
             ArrayHJ[i].motor = motor1;
         }
     }
