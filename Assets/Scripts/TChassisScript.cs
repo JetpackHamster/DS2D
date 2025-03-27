@@ -12,7 +12,7 @@ public class TChassisScript : MonoBehaviour
     public GameObject[] ArrayWheels;
 
     public float wheelMotorMultiplier = 50F;
-    public float motorTopSpeed = 20F;
+    public float motorTopSpeed = 35F;
     public float wheelTargetSpeed = 0F;
     public float idleSpeed = 10F;
     public float EngineSpeed;
@@ -21,7 +21,9 @@ public class TChassisScript : MonoBehaviour
     public float fuelQty;
     public float fuelLimit;
     public float motorForce;
+    float tempSpeed;
     public float maxMotorForce = 80F;
+    public float minMotorForce = 1F;
     public float frameFuelUsage = 0F;
     public float clutch = 0F;
     float reverseTimer = 0F;
@@ -38,14 +40,11 @@ public class TChassisScript : MonoBehaviour
         wheelDiameters = new float[ArrayWheels.Length];
         for (int i = 0; i < ArrayWheels.Length; i++)
         {
-            Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>());
-            Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>().radius);
+            //Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>());
+            //Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>().radius);
             
             wheelDiameters[i] = ArrayWheels[i].GetComponent<CircleCollider2D>().radius;
-            Debug.Log("did wheel thing");
-            // .GetComponent<Collider2D>() // try... () out CircleCollider2D wheelCollider
-            
-            
+            //Debug.Log("did wheel thing");\
         }   
 
         // get hingejoints from wheel array and store in array
@@ -71,7 +70,7 @@ public class TChassisScript : MonoBehaviour
         change motor speed direction when at idle value and hold other direction input
         set motor force to low when no inputs
         set motor force to a multiplier of the torque curve value(dependent of EngineSpeed) that ramps up to 1x when either input
-        // torque curve should be: sqrtx - x, 0 <= x <= 0.35
+        
         // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
         
         wheel target speed set to 0 unless inputs, then uses ramping multiplier up to EngineSpeed
@@ -113,13 +112,13 @@ public class TChassisScript : MonoBehaviour
                 EngineSpeed -= EngineAccel * Time.deltaTime;
             }
             // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-            Debug.Log("a accel");
+            //Debug.Log("a accel");
 
         // braking when go forward
         } else if (Input.GetKey(KeyCode.A) && EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > 0)
         { 
-            wheelTargetSpeed -= 3F * Time.deltaTime;
-            Debug.Log("a braking by " + 3F * Time.deltaTime);
+            wheelTargetSpeed -= 6F * Time.deltaTime;
+            //Debug.Log("a braking by " + 3F * Time.deltaTime);
         
         
         // switch to reverse
@@ -144,14 +143,14 @@ public class TChassisScript : MonoBehaviour
                 EngineSpeed += EngineAccel * Time.deltaTime;
             }
             // wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-            Debug.Log("d accel");
+            //Debug.Log("d accel");
             
 
         // braking when go backward
         } else if (Input.GetKey(KeyCode.D) && EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed < 0)
         {
-            wheelTargetSpeed += 3F * Time.deltaTime;
-            Debug.Log("d brake");
+            wheelTargetSpeed += 6F * Time.deltaTime;
+            //Debug.Log("d brake");
         
         // switch to forward
         } else if (Input.GetKey(KeyCode.D) && wheelTargetSpeed < (idleSpeed / (10F)))
@@ -176,9 +175,9 @@ public class TChassisScript : MonoBehaviour
             
             // engine speed goes down to idle
             if (EngineSpeed > 0) {
-                EngineSpeed = ((EngineSpeed - idleSpeed) / (1F + 0.25F * Time.deltaTime)) + idleSpeed;
+                EngineSpeed = ((EngineSpeed - idleSpeed) / (1F + 1F * Time.deltaTime)) + idleSpeed;
             } else if (EngineSpeed < 0) {
-                EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 0.25F * Time.deltaTime)) - idleSpeed;
+                EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 1F * Time.deltaTime)) - idleSpeed;
             }
             // if wheel target speed very small make it 0
             if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
@@ -201,12 +200,15 @@ public class TChassisScript : MonoBehaviour
         }
         // set motorForce here with torquecurve?? lerp motor info to graph domain??
         if(clutch > 0) {
-            //
-            //motorForce = 
+            // torque curve should be: sqrtx - x, 0 <= x <= 0.35
+            tempSpeed = Mathf.Lerp(0F, 0.35F, (EngineSpeed/motorTopSpeed));
+            motorForce = minMotorForce + (((maxMotorForce-minMotorForce)*4) * (Mathf.Sqrt(tempSpeed) - tempSpeed)); // lowest force value + maxmotorforce/max from curve * curve
             
-            // should this even be in here? should this even be at all?
-            // change wheel target speed to match engine according to clutch engagement
+            
+            // change wheel target speed to match engine according to clutch engagement (I think it should affect it but not set it)
             wheelTargetSpeed = EngineSpeed * clutch; // deltatime feels wrong here since it's in changing these components
+        } else {
+            motorForce = minMotorForce;
         }
 
         setWheelSpeed(wheelTargetSpeed);

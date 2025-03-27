@@ -5417,7 +5417,7 @@ MonoBehaviour:
   - {fileID: 1427098222}
   - {fileID: 583129891}
   wheelMotorMultiplier: 50
-  motorTopSpeed: 20
+  motorTopSpeed: 35
   wheelTargetSpeed: 0
   idleSpeed: 10
   EngineSpeed: 0
