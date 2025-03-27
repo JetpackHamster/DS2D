@@ -24,11 +24,13 @@ public class TChassisScript : MonoBehaviour
     float tempSpeed;
     public float maxMotorForce = 80F;
     public float minMotorForce = 1F;
+    public float brakingForce = 100F;
     public float frameFuelUsage = 0F;
     public float clutch = 0F;
     float reverseTimer = 0F;
     public float reverseDelay = 1F;
     bool lowFuelNotified;
+    bool braking;
 
     // Start is called before the first frame update
     void Start()
@@ -76,10 +78,6 @@ public class TChassisScript : MonoBehaviour
         wheel target speed set to 0 unless inputs, then uses ramping multiplier up to EngineSpeed
 
         scripting TODO:
-        enable motor force change in (setWheelspeed?)
-        change motor force according to torquecurve and clutch
-        increase motor force when braking
-        disengage clutch when braking
         
         other bugfixing:
         EngineSpeed goes up thousands when should decrease
@@ -91,6 +89,18 @@ public class TChassisScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        braking = false;
+        // set motorForce here with torquecurve?? lerp motor info to graph domain??
+        if(clutch > 0) {
+            // torque curve should be: sqrtx - x, 0 <= x <= 0.35
+            tempSpeed = Mathf.Lerp(0F, 0.3F, (Mathf.Abs(EngineSpeed)/motorTopSpeed));
+            //Debug.Log("curve out: " + (Mathf.Sqrt(tempSpeed) - tempSpeed));
+            motorForce = minMotorForce + (((maxMotorForce-minMotorForce)*4) * (Mathf.Sqrt(tempSpeed) - tempSpeed)); // lowest force value + maxmotorforce/max from curve * curve
+        } else {
+            motorForce = minMotorForce;
+        }
+
+
         if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
@@ -117,7 +127,8 @@ public class TChassisScript : MonoBehaviour
         // braking when go forward
         } else if (Input.GetKey(KeyCode.A) && EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > 0)
         { 
-            wheelTargetSpeed -= 6F * Time.deltaTime;
+            braking = true;
+            wheelTargetSpeed -= 10F * Time.deltaTime;
             //Debug.Log("a braking by " + 3F * Time.deltaTime);
         
         
@@ -149,8 +160,9 @@ public class TChassisScript : MonoBehaviour
         // braking when go backward
         } else if (Input.GetKey(KeyCode.D) && EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed < 0)
         {
-            wheelTargetSpeed += 6F * Time.deltaTime;
+            wheelTargetSpeed += 10F * Time.deltaTime;
             //Debug.Log("d brake");
+            braking = true;
         
         // switch to forward
         } else if (Input.GetKey(KeyCode.D) && wheelTargetSpeed < (idleSpeed / (10F)))
@@ -198,19 +210,14 @@ public class TChassisScript : MonoBehaviour
                 lowFuelNotified = true;
             }
         }
-        // set motorForce here with torquecurve?? lerp motor info to graph domain??
-        if(clutch > 0) {
-            // torque curve should be: sqrtx - x, 0 <= x <= 0.35
-            tempSpeed = Mathf.Lerp(0F, 0.35F, (EngineSpeed/motorTopSpeed));
-            motorForce = minMotorForce + (((maxMotorForce-minMotorForce)*4) * (Mathf.Sqrt(tempSpeed) - tempSpeed)); // lowest force value + maxmotorforce/max from curve * curve
-            
-            
-            // change wheel target speed to match engine according to clutch engagement (I think it should affect it but not set it)
-            wheelTargetSpeed = EngineSpeed * clutch; // deltatime feels wrong here since it's in changing these components
-        } else {
-            motorForce = minMotorForce;
+        if (braking) {
+            clutch = 0F;
+            motorForce = brakingForce;
         }
-
+        if(clutch > 0) {
+            // change wheel target speed to match engine according to clutch engagement (LERP WOOOOOOO YEAAAA)
+            wheelTargetSpeed = Mathf.Lerp(wheelTargetSpeed, EngineSpeed, clutch); // deltatime feels wrong here since it's in changing these components
+        }
         setWheelSpeed(wheelTargetSpeed);
     }
 
@@ -223,7 +230,7 @@ public class TChassisScript : MonoBehaviour
         {
             var motor1 = ArrayHJ[i].motor;
             motor1.motorSpeed = (float)(wheelMotorMultiplier * speedValue * 0.05F / (3.1415926535F*wheelDiameters[i]));
-            //motor1.force = motorForce;
+            motor1.maxMotorTorque = motorForce;
             ArrayHJ[i].motor = motor1;
         }
     }

@@ -1718,8 +1718,9 @@ GameObject:
   - component: {fileID: 474700197}
   - component: {fileID: 474700196}
   - component: {fileID: 474700195}
+  - component: {fileID: 474700199}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: Wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1883,6 +1884,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &474700199
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474700193}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 1313151536}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.059999987, y: 0}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1 &488140692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,8 +2479,9 @@ GameObject:
   - component: {fileID: 583129895}
   - component: {fileID: 583129894}
   - component: {fileID: 583129893}
+  - component: {fileID: 583129897}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: Wheel5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2624,6 +2645,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &583129897
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583129891}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 1643690461}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.059999987, y: 0}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1 &654040022
 GameObject:
   m_ObjectHideFlags: 0
@@ -3419,6 +3459,7 @@ GameObject:
   - component: {fileID: 1122707322}
   - component: {fileID: 1122707324}
   - component: {fileID: 1122707323}
+  - component: {fileID: 1122707325}
   m_Layer: 0
   m_Name: Collector
   m_TagString: Untagged
@@ -3541,6 +3582,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1122707325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122707321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16ff2d74a078004f8d7345229105ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1313151531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3554,8 +3607,9 @@ GameObject:
   - component: {fileID: 1313151535}
   - component: {fileID: 1313151534}
   - component: {fileID: 1313151532}
+  - component: {fileID: 1313151537}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: Wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3719,6 +3773,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &1313151537
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313151531}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 1427098228}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.080000035, y: -0.01999998}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1 &1427098222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3732,8 +3805,9 @@ GameObject:
   - component: {fileID: 1427098226}
   - component: {fileID: 1427098225}
   - component: {fileID: 1427098224}
+  - component: {fileID: 1427098229}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: WheelR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3897,6 +3971,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &1427098229
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427098222}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 2001601876}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0.31999996, y: 0.01999998}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1 &1491383922
 GameObject:
   m_ObjectHideFlags: 0
@@ -4372,8 +4465,9 @@ GameObject:
   - component: {fileID: 1643690460}
   - component: {fileID: 1643690459}
   - component: {fileID: 1643690458}
+  - component: {fileID: 1643690462}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: Wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4537,6 +4631,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &1643690462
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643690456}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 474700198}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.059999987, y: 0}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1 &1670147539
 GameObject:
   m_ObjectHideFlags: 0
@@ -5426,6 +5539,8 @@ MonoBehaviour:
   fuelLimit: 0
   motorForce: 0
   maxMotorForce: 80
+  minMotorForce: 1
+  brakingForce: 100
   frameFuelUsage: 0
   clutch: 0
   reverseDelay: 1
@@ -5623,8 +5738,9 @@ GameObject:
   - component: {fileID: 2001601874}
   - component: {fileID: 2001601873}
   - component: {fileID: 2001601872}
+  - component: {fileID: 2001601877}
   m_Layer: 6
-  m_Name: Wheel
+  m_Name: WheelL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5788,6 +5904,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!256 &2001601877
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001601870}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 583129896}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.059999987, y: 0}
+  m_MaxForce: 0
+  m_MaxTorque: 20
 --- !u!1001 &2681441574121115527
 PrefabInstance:
   m_ObjectHideFlags: 0
