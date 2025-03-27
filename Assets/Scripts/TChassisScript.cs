@@ -12,14 +12,14 @@ public class TChassisScript : MonoBehaviour
 
     public float wheelMotorSpeed = 600F;
     public float motorTopSpeed = 2F;
-    float wheelTargetSpeed = 0F;
+    public float wheelTargetSpeed = 0F;
+    public float idleSpeed = 10F;
     public float EngineSpeed = 0F;
     float[] wheelDiameters;
     public float fuelQty;
     public float fuelLimit;
     public float motorForce;
     public float maxMotorForce = 80F;
-    public float idleSpeed = 10F;
     public float frameFuelUsage = 0F;
     public float clutch = 0F;
     bool lowFuelNotified;
@@ -58,6 +58,7 @@ public class TChassisScript : MonoBehaviour
         fuelQty = 20F;
         fuelLimit = 30F;
         lowFuelNotified = false;
+        EngineSpeed = idleSpeed;
 
         motorForce = 50F; // check original force first probably, this will be changed live according to torque curve
 
@@ -77,6 +78,9 @@ public class TChassisScript : MonoBehaviour
         increase motor force when braking
         disengage clutch when braking
         
+        other bugfixing:
+        EngineSpeed goes up thousands when should decrease
+        fuel usage inversely proportional and problematic otherwise
 
         */
     }
@@ -111,27 +115,29 @@ public class TChassisScript : MonoBehaviour
             //SRRigidbody.velocity += Vector2.left * jumpStrength; // wheeeee
             
             // if reverse and not at top speed go faster
-            if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (motorTopSpeed * -0.9) && fuelQty > 0)
+            if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed > (EngineSpeed * -0.9) && fuelQty > 0)
             {
+                // increase clutch engagement
+                if (clutch < 1F) {
+                    clutch += 3F * Time.deltaTime;
+                } else {
+                    clutch = 1F;
+                }
+            
                EngineSpeed -= 0.1F * Time.deltaTime;
                // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-            } else if (EngineSpeed > (idleSpeed / (10F))){ // braking when go forward
+               Debug.Log("a accel");
+            } else if (EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > (idleSpeed / (10F))){ // braking when go forward
                 wheelTargetSpeed -= 0.2F * Time.deltaTime;
+                Debug.Log("a braking by " + 0.2F * Time.deltaTime);
             }
             
-            // increase clutch engagement
-            if (clutch < 1F) {
-                clutch += 0.3F * Time.deltaTime;
-            } else {
-                clutch = 1F;
-            }
+            
             // change wheel target speed to match engine according to clutch engagement
             wheelTargetSpeed += EngineSpeed * clutch;
             setWheelSpeed(wheelTargetSpeed);
         } else {
             
-            // reset clutch
-            clutch = 0F;
 
             if (Input.GetKey(KeyCode.D)) // make EngineSpeed go more right, engage clutch
             {
@@ -139,20 +145,25 @@ public class TChassisScript : MonoBehaviour
                 //SRRigidbody.velocity += Vector2.right * jumpStrength;
 
                 // if forward and not at top speed go faster
-                if (EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > (motorTopSpeed * 0.9) && fuelQty > 0)
+                if (EngineSpeed > (idleSpeed / (10F)) && fuelQty > 0)// && wheelTargetSpeed > (EngineSpeed * 0.9))
                 {
+                    // increase clutch engagement
+                    if (clutch < 1F) {
+                        clutch += 3F * Time.deltaTime;
+                    } else {
+                        clutch = 1F;
+                    }
+
                 EngineSpeed += 0.1F * Time.deltaTime;
                 // wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
-                } else if (EngineSpeed < (idleSpeed / (-10F))){ // braking when go backward
+                Debug.Log("d accel");
+                } else if (EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed < 0){ // braking when go backward
                     wheelTargetSpeed += 0.2F * Time.deltaTime;
+                    Debug.Log("d brake");
                 }
 
-                // increase clutch engagement
-                if (clutch < 1F) {
-                    clutch += 0.3F * Time.deltaTime;
-                } else {
-                    clutch = 1F;
-                }
+                // change wheel target speed to match engine according to clutch engagement
+                wheelTargetSpeed += EngineSpeed * clutch;
                 setWheelSpeed(wheelTargetSpeed);
             }
             else // deceleration (to idle motor speed)
@@ -166,8 +177,8 @@ public class TChassisScript : MonoBehaviour
                 // set wheels to the speed
                 setWheelSpeed(wheelTargetSpeed);
                 // make the speed smaller
-                wheelTargetSpeed /= (1 + 0.25F * Time.deltaTime); // wheel target speed goes down to 0
-                EngineSpeed = EngineSpeed + idleSpeed / (1 + 0.25F * Time.deltaTime); // engine speed goes down to idle
+                wheelTargetSpeed /= (1F + 0.4F * Time.deltaTime); // wheel target speed goes down to 0
+                //EngineSpeed = (EngineSpeed / (1F + 0.25F * Time.deltaTime)) + idleSpeed; // engine speed goes down to idle
                 
                 // if wheel target speed very small make it 0
                 if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
@@ -179,7 +190,7 @@ public class TChassisScript : MonoBehaviour
                 if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
                     frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
                 } else {
-                    frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
+                    frameFuelUsage = 0;//Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
                 }
                 fuelQty -= frameFuelUsage;
 
@@ -202,7 +213,7 @@ public class TChassisScript : MonoBehaviour
         for(int i = 0; i < ArrayHJ.Length; i++)
         {
             var motor1 = ArrayHJ[i].motor;
-            motor1.motorSpeed = (float)(wheelMotorSpeed * multiplier / (3.1415926535F*wheelDiameters[i]));
+            motor1.motorSpeed = (float)(wheelMotorSpeed * multiplier * 0.05F / (3.1415926535F*wheelDiameters[i]));
             //motor1.force = motorForce;
             ArrayHJ[i].motor = motor1;
         }
