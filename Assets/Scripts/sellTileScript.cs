@@ -26,10 +26,9 @@ public class sellTileScript : MonoBehaviour
     void sell() {
         
         Debug.Log("sell attempt: " + obj.transform.name);
-        // find first null index in seekedObjs then put obj there
+        // find seekedObjs then put obj there   
         if (!UnityEditor.ArrayUtility.Contains(StationScript.seekedObjs, obj)) {
-            int nullIndex = UnityEditor.ArrayUtility.IndexOf(StationScript.seekedObjs, null);
-            UnityEditor.ArrayUtility.Insert(ref StationScript.seekedObjs, nullIndex, obj);
+            UnityEditor.ArrayUtility.Add(ref StationScript.seekedObjs, obj);
         }
 
     }

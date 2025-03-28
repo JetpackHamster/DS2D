@@ -31,9 +31,9 @@ public class TradeStationScript : MonoBehaviour
         UIEnabled = false;
         canvas.enabled = false;
         //parentpos = GetComponentInParent<Transform>(false).position;
-        sellList = new GameObject[12];
-        sellTiles = new GameObject[12];
-        seekedObjs = new GameObject[12];
+        sellList = new GameObject[0];
+        sellTiles = new GameObject[0];
+        seekedObjs = new GameObject[0];
         magMultiplier = 1F;
         
     }
@@ -54,10 +54,10 @@ public class TradeStationScript : MonoBehaviour
             UIEnabled = true;
             canvas.enabled = true;
         } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
-            int i = 0;
+            /*int i = 0;
             while(i < sellList.Length && sellList[i] != null) { // find empty slot index
                 i++;
-            }
+            }*/
             
             UnityEditor.ArrayUtility.Add(ref sellList, collision.gameObject);
             /*if (i < sellList.Length) { // add to slot if within limits
@@ -68,13 +68,19 @@ public class TradeStationScript : MonoBehaviour
 
             // create new image tile in canvas
             Debug.Log("new sellTile: " + collision.transform.name);
-            sellTiles[i] = Instantiate(
+            float tileY = 0;
+            float tileX = sellTiles.Length;
+            while(tileX > 7) {
+                tileX -= 8;
+                tileY += 2;
+            }
+            UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
-                    canvas.transform.position.x + (8 + (i * 1.5F)),
-                     canvas.transform.position.y, canvas.transform.position.z),
-                     canvas.transform.rotation, GameObject.Find("Panel").transform); // original, position, rotation, parent
-            sellTiles[i].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
-            sellTiles[i].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
+                    canvas.transform.position.x + (8 + (tileX * 1.5F)),
+                     canvas.transform.position.y + tileY, canvas.transform.position.z),
+                     canvas.transform.rotation, GameObject.Find("Panel").transform)); // original, position, rotation, parent)
+            sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
+            sellTiles[sellTiles.Length-1].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
 
         }
     }
@@ -96,7 +102,7 @@ public class TradeStationScript : MonoBehaviour
                 }
             }
             GameObject.Destroy(sellTiles[index]);
-            sellTiles[index] = null;
+            UnityEditor.ArrayUtility.Remove<GameObject>(ref sellTiles, sellTiles[index]);
         // remove from seeked if applicable
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(seekedObjs, collision.gameObject)) {
             UnityEditor.ArrayUtility.Remove(ref seekedObjs, collision.gameObject);

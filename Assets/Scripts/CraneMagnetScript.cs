@@ -45,14 +45,14 @@ public class CraneMagnetScript : MonoBehaviour
             float ydist = otherC2D.GetComponentInParent<Transform>().position.y - transform.position.y;
             float totaldist = Mathf.Sqrt(Mathf.Pow(xdist, 2) + Mathf.Pow(ydist, 2));
 
-            int xdir = 1;
+            /*int xdir = 1;
             if(xdist < 0) {
                 xdir = -1;
             }
             int ydir = 1;
             if (ydist < 0) {
                 ydir = -1;
-            }
+            }*/
 
             // use vector.Normalize to set vector magnitude to 1 and then set correct magnitude seperately
             // just need to get direction with these below lines
