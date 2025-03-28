@@ -68,17 +68,18 @@ public class TradeStationScript : MonoBehaviour
 
             // create new image tile in canvas
             Debug.Log("new sellTile: " + collision.transform.name);
+            GameObject panel = GameObject.Find("Panel");
             float tileY = 0;
             float tileX = sellTiles.Length;
-            while(tileX > 7) {
-                tileX -= 8;
-                tileY += 2;
+            while(tileX > 7F) {
+                tileX -= 8F;
+                tileY += 2F;
             }
             UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
-                    canvas.transform.position.x + (8 + (tileX * 1.5F)),
-                     canvas.transform.position.y + tileY, canvas.transform.position.z),
-                     canvas.transform.rotation, GameObject.Find("Panel").transform)); // original, position, rotation, parent)
+                    panel.transform.position.x + (0F + (tileX * 1.5F)),
+                     panel.transform.position.y + tileY, canvas.transform.position.z),
+                     panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
             sellTiles[sellTiles.Length-1].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
 
