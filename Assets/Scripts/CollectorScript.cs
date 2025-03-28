@@ -26,6 +26,7 @@ public class CollectorScript : MonoBehaviour
             } else {
                 TCScript.fuelQty += (TCScript.fuelLimit - TCScript.fuelQty);
             }
+            UnityEditor.ArrayUtility.Remove(ref GameObject.Find("TradeStation").GetComponent<TradeStationScript>().seekedObjs, collision.gameObject);
             GameObject.Destroy(collision.gameObject);
         }
     }

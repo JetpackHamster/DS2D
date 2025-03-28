@@ -55,20 +55,22 @@ public class TradeStationScript : MonoBehaviour
             canvas.enabled = true;
         } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
             int i = 0;
-            while(sellList[i] != null) { // find empty slot index
+            while(i < sellList.Length && sellList[i] != null) { // find empty slot index
                 i++;
             }
-            if (i < sellList.Length) { // add to slot if within limits
+            
+            UnityEditor.ArrayUtility.Add(ref sellList, collision.gameObject);
+            /*if (i < sellList.Length) { // add to slot if within limits
             sellList[i] = collision.gameObject;
             } else {
                 Debug.Log("sellList full");
-            }
+            }*/
 
             // create new image tile in canvas
             Debug.Log("new sellTile: " + collision.transform.name);
             sellTiles[i] = Instantiate(
                 sellTile, new Vector3(
-                    canvas.transform.position.x + (i * 1.5F),
+                    canvas.transform.position.x + (8 + (i * 1.5F)),
                      canvas.transform.position.y, canvas.transform.position.z),
                      canvas.transform.rotation, GameObject.Find("Panel").transform); // original, position, rotation, parent
             sellTiles[i].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
