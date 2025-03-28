@@ -68,7 +68,7 @@ public class TradeStationScript : MonoBehaviour
             Debug.Log("new sellTile: " + collision.transform.name);
             sellTiles[i] = Instantiate(
                 sellTile, new Vector3(
-                    canvas.transform.position.x + Random.Range(-1F, 1F),
+                    canvas.transform.position.x + (i * 1.5F),
                      canvas.transform.position.y, canvas.transform.position.z),
                      canvas.transform.rotation, GameObject.Find("Panel").transform); // original, position, rotation, parent
             sellTiles[i].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
