@@ -23,6 +23,7 @@ public class TradeStationScript : MonoBehaviour
     public GameObject[] sellTiles;
     public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
     private float magMultiplier;
+    GameObject cam;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class TradeStationScript : MonoBehaviour
         sellTiles = new GameObject[0];
         seekedObjs = new GameObject[0];
         magMultiplier = 1F;
+        cam = GameObject.Find("Main Camera");
         
     }
     // check direction first float is from second float
@@ -75,10 +77,11 @@ public class TradeStationScript : MonoBehaviour
                 tileX -= 8F;
                 tileY += 2F;
             }
+            float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
             UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
-                    panel.transform.position.x + (0F + (tileX * 1.5F)),
-                     panel.transform.position.y + tileY, canvas.transform.position.z),
+                    panel.transform.position.x * camSize + (-5F * camSize + (tileX * (1.5F * camSize))),
+                     panel.transform.position.y * camSize + (tileY * camSize), canvas.transform.position.z),
                      panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
             sellTiles[sellTiles.Length-1].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
