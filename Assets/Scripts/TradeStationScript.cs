@@ -73,20 +73,28 @@ public class TradeStationScript : MonoBehaviour
             GameObject panel = GameObject.Find("Panel");
             float tileY = 0;
             float tileX = sellTiles.Length * 2;
+            // fit to grid
             while(tileX > 4F) {
                 tileX -= 8F;
                 tileY += 2F;
             }
+            // find camera size to account for size changes
             float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
+            // instantiate new in list
             UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
-                    panel.transform.position.x + ((-4F + tileX) * camSize),/* + cam.transform.position.x*/
-                    panel.transform.position.y + ((tileY) * camSize),/* + cam.transform.position.y*/
+                    panel.transform.position.x,/* + cam.transform.position.x*/
+                    panel.transform.position.y,/* + cam.transform.position.y*/
                     panel.transform.position.z/* + cam.transform.position.z*/),
                 panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
             sellTiles[sellTiles.Length-1].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
-
+            
+            // move after creation
+            sellTiles[sellTiles.Length-1].transform.position = new Vector3(
+                sellTiles[sellTiles.Length-1].transform.position.x + ((-4F + tileX) * camSize),
+                sellTiles[sellTiles.Length-1].transform.position.y + ((tileY) * camSize),
+                sellTiles[sellTiles.Length-1].transform.position.z);
         }
     }
 
