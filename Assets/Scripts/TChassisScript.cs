@@ -198,11 +198,12 @@ public class TChassisScript : MonoBehaviour
             }
 
             // decrease fuel qty by estimate of motor work
-            if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
-                frameFuelUsage = 0;//Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
+            frameFuelUsage = (EngineSpeed - /*actual wheelspeed?*/wheelTargetSpeed) * clutch + (/*idle usage rate*/0.1F * engineSpeed) * /*fuel usage multiplier*/0.1F;
+            /*if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
+                frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
             } else {
-                frameFuelUsage = 0;//Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
-            }
+                frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
+            }/*
             fuelQty -= frameFuelUsage;
 
             if(fuelQty < fuelLimit / 10F && !lowFuelNotified) { // debug low fuel warning, might upgrade to UI later
