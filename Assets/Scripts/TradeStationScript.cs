@@ -71,11 +71,11 @@ public class TradeStationScript : MonoBehaviour
             // create new image tile in canvas
             Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
-            float tileY = 0;
-            float tileX = sellTiles.Length * 2;
+            float tileY = -7;
+            int tileX = 0 + sellTiles.Length * 2;
             // fit to grid
-            while(tileX > 4F) {
-                tileX -= 8F;
+            while(tileX > 9) {
+                tileX -= 10;
                 tileY += 2F;
             }
             // find camera size to account for size changes
@@ -95,7 +95,7 @@ public class TradeStationScript : MonoBehaviour
                 sellTiles[sellTiles.Length-1].transform.position.x + ((-4F + tileX) * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.y + ((tileY) * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.z);
-        }
+            }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
