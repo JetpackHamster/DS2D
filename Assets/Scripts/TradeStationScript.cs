@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 //using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.UI;
+using TMPro;
 
 //using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -22,7 +23,7 @@ public class TradeStationScript : MonoBehaviour
     public GameObject[] sellList;
     public GameObject[] sellTiles;
     public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
-    private float magMultiplier;
+    public float magMultiplier;
     GameObject cam;
 
     // Start is called before the first frame update
@@ -71,7 +72,7 @@ public class TradeStationScript : MonoBehaviour
             // create new image tile in canvas
             Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
-            float tileY = -7;
+            float tileY = -7;   
             int tileX = 0 + sellTiles.Length * 2;
             // fit to grid
             while(tileX > 9) {
@@ -88,8 +89,9 @@ public class TradeStationScript : MonoBehaviour
                     panel.transform.position.z/* + cam.transform.position.z*/),
                 panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
-            sellTiles[sellTiles.Length-1].GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
-            
+            sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
+            sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell - " + collision.gameObject.GetComponent<ScrapScript>().value + "L");
+
             // move after creation
             sellTiles[sellTiles.Length-1].transform.position = new Vector3(
                 sellTiles[sellTiles.Length-1].transform.position.x + ((-4F + tileX) * camSize),
@@ -181,19 +183,12 @@ public class TradeStationScript : MonoBehaviour
             UIEnabled = !UIEnabled;
             //Debug.Log("UIEnabled: " + UIEnabled);
         }*/
-        
-        int numNull = 0; // count empty slots in array
-        for(int i = 0; i < seekedObjs.Length; i++) {
-            if(seekedObjs[i] == null) {
-                numNull++;
-            }
-        }
 
-        if (numNull ==0) { // reset magMultiplier when all seekedObjs collected
-            Debug.Log("magMultiplier reset, value was " + magMultiplier);
+        if (seekedObjs.Length == 0) { // reset magMultiplier when all seekedObjs collected
+            //Debug.Log("magMultiplier reset, value was " + magMultiplier);
             magMultiplier = 1F;
         } else {
-            magMultiplier += 0.1F * Time.deltaTime; // increase multiplier as long as magnet in use
+            magMultiplier += 1F * Time.deltaTime; // increase multiplier as long as magnet in use
         }
     }
 }

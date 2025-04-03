@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3078887559272351906}
   - component: {fileID: 2668698207043873626}
   - component: {fileID: 4210550931179976564}
+  - component: {fileID: -2406833873580200945}
   m_Layer: 8
   m_Name: Scrap_Engine_sV6
   m_TagString: Untagged
@@ -168,3 +169,16 @@ PolygonCollider2D:
       - {x: 0.03999643, y: -0.020396547}
       - {x: 0.039996427, y: 0.01519473}
   m_UseDelaunayMesh: 0
+--- !u!114 &-2406833873580200945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3361198738974146518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1182588aff2918f4384b3013c8c9fe5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0

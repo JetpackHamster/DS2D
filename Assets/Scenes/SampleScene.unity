@@ -2265,7 +2265,7 @@ MonoBehaviour:
   xyLimits:
   - -0.3
   - 0.3
-  - 0
+  - -0.1
   - 0.3
 --- !u!249 &562829343
 AreaEffector2D:
@@ -3647,7 +3647,7 @@ Transform:
   m_GameObject: {fileID: 1122707321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 0.1, z: 0}
+  m_LocalPosition: {x: -0.06, y: 0.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5601,7 +5601,7 @@ Transform:
   m_GameObject: {fileID: 1789448379}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.005909096, y: 0.017499996, z: 0.018707803}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.045454543, y: 0.05, z: 0.04}
   m_ConstrainProportionsScale: 0
   m_Children: []

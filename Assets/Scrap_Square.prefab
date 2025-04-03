@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7118535334492326214}
   - component: {fileID: 4992675848780842339}
   - component: {fileID: 6901895788141356640}
+  - component: {fileID: -6601171709207643572}
   m_Layer: 8
   m_Name: Scrap_Square
   m_TagString: Untagged
@@ -161,3 +162,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6601171709207643572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992695334271573473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1182588aff2918f4384b3013c8c9fe5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0

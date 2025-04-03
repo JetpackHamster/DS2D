@@ -111,6 +111,20 @@ public class TChassisScript : MonoBehaviour
             SRRigidbody.velocity += Vector2.up * jumpStrength;
         }
 
+        if(Input.GetKeyDown(KeyCode.V)) // toggle engine
+        {
+            if(EngineSpeed == 0 && fuelQty > 0) {
+                EngineSpeed = idleSpeed;
+            } else {
+                EngineSpeed = 0;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.S)) // universal brake key
+        {
+            braking = true;
+        }
+
         // if input A, make EngineSpeed go more left, engage clutch
         
         // if reverse and not at top speed go faster
@@ -128,12 +142,10 @@ public class TChassisScript : MonoBehaviour
         } else if (Input.GetKey(KeyCode.A) && EngineSpeed > (idleSpeed / (10F)) && wheelTargetSpeed > 0)
         { 
             braking = true;
-            wheelTargetSpeed -= 10F * Time.deltaTime;
             //Debug.Log("a braking by " + 3F * Time.deltaTime);
-        
-        
+        }
         // switch to reverse
-        } else if (Input.GetKey(KeyCode.A) && wheelTargetSpeed < (idleSpeed / (10F)))
+        if (Input.GetKey(KeyCode.A) && EngineSpeed > (idleSpeed / (10F)) && Mathf.Abs(wheelTargetSpeed) < (idleSpeed / (10F)))
         {
             // increment timer
             reverseTimer += Time.deltaTime;
@@ -160,12 +172,11 @@ public class TChassisScript : MonoBehaviour
         // braking when go backward
         } else if (Input.GetKey(KeyCode.D) && EngineSpeed < (idleSpeed / (-10F)) && wheelTargetSpeed < 0)
         {
-            wheelTargetSpeed += 10F * Time.deltaTime;
             //Debug.Log("d brake");
             braking = true;
-        
+        }
         // switch to forward
-        } else if (Input.GetKey(KeyCode.D) && wheelTargetSpeed < (idleSpeed / (10F)))
+        if (Input.GetKey(KeyCode.D) && EngineSpeed < (idleSpeed / (-10F)) && Mathf.Abs(wheelTargetSpeed) < (idleSpeed / (10F)))
         {
             // increment timer
             reverseTimer += Time.deltaTime;
@@ -197,29 +208,39 @@ public class TChassisScript : MonoBehaviour
                 wheelTargetSpeed = 0;
             }
 
-            // decrease fuel qty by estimate of motor work
-            frameFuelUsage = (EngineSpeed - /*actual wheelspeed?*/wheelTargetSpeed) * clutch + (/*idle usage rate*/0.1F * engineSpeed) * /*fuel usage multiplier*/0.1F;
-            /*if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
-                frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
-            } else {
-                frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
-            }/*
-            fuelQty -= frameFuelUsage;
-
             if(fuelQty < fuelLimit / 10F && !lowFuelNotified) { // debug low fuel warning, might upgrade to UI later
                 Debug.Log("fuel <10%: " + fuelQty);
                 lowFuelNotified = true;
             }
         }
-        if (braking) {
+        if (braking) { // brake when braking
             clutch = 0F;
             motorForce = brakingForce;
+            if (wheelTargetSpeed < (idleSpeed / (-10F))) {
+                wheelTargetSpeed += 10F * Time.deltaTime;
+            } else if (wheelTargetSpeed > (idleSpeed / (10F))) {
+                wheelTargetSpeed -= 10F * Time.deltaTime;
+            }
         }
-        if(clutch > 0) {
+        if (fuelQty <= 0) { // kill engine if no fuel
+            EngineSpeed = 0;
+        }
+        if(clutch > 0) { // make clutch happen
             // change wheel target speed to match engine according to clutch engagement (LERP WOOOOOOO YEAAAA)
             wheelTargetSpeed = Mathf.Lerp(wheelTargetSpeed, EngineSpeed, clutch); // deltatime feels wrong here since it's in changing these components
         }
         setWheelSpeed(wheelTargetSpeed);
+
+        // decrease fuel qty by estimate of motor work
+        
+        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
+            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed?*/Mathf.Abs(wheelTargetSpeed)) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * /*fuel usage multiplier*/0.01F;
+            //frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
+        } else {
+            frameFuelUsage = 0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F;
+            //frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
+        }
+        fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;
     }
 
     // set each wheel to the speed, this does not manage engine inertia
