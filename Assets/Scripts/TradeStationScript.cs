@@ -90,7 +90,7 @@ public class TradeStationScript : MonoBehaviour
                 panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
-            sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell - " + collision.gameObject.GetComponent<ScrapScript>().value + "L");
+            sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + collision.gameObject.GetComponent<ScrapScript>().value + "L");
 
             // move after creation
             sellTiles[sellTiles.Length-1].transform.position = new Vector3(

@@ -58,7 +58,7 @@ public class TChassisScript : MonoBehaviour
 
         // set fuel
         fuelQty = 20F;
-        fuelLimit = 30F;
+        fuelLimit = 85F;
         lowFuelNotified = false;
         EngineSpeed = idleSpeed;
 
