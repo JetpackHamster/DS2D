@@ -186,9 +186,9 @@ public class TradeStationScript : MonoBehaviour
 
         if (seekedObjs.Length == 0) { // reset magMultiplier when all seekedObjs collected
             //Debug.Log("magMultiplier reset, value was " + magMultiplier);
-            magMultiplier = 1F;
+            magMultiplier = 5F;
         } else {
-            magMultiplier += 1F * Time.deltaTime; // increase multiplier as long as magnet in use
+            magMultiplier += 2F * Time.deltaTime; // increase multiplier as long as magnet in use
         }
     }
 }
