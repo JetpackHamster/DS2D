@@ -100,7 +100,10 @@ public class TChassisScript : MonoBehaviour
             motorForce = minMotorForce;
         }
 
-
+        if(Input.GetKey(KeyCode.End)) // vehicle go whee
+        {
+            SRRigidbody.velocity += Vector2.right * 3;
+        }
         if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
