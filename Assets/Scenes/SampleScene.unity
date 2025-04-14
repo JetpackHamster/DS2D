@@ -1412,26 +1412,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401843318}
-  - component: {fileID: 401843317}
+  - component: {fileID: 401843319}
   m_Layer: 0
-  m_Name: TerrainManagerManager
+  m_Name: TerrainPieceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &401843317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401843316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623af2a864fb5e24cb9616a63762c622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &401843318
 Transform:
   m_ObjectHideFlags: 0
@@ -1440,13 +1428,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401843316}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.791744, y: 6.885157, z: -7.055872}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -167.92, y: -21.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1973083509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401843319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401843316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ecaab8338d1ed4dad723f691906b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainPiece: {fileID: 2051217888574381578, guid: 60987e966bcbde84790f37325a83912e, type: 3}
+  deltaX: 0
+  terrainLength: 20
+  terrainVertexDensity: 2
 --- !u!1 &415775290
 GameObject:
   m_ObjectHideFlags: 0
@@ -4180,6 +4184,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1966073664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1540390225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540390226}
+  m_Layer: 0
+  m_Name: TerrainPieces
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1540390226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540390225}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550965585
 GameObject:
   m_ObjectHideFlags: 0
@@ -5291,7 +5326,7 @@ Transform:
   m_GameObject: {fileID: 1804473490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.016316, y: 9.256045, z: 2.3303397}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5656,6 +5691,7 @@ MonoBehaviour:
   structures:
   - {fileID: 8305894718663796907, guid: 0280d1804d22fbe4fab309ab1fcab93d, type: 3}
   circleParent: {fileID: 1804473491}
+  moving: 0
 --- !u!4 &1973083509
 Transform:
   m_ObjectHideFlags: 0
@@ -5668,7 +5704,8 @@ Transform:
   m_LocalPosition: {x: 167.92, y: 21.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 401843318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1973083510
@@ -6250,7 +6287,6 @@ SceneRoots:
   - {fileID: 5873747566990797821}
   - {fileID: 2681441574121115527}
   - {fileID: 6632500299378431082}
-  - {fileID: 401843318}
   - {fileID: 8920574281254087612}
   - {fileID: 183420453}
   - {fileID: 1849984652}
@@ -6260,3 +6296,4 @@ SceneRoots:
   - {fileID: 727543580}
   - {fileID: 1069475734}
   - {fileID: 1804473491}
+  - {fileID: 1540390226}

@@ -18,6 +18,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
     public GameObject[] structures;
     private float temp;
     public Transform circleParent;
+    public bool moving;
 
     //https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Mathf.PerlinNoise1D.html
 
@@ -35,6 +36,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
         // if player close enough, spawn more terrain
         if (cam.transform.position.x > spawnerX - 150)
         {
+            moving = true;
             if (timer < spawnRate) {
                 timer += Time.deltaTime;
             } else {
@@ -61,6 +63,8 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
         
             // move forward
             spawnerX += 64 * Time.deltaTime;
+        } else {
+            moving = false;
         }
         gameObject.transform.position = new Vector3(spawnerX, gameObject.transform.position.y, gameObject.transform.position.z);
     }
