@@ -17,8 +17,11 @@ public class TerrainManagerScript : MonoBehaviour
         if need new terrain piece
             instantiate new object
             
+            HVertices = new float[100];
             generate list of heights
-            
+            for(int i = 0; i < 100; i++) {
+                HVertices[i] = Mathf.PerlinNoise1D(i/10);
+            }
             make heights into vertices (in array in object)
             make base vertex below each height vertex (in array in object)
             
