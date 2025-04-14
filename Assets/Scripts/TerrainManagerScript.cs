@@ -13,7 +13,30 @@ public class TerrainManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+        if need new terrain piece
+            instantiate new object
+            
+            generate list of heights
+            
+            make heights into vertices (in array in object)
+            make base vertex below each height vertex (in array in object)
+            
+            Mesh.SetVertices( array of Vector3s );
+            
+            assign triangles array (in array in object)
+            for each height if has next {
+                // make this tri
+                add this height, next height, this base
+                
+                // make sub tri
+                add next height, next base, this base
+            }
+            SetTriangles(int[] triangles, 0, true, 0); 
+
+
+
+        */
     }
 
     public void Cleanup(float beginX, bool isLeft) {
