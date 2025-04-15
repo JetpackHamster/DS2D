@@ -14,16 +14,7 @@ public class sellTileScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cam = GameObject.Find("Main Camera");
-        if (cam.GetComponent<MainCamScript>().UIStructure = source) { // if source is the active UI structure, setup 
-
-            Button button = GetComponent<Button>();
-            button.onClick.AddListener(sell);
-
-            StationScript = source.GetComponentInChildren<TradeStationScript>();
-        } else {
-            gameObject.GetComponent<Image>().enabled = false;
-        }
+        
     }   
 
     // Update is called once per frame
@@ -42,6 +33,21 @@ public class sellTileScript : MonoBehaviour
 
     }
     canvas.OnEnable() {
+        cam = GameObject.Find("Main Camera");
+        if (cam.GetComponent<MainCamScript>().UIStructure = source) { // if source is the active UI structure, setup 
+            gameObject.GetComponent<Image>().enabled = true;
+            gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
+            gameObject.GetComponent<Button>().enabled = true;
 
+            Button button = GetComponent<Button>();
+            button.onClick.AddListener(sell);
+
+            StationScript = source.GetComponentInChildren<TradeStationScript>();
+        } else {
+            // disable rendering
+            gameObject.GetComponent<Image>().enabled = false;
+            gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            gameObject.GetComponent<Button>().enabled = false;
+        }
     }
 }
