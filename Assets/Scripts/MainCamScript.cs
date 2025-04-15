@@ -43,5 +43,10 @@ public class MainCamScript : MonoBehaviour
         /*if (camZoomV != 0) {
             Debug.Log(camZoomV);
         }*/
+        if (cam.GetComponent<Camera>().orthographicSize > maxZoomSize) {
+            cam.GetComponent<Camera>().orthographicSize = maxZoomSize;
+        } else if (cam.GetComponent<Camera>().orthographicSize < minZoomSize) {
+            cam.GetComponent<Camera>().orthographicSize = minZoomSize;
+        }
     }
 }

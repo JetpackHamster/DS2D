@@ -6,18 +6,19 @@ public class TerrainManagerScript : MonoBehaviour
 {
     public GameObject terrainPiece;
     public float deltaX;
-    public static float terrainLength = 20F;
-    public static float terrainVertexDensity = 2F;
+    public static float terrainLength = 80F;
+    public static float terrainVertexDensity = 1F;
     private float prevX;
-    public Vector3[] HVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
-    public Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
-    public Vector3[] allVertices;
-    public int[] triangles = new int[(int)(terrainLength * terrainVertexDensity * 6)];
-    private Mesh tMesh;
+    private Vector3[] HVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
+    private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
+    private Vector3[] allVertices;
+    private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
+    
     // Start is called before the first frame update
     void Start()
     {
-        tMesh = new Mesh();
+        //generatePiece();
+        
     }
 
     // Update is called once per frame
@@ -27,46 +28,10 @@ public class TerrainManagerScript : MonoBehaviour
             deltaX += gameObject.transform.position.x - prevX;
             prevX = gameObject.transform.position.x;
         }   
-        if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving && deltaX > terrainLength) {
+        if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving && deltaX > (terrainLength * 0.93F)) {
             deltaX = 0;
-
-            // instantiate new object
-            Instantiate(terrainPiece, gameObject.transform.position, gameObject.transform.rotation, GameObject.Find("TerrainPieces").transform);
+            generatePiece();
             
-            
-            // generate list of heights
-            for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
-                HVertices[i] = new Vector3(((i / terrainLength) / terrainVertexDensity), Mathf.PerlinNoise1D(i/10), 0); // make heights into vertices
-            }
-            
-            // make base vertex below each height vertex
-            for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
-                bVertices[i] = new Vector3(HVertices[i].x, -10, 0); // make base vertices
-            }
-            allVertices = HVertices;
-            UnityEditor.ArrayUtility.AddRange(ref allVertices, bVertices);
-            tMesh.SetVertices(allVertices);
-            
-            // assign triangles array
-            //for each height if has next
-            for (int i = 0; i < terrainLength * terrainVertexDensity; i++){
-                // make this tri
-                //add this height, next height, this base
-                //UnityEditor.ArrayUtility.Add(ref triangles, );
-                triangles[i] = i;
-                triangles[i + 1] = (i + 1);
-                triangles[i + 2] = (i + (int)(terrainLength * terrainVertexDensity));
-                
-                // make sub tri
-                //add next height, next base, this base
-                triangles[i + 3] = (i + 1);
-                triangles[i + 4] = (i + 1 + (int)(terrainLength * terrainVertexDensity));
-                triangles[i + 5] = (i + (int)(terrainLength * terrainVertexDensity));
-                
-            }
-            tMesh.SetTriangles(triangles, 0, true, 0); 
-            gameObject.GetComponent<MeshFilter>().mesh = tMesh;
-            //gameObject.GetComponent<MeshRenderer>().mesh = tMesh;
         }
         
     }
@@ -74,4 +39,64 @@ public class TerrainManagerScript : MonoBehaviour
     //public void Cleanup(float beginX, bool isLeft) {
         
     //}
+    void generatePiece() {
+
+        // instantiate new object
+        GameObject newPiece = Instantiate(terrainPiece, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 80, gameObject.transform.position.z), gameObject.transform.rotation, GameObject.Find("TerrainPieces").transform);
+        
+        
+        // generate list of heights
+        for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
+            float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F);
+            Debug.Log("perlinput " + perlinput);
+            HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * 10 + 80), 0); // make heights into vertices
+        }
+        /*for (int i = 0; i < 10; i++) {
+            Debug.Log("HVertices[" + i + "]: " + HVertices[i]);
+        }*/
+        // make base vertex below each height vertex
+        for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
+            bVertices[i] = new Vector3(HVertices[i].x, -10, 0); // make base vertices
+        }
+        allVertices = HVertices;
+        UnityEditor.ArrayUtility.AddRange(ref allVertices, bVertices);
+        
+        Mesh tMesh = new Mesh();
+        tMesh.SetVertices(allVertices);
+        
+        // assign triangles array
+        //for each height if has next
+        for (int i = 0; i < terrainLength * terrainVertexDensity - 1; i++){
+            // make this tri
+            //add this height, next height, this base
+            //UnityEditor.ArrayUtility.Add(ref triangles, );
+            UnityEditor.ArrayUtility.Add(ref triangles, i);
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(terrainLength * terrainVertexDensity)));
+            
+            // make sub tri
+            //add next height, next base, this base
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + (int)(terrainLength * terrainVertexDensity)));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(terrainLength * terrainVertexDensity)));
+            
+        }
+        
+
+        tMesh.SetTriangles(triangles, 0, true, 0); 
+        tMesh.RecalculateBounds();
+        newPiece.GetComponent<MeshFilter>().sharedMesh = tMesh;
+
+        Vector2[] allVertices2D = new Vector2[allVertices.Length];
+        for (int i = 0; i < allVertices.Length; i++){
+            allVertices2D[i] = new Vector2(allVertices[i].x, allVertices[i].y);
+        }
+        newPiece.GetComponent<PolygonCollider2D>().points = allVertices2D;
+
+        //Vector2[] pathVertices2D = new Vector2[allVertices.Length];
+        //for (int i = 0; i < allVertices.Length; i++){
+        //    allVertices2D[i] = new Vector2(allVertices[i].x, allVertices[i].y);
+        //}
+        newPiece.GetComponent<PolygonCollider2D>().SetPath(0, allVertices2D);
+    }
 }

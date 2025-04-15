@@ -27,7 +27,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
     void Start()
     {
         spawnerX = transform.position.x;
-        spawnPipe();
+        //spawnPipe();
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
             if (timer < spawnRate) {
                 timer += Time.deltaTime;
             } else {
-                spawnPipe();
+                //spawnPipe();
                 timer = 0;
                 heightOffset += 0.1F * Time.deltaTime;
                 // spawn scrap
@@ -62,7 +62,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
             }
         
             // move forward
-            spawnerX += 64 * Time.deltaTime;
+            spawnerX += 80F - 1;//gameObject.GetComponentInChildren<TerrainManagerScript>().terrainLength;//64 * Time.deltaTime;
         } else {
             moving = false;
         }

@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 public class TradeStationScript : MonoBehaviour
 {
     public bool UIEnabled;
-    public GameObject pointer;
+    private GameObject pointer;
     //public float[] xyLimits;
     //Vector2 fVector;
     //Vector3 parentpos;
@@ -38,7 +38,7 @@ public class TradeStationScript : MonoBehaviour
         seekedObjs = new GameObject[0];
         magMultiplier = 1F;
         cam = GameObject.Find("Main Camera");
-        
+        pointer = GameObject.Find("MouseCrosshair");
     }
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {
@@ -70,7 +70,7 @@ public class TradeStationScript : MonoBehaviour
             }*/
 
             // create new image tile in canvas
-            Debug.Log("new sellTile: " + collision.transform.name);
+            //Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
             float tileY = -7;   
             int tileX = 0 + sellTiles.Length * 2;
