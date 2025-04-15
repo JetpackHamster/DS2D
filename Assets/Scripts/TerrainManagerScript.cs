@@ -33,27 +33,35 @@ public class TerrainManagerScript : MonoBehaviour
         if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move if need
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + terrainLength - 1, gameObject.transform.position.y, gameObject.transform.position.z);
             generatePiece();
+
+            // spawn scrap
             while (Random.Range(0F, 10F) > 7F) {
                 Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
             }
-            if (tradeStructureTimer < tradeStructureSpawnRate) {
-                    tradeStructureTimer += terrainLength;
-                } else {
-                    tradeStructureTimer = 0F;
-                    bool isLevel = false;
-                    float prevH = 0F;
-                    for(int i = 0; i < HVertices.Length; i++) {
-                        if (false) { // if same, add to count, if count high, isLevel true
 
-                        }
-                        prevH = HVertices[i].y;
+            
+            if (tradeStructureTimer < tradeStructureSpawnRate) {
+                tradeStructureTimer += terrainLength;
+                
+            // if far enough from prev. structure
+            } else {
+                
+                float prevH = 0F;
+                int count = 0
+                for(int i = 0; i < HVertices.Length; i++) {
+                    if (HVertices[i].y == prevH) { // if same, add to count, if count high, isLevel true
+                        count++;
                     }
-                    
-                    if(isLevel) {
-                        Debug.Log("structure make!");
-                        Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
-                    }
+                    prevH = HVertices[i].y;
                 }
+                
+                if(count > 3 * terrainVertexDensity) {
+                    // reset timer
+                    tradeStructureTimer = 0F;
+                    Debug.Log("structure make!");
+                    Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
+                }
+            }
         }
         /*if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
             deltaX += gameObject.transform.position.x - prevX;
