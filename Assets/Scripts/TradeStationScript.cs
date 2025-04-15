@@ -88,7 +88,11 @@ public class TradeStationScript : MonoBehaviour
                     panel.transform.position.y,/* + cam.transform.position.y*/
                     panel.transform.position.z/* + cam.transform.position.z*/),
                 panel.transform.rotation, panel.transform)); // original, position, rotation, parent)
-            sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject;
+            
+            sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject; // assign scrap obj
+            sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().source = gameObject; // assign source structure to this
+            
+            // assign sprite and text with value
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
             sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + collision.gameObject.GetComponent<ScrapScript>().value + "L");
 

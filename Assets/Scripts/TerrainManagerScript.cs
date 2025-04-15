@@ -14,13 +14,17 @@ public class TerrainManagerScript : MonoBehaviour
     private Vector3[] allVertices;
     private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
     private GameObject cam;
+    public GameObject[] spawnedObjs;
+    private float tradeStructureTimer;
+    public float tradeStructureSpawnRate;
+    public GameObject[] structures;
     
     // Start is called before the first frame update
     void Start()
     {
         //generatePiece();
         cam = GameObject.Find("Main Camera");
-        
+        tradeStructureTimer = 0F;
     }
 
     // Update is called once per frame
@@ -29,8 +33,20 @@ public class TerrainManagerScript : MonoBehaviour
         if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move if need
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + terrainLength - 1, gameObject.transform.position.y, gameObject.transform.position.z);
             generatePiece();
+            while (Random.Range(0F, 10F) > 7F) {
+                Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
+            }
+            if (tradeStructureTimer < tradeStructureSpawnRate) {
+                    tradeStructureTimer += terrainLength;
+                } else {
+                    tradeStructureTimer = 0F;
+                    
+                    
+                    Debug.Log("structure make!");
+                    Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
+                }
         }
-        if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
+        /*if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
             deltaX += gameObject.transform.position.x - prevX;
             prevX = gameObject.transform.position.x;
         }   
@@ -38,7 +54,7 @@ public class TerrainManagerScript : MonoBehaviour
             deltaX = 0;
             //generatePiece();
 
-        }
+        }*/
         
     }
 

@@ -7,15 +7,16 @@ public class sellTileScript : MonoBehaviour
 {
     
     public TradeStationScript StationScript;    
-    public GameObject obj;  
+    public GameObject obj;
+    public GameObject source;
     // Start is called before the first frame update
     void Start()
     {
         Button button = GetComponent<Button>();
         button.onClick.AddListener(sell);
 
-        StationScript = GameObject.Find("TradeStation").GetComponentInChildren<TradeStationScript>();
-    }
+        StationScript = source.GetComponentInChildren<TradeStationScript>();
+    }   
 
     // Update is called once per frame
     void Update()
