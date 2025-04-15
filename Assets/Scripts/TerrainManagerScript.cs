@@ -13,25 +13,31 @@ public class TerrainManagerScript : MonoBehaviour
     private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] allVertices;
     private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
+    private GameObject cam;
     
     // Start is called before the first frame update
     void Start()
     {
         //generatePiece();
+        cam = GameObject.Find("Main Camera");
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move if need
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x + terrainLength - 1, gameObject.transform.position.y, gameObject.transform.position.z);
+            generatePiece();
+        }
         if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
             deltaX += gameObject.transform.position.x - prevX;
             prevX = gameObject.transform.position.x;
         }   
         if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving && deltaX > (terrainLength * 0.93F)) {
             deltaX = 0;
-            generatePiece();
-            
+            //generatePiece();
+
         }
         
     }
