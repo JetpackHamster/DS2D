@@ -40,10 +40,19 @@ public class TerrainManagerScript : MonoBehaviour
                     tradeStructureTimer += terrainLength;
                 } else {
                     tradeStructureTimer = 0F;
+                    bool isLevel = false;
+                    float prevH = 0F;
+                    for(int i = 0; i < HVertices.Length; i++) {
+                        if (false) { // if same, add to count, if count high, isLevel true
+
+                        }
+                        prevH = HVertices[i].y;
+                    }
                     
-                    
-                    Debug.Log("structure make!");
-                    Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
+                    if(isLevel) {
+                        Debug.Log("structure make!");
+                        Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
+                    }
                 }
         }
         /*if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
