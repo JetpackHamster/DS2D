@@ -48,6 +48,8 @@ public class sellTileScript : MonoBehaviour
             gameObject.GetComponent<Image>().enabled = false;
             gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
             gameObject.GetComponent<Button>().enabled = false;
+            gameObject.transform.GetChild(1).GetComponent<TMP_Text>().enabled = false;
+            Debug.Log("beef"); // "dis beef" - Red, 12:15pm, nacho day
         }
     }
 }
