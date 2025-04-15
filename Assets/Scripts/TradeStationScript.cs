@@ -56,6 +56,7 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("playerentered");
             UIEnabled = true;
             canvas.enabled = true;
+            cam.GetComponent<MainCamScript>().UIStructure = gameObject; // assign this as active UI structure
         } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
             /*int i = 0;
             while(i < sellList.Length && sellList[i] != null) { // find empty slot index

@@ -12,6 +12,8 @@ public class MainCamScript : MonoBehaviour
 
     public GameObject cam;
     public GameObject playerObj;
+
+    public GameObject UIStructure;
     // Start is called before the first frame update
     void Start()
     {
