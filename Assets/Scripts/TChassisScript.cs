@@ -80,8 +80,6 @@ public class TChassisScript : MonoBehaviour
         scripting TODO:
         
         other bugfixing:
-        EngineSpeed goes up thousands when should decrease
-        fuel usage inversely proportional and problematic otherwise
 
         */
     }
@@ -102,7 +100,11 @@ public class TChassisScript : MonoBehaviour
 
         if(Input.GetKey(KeyCode.End)) // vehicle go whee
         {
-            SRRigidbody.velocity += Vector2.right * 3;
+            if(Input.GetKey(KeyCode.PageDown)) {
+                SRRigidbody.velocity += Vector2.left * 3;
+            } else {
+                SRRigidbody.velocity += Vector2.right * 3;
+            }
         }
         if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {

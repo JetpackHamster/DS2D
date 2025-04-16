@@ -18,15 +18,15 @@ public class CollectorScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // when enter collector destroy seeked scrap and reward player
     {
-        if (UnityEditor.ArrayUtility.Contains<GameObject>(GameObject.Find("TradeStation").GetComponent<TradeStationScript>().seekedObjs, collision.gameObject)) {
+        if (UnityEditor.ArrayUtility.Contains<GameObject>(gameObject.GetComponentInParent<TradeStationScript>().seekedObjs, collision.gameObject)) {
             var TCScript = GameObject.Find("TChassis").GetComponent<TChassisScript>();
-            float value = 3F;
+            float value = collision.GetComponent<ScrapScript>().value;
             if (TCScript.fuelQty < TCScript.fuelLimit - value) {
                 TCScript.fuelQty += value;
             } else {
                 TCScript.fuelQty += (TCScript.fuelLimit - TCScript.fuelQty);
             }
-            UnityEditor.ArrayUtility.Remove(ref GameObject.Find("TradeStation").GetComponent<TradeStationScript>().seekedObjs, collision.gameObject);
+            UnityEditor.ArrayUtility.Remove(ref gameObject.GetComponentInParent<TradeStationScript>().seekedObjs, collision.gameObject);
             GameObject.Destroy(collision.gameObject);
         }
     }

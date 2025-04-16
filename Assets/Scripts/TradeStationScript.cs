@@ -56,7 +56,14 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("playerentered");
             UIEnabled = true;
             canvas.enabled = true;
+
             cam.GetComponent<MainCamScript>().UIStructure = gameObject; // assign this as active UI structure
+
+            // setup each tile
+            for(int i = 0; i < sellTiles.Length; i++) {
+                sellTiles[i].GetComponent<sellTileScript>().setup();
+            }
+
         } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
             /*int i = 0;
             while(i < sellList.Length && sellList[i] != null) { // find empty slot index
@@ -110,6 +117,14 @@ public class TradeStationScript : MonoBehaviour
         if (collision.transform.name == "Player") { // disable UI when player leave
             UIEnabled = false;
             canvas.enabled = false;
+            cam.GetComponent<MainCamScript>().UIStructure = null; // reset UIStructure
+
+            // setup each tile
+            for(int i = 0; i < sellTiles.Length; i++) {
+                sellTiles[i].GetComponent<sellTileScript>().setup();
+            }
+
+
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and in sell list, remove from sell list
             //Debug.Log("Attempt remove " + collision.transform.name);
             UnityEditor.ArrayUtility.Remove(ref sellList, collision.gameObject);

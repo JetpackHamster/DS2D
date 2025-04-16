@@ -18,6 +18,7 @@ public class TerrainManagerScript : MonoBehaviour
     private float tradeStructureTimer;
     public float tradeStructureSpawnRate;
     public GameObject[] structures;
+    public GameObject newPiece;
     
     // Start is called before the first frame update
     void Start()
@@ -47,19 +48,19 @@ public class TerrainManagerScript : MonoBehaviour
             } else {
                 
                 float prevH = 0F;
-                int count = 0
+                int count = 0;
                 for(int i = 0; i < HVertices.Length; i++) {
                     if (HVertices[i].y == prevH) { // if same, add to count, if count high, isLevel true
                         count++;
+                        if(count > 3 * terrainVertexDensity) {
+                            // reset timer and make structure
+                            tradeStructureTimer = 0F;
+                            Debug.Log("structure make!");
+                            Instantiate(structures[0], new Vector3((transform.position.x + (i - 3) / terrainVertexDensity) + 5, transform.position.y + prevH/10 + 1.4F, 0), new Quaternion(0F, 0F, 0F, 1F), newPiece.transform);
+                            i = HVertices.Length - 1; // exit loop
+                        }
                     }
                     prevH = HVertices[i].y;
-                }
-                
-                if(count > 3 * terrainVertexDensity) {
-                    // reset timer
-                    tradeStructureTimer = 0F;
-                    Debug.Log("structure make!");
-                    Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
                 }
             }
         }
@@ -81,13 +82,13 @@ public class TerrainManagerScript : MonoBehaviour
     void generatePiece() {
 
         // instantiate new object
-        GameObject newPiece = Instantiate(terrainPiece, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 80, gameObject.transform.position.z), gameObject.transform.rotation, GameObject.Find("TerrainPieces").transform);
+        newPiece = Instantiate(terrainPiece, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 80, gameObject.transform.position.z), gameObject.transform.rotation, GameObject.Find("TerrainPieces").transform);
         
         
         // generate list of heights
         for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
             float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F);
-            Debug.Log("perlinput " + perlinput);
+            //Debug.Log("perlinput " + perlinput);
             HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * 10 + 80), 0); // make heights into vertices
         }
         /*for (int i = 0; i < 10; i++) {
