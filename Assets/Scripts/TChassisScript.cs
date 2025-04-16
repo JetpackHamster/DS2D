@@ -216,8 +216,8 @@ public class TChassisScript : MonoBehaviour
             } else if (EngineSpeed < 0) {
                 EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 1F * Time.deltaTime)) - idleSpeed;
             }
-            // if wheel target speed very small make it 0
-            if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
+            // if wheel target speed very small make it 0, if engine off make it 0
+            if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0) || EngineSpeed == 0)
             {
                 wheelTargetSpeed = 0;
             }
