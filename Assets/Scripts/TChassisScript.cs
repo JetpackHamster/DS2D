@@ -31,6 +31,7 @@ public class TChassisScript : MonoBehaviour
     public float reverseDelay = 1F;
     bool lowFuelNotified;
     bool braking;
+    bool pBrake;
 
     // Start is called before the first frame update
     void Start()
@@ -89,7 +90,12 @@ public class TChassisScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        braking = false;
+        
+        if (pBrake) {
+            braking = true;
+        } else {
+            braking = false;
+        }
         // set motorForce here with torquecurve?? lerp motor info to graph domain??
         if(clutch > 0) {
             // torque curve should be: sqrtx - x, 0 <= x <= 0.35
@@ -113,7 +119,10 @@ public class TChassisScript : MonoBehaviour
         {
             SRRigidbody.velocity += Vector2.up * jumpStrength;
         }
-
+        if(Input.GetKeyDown(KeyCode.P)) // toggle parking brake
+        {
+            pBrake = !pBrake;
+        }
         if(Input.GetKeyDown(KeyCode.V)) // toggle engine
         {
             if(EngineSpeed == 0 && fuelQty > 0) {
