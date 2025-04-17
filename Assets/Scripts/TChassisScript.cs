@@ -34,6 +34,12 @@ public class TChassisScript : MonoBehaviour
     bool braking;
     bool pBrake;
 
+    private Vector3[] HVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
+    private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
+    private Vector3[] allVertices;
+    private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -256,6 +262,9 @@ public class TChassisScript : MonoBehaviour
             //frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
         }
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;
+
+        updateTread();
+
     }
 
     // set each wheel to the speed, this does not manage engine inertia
@@ -278,5 +287,10 @@ public class TChassisScript : MonoBehaviour
         } else {
             clutch = 1F;
         }
+    }
+
+    // tread mesh update
+    void updateTread() {
+        
     }
 }
