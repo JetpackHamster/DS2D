@@ -6,29 +6,30 @@ using UnityEngine;
 public class TChassisScript : MonoBehaviour
 {
     public Rigidbody2D SRRigidbody;
-    public float jumpStrength = 10;
+    public float jumpStrength;
     
     HingeJoint2D[] ArrayHJ;
     public GameObject[] ArrayWheels;
 
-    public float wheelMotorMultiplier = 50F;
-    public float motorTopSpeed = 35F;
+    public float wheelMotorMultiplier;
+    public float motorTopSpeed;
     public float wheelTargetSpeed = 0F;
-    public float idleSpeed = 10F;
+    public float idleSpeed;
     public float EngineSpeed;
-    public float EngineAccel = 8F;
+    public float EngineAccel;
     float[] wheelDiameters;
     public float fuelQty;
     public float fuelLimit;
     public float motorForce;
     float tempSpeed;
-    public float maxMotorForce = 80F;
-    public float minMotorForce = 1F;
-    public float brakingForce = 100F;
+    public float maxMotorForce;
+    public float minMotorForce;
+    public float brakingForce;
     public float frameFuelUsage = 0F;
     public float clutch = 0F;
     float reverseTimer = 0F;
-    public float reverseDelay = 1F;
+    public float reverseDelay;
+    public float fuelUsageMultiplier;
     bool lowFuelNotified;
     bool braking;
     bool pBrake;
@@ -247,11 +248,11 @@ public class TChassisScript : MonoBehaviour
 
         // decrease fuel qty by estimate of motor work
         
-        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
-            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed?*/Mathf.Abs(wheelTargetSpeed)) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * /*fuel usage multiplier*/0.01F;
+        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster // TODO: get actual wheelspeed
+            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed?*/Mathf.Abs(wheelTargetSpeed)) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * 0.01F * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
         } else {
-            frameFuelUsage = 0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F;
+            frameFuelUsage = 0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
         }
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;

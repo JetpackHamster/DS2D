@@ -24,9 +24,9 @@ public class sellTileScript : MonoBehaviour
         button.onClick.AddListener(sell);
 
         //canvas.AddListener(setup());
-        if (canvas.enabled) {
-            setup();
-        }
+        
+        setup();
+        
     }   
 
     // Update is called once per frame

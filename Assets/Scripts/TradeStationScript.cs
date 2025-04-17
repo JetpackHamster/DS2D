@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 //using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 
 //using Unity.Mathematics;
@@ -25,6 +26,10 @@ public class TradeStationScript : MonoBehaviour
     public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
     public float magMultiplier;
     GameObject cam;
+    
+    GameObject TChassis;
+    float whee = 0F;
+    float wheeTimer = 0F;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +44,44 @@ public class TradeStationScript : MonoBehaviour
         magMultiplier = 1F;
         cam = GameObject.Find("Main Camera");
         pointer = GameObject.Find("MouseCrosshair");
+        TChassis = GameObject.Find("TChassis");
+        Button SpeedUpgradeButton = GameObject.Find("SpeedUpgradeButton").GetComponent<Button>();
+        Button AccelUpgradeButton = GameObject.Find("AccelerationUpgradeButton").GetComponent<Button>();
+        Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
+        Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
+
+        SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
+        AccelUpgradeButton.onClick.AddListener(AccelUpgrade);
+        WheeUpgradeButton.onClick.AddListener(WheeUpgrade);
+        FuelUsageUpgradeButton.onClick.AddListener(FuelUsageUpgrade);
+
     }
+    void AccelUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 5 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 5;
+            TChassis.GetComponent<TChassisScript>().EngineAccel *= 1.5F;
+        }
+    }
+    void SpeedUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 5 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 5;
+            TChassis.GetComponent<TChassisScript>().motorTopSpeed *= 1.5F;
+        }
+    }
+    void WheeUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 4 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 5;
+            wheeTimer += 2F;
+            whee++;
+        }
+    }
+    void FuelUsageUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
+            TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier *= 0.93F;
+        }
+    }
+
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {
         if (pos >= limit) {
@@ -174,6 +216,7 @@ public class TradeStationScript : MonoBehaviour
                     fVector /= 10;
                 }
                 fVector *= magMultiplier;
+                otherRB.WakeUp();
                 otherRB.velocity -= fVector;
             }
             
@@ -198,6 +241,15 @@ public class TradeStationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (whee > 0) {
+            if(wheeTimer > 0) {
+                wheeTimer -= Time.deltaTime;
+            } else {
+                whee--;
+                TChassis.GetComponent<Rigidbody2D>().velocity += Vector2.right * 100;   
+            }
+                
+        }
         // toggle UI?
         /*if (Input.GetKeyDown(KeyCode.U)) {
             UIEnabled = !UIEnabled;
