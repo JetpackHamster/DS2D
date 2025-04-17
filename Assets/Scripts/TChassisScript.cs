@@ -347,25 +347,26 @@ public class TChassisScript : MonoBehaviour
         }
 
 
-        // triangles assignment
+        // triangles assignment // TODO: align this functionality with the vertex organization
         //for each height if has next
-        for (int i = 0; i < wheelDiameters.Length - 2 + (curveVertexCount * 2); i++){
-            // make this tri
-            //add this height, next height, this base
+        for (int i = 0; i < wheelDiameters.Length - 2 + (curveVertexCount * 2); i++){ // TODO: fix vertex order assignment
+            // make near tri
+            //add this near, this far, next near
             //UnityEditor.ArrayUtility.Add(ref triangles, );
             UnityEditor.ArrayUtility.Add(ref triangles, i);
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 2));
             
-            // make sub tri
-            //add next height, next base, this base
+            // make far tri
+            //add this far, next near, next far
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 2));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 3));
             
         }
         
-
+        Mesh tMesh = new Mesh();
+        tMesh.
         tMesh.SetTriangles(triangles, 0, true, 0); 
         tMesh.RecalculateBounds();
         GameObject.GetComponent<MeshFilter>().sharedMesh = tMesh; // TODO: set to child (mesh)
