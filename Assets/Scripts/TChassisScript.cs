@@ -348,7 +348,28 @@ public class TChassisScript : MonoBehaviour
 
 
         // triangles assignment
+        //for each height if has next
+        for (int i = 0; i < wheelDiameters.Length - 2 + (curveVertexCount * 2); i++){
+            // make this tri
+            //add this height, next height, this base
+            //UnityEditor.ArrayUtility.Add(ref triangles, );
+            UnityEditor.ArrayUtility.Add(ref triangles, i);
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
+            
+            // make sub tri
+            //add next height, next base, this base
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(wheelDiameters.Length - 2 + (curveVertexCount * 2))));
+            
+        }
         
+
+        tMesh.SetTriangles(triangles, 0, true, 0); 
+        tMesh.RecalculateBounds();
+        GameObject.GetComponent<MeshFilter>().sharedMesh = tMesh; // TODO: set to child (mesh)
+
 
 
         // connect last vertices (on front wheel) to first vertices (on first roadwheel)
