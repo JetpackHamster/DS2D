@@ -303,16 +303,22 @@ public class TChassisScript : MonoBehaviour
         }
 
         // update inner vertices for rear wheel
+        float wheelRelx;
+        float wheelRely;
         for(int i = 0; i < curveVertexCount; i++) {
+            wheelRelx = wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
+            wheelRely = wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
             bVertices[i + wheelDiameters.Length - 2] = new Vector3(
-                wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount))), 
-                wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount))), 
+                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,
+                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,
                 0);
-        }
 
-        // update outer vertices for rear wheel
-        for(int i = 0; i < curveVertexCount; i++) {
+            // update outer vertices for rear wheel
             // further out by treadWidth
+            HVertices[i + wheelDiameters.Length - 2] = new Vector3(
+                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx * //relative multiplier,
+                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely * //relative multiplier,
+                0);
 
         }
 
