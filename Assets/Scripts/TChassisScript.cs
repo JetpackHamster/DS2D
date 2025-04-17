@@ -302,6 +302,11 @@ public class TChassisScript : MonoBehaviour
             HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - treadWidth, 0);
         }
 
+        // update inner vertices for rear wheel
+        for(int i = 0; i < curveVertexCount; i++) {
+            bVertices[i + wheelDiameters.Length - 2] = 
+        }
+
 
     }
 }
