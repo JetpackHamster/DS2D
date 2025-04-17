@@ -304,9 +304,30 @@ public class TChassisScript : MonoBehaviour
 
         // update inner vertices for rear wheel
         for(int i = 0; i < curveVertexCount; i++) {
-            bVertices[i + wheelDiameters.Length - 2] = 
+            bVertices[i + wheelDiameters.Length - 2] = new Vector3(
+                wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount))), 
+                wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount))), 
+                0);
         }
 
+        // update outer vertices for rear wheel
+        for(int i = 0; i < curveVertexCount; i++) {
+            // further out by treadWidth
+
+        }
+
+        // update inner vertices for front wheel
+
+
+        // update outer vertices for front wheel
+
+
+        // triangles assignment
+
+
+        // connect last vertices (on front wheel) to first vertices (on first roadwheel)
+
+        // assign data to mesh 
 
     }
 }
