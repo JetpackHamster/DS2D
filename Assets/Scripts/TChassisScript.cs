@@ -302,10 +302,11 @@ public class TChassisScript : MonoBehaviour
             HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - treadWidth, 0);
         }
 
-        // update inner vertices for rear wheel
+        // update vertices for rear wheel
         float wheelRelx;
         float wheelRely;
         for(int i = 0; i < curveVertexCount; i++) {
+            // update inner vertex for rear wheel
             wheelRelx = wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
             wheelRely = wheelDiameters[wheelDiameters.Length - 1] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
             bVertices[i + wheelDiameters.Length - 2] = new Vector3(
@@ -313,22 +314,41 @@ public class TChassisScript : MonoBehaviour
                 (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,
                 0);
 
-            // update outer vertices for rear wheel
+            // update outer vertex for rear wheel
             // further out by treadWidth
+            wheelRelx = (wheelDiameters[wheelDiameters.Length - 1] / 2 + treadWidth) * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
+            wheelRely = (wheelDiameters[wheelDiameters.Length - 1] / 2 + treadWidth) * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
             HVertices[i + wheelDiameters.Length - 2] = new Vector3(
-                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx * //relative multiplier,
-                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely * //relative multiplier,
+                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
 
         }
 
-        // update inner vertices for front wheel
+        // update vertices for front wheel
+        for(int i = 0; i < curveVertexCount; i++) {
+            // update inner vertex for front wheel
+            wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
+            wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589/2, 4(3.141592653589)/3, (i/curveVertexCount)));
+            bVertices[i + wheelDiameters.Length - 2] = new Vector3( // TODO: fix indexing
+                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,
+                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,
+                0);
 
+            // update outer vertex for front wheel
+            // further out by treadWidth
+            wheelRelx = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Cos(Mathf.Lerp(3.141592653589/2, -1(3.141592653589)/3, (i/curveVertexCount)));
+            wheelRely = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Sin(Mathf.Lerp(3.141592653589/2, -1(3.141592653589)/3, (i/curveVertexCount)));
+            HVertices[i + wheelDiameters.Length - 2] = new Vector3( // TODO: fix indexing
+                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,// * relative multiplier,
+                0);
 
-        // update outer vertices for front wheel
+        }
 
 
         // triangles assignment
+        
 
 
         // connect last vertices (on front wheel) to first vertices (on first roadwheel)
