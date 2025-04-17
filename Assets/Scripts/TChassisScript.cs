@@ -38,7 +38,8 @@ public class TChassisScript : MonoBehaviour
     private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] allVertices;
     private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
-    
+    public int curveVertexCount;
+    public float treadWidth;
 
     // Start is called before the first frame update
     void Start()
@@ -291,6 +292,16 @@ public class TChassisScript : MonoBehaviour
 
     // tread mesh update
     void updateTread() {
-        
+        // update inner vertices for roadwheels
+        for(int i = 0; i < wheelDiameters.Length - 2) {
+            bVertices[i] = new Vector3(GameObject.Find("Axle" + 1 + i).GetChild[0].transform.localPosition.x, GameObject.Find("Axle" + 1 + i).GetChild[0].transform.localPosition.y - (wheelDiameters[i + 1] / 2), 0);
+        }
+
+        // update outer vertices for roadwheels
+        for(int i = 0; i < wheelDiameters.Length - 2) {
+            HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - treadWidth, 0);
+        }
+
+
     }
 }
