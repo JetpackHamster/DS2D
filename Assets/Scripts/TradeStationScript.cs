@@ -78,7 +78,7 @@ public class TradeStationScript : MonoBehaviour
     void FuelUsageUpgrade() {
         if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
             TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
-            TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier *= 0.93F;
+            TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier *= (1F - TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier / 5);
         }
     }
 
