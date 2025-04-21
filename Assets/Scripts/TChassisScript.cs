@@ -34,12 +34,16 @@ public class TChassisScript : MonoBehaviour
     bool braking;
     bool pBrake;
 
+    public GameObject thingSpawnable;
+
     private Vector3[] HVertices;
     private Vector3[] bVertices;
     private Vector3[] allVertices;
     private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
     public int curveVertexCount;
     public float treadWidth;
+
+    public float scale;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +79,8 @@ public class TChassisScript : MonoBehaviour
 
         HVertices = new Vector3[(int)(ArrayWheels.Length - 2 + (curveVertexCount * 2))];
         bVertices = new Vector3[(int)(ArrayWheels.Length - 2 + (curveVertexCount * 2))];
+
+        scale = gameObject.transform.lossyScale.x;
 
 
 
@@ -317,44 +323,49 @@ public class TChassisScript : MonoBehaviour
         float wheelRely;
         for(int i = 0; i < curveVertexCount; i++) {
             // update inner vertex for rear wheel
-            wheelRelx = wheelDiameters[ArrayWheels.Length - 1] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRelx = 0;//(wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Cos(Mathf.Lerp((3.141592653589F / 2), (4 * (3.141592653589F) / 3), (i/(curveVertexCount - 1))));
             //Debug.Log(wheelRelx); // all near 0
-            wheelRely = wheelDiameters[ArrayWheels.Length - 1] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRely = 0;//(wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Sin(Mathf.Lerp((3.141592653589F / 2), (4 * (3.141592653589F) / 3), (i/(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2] = new Vector3(
-                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,
-                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,
+                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,
+                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,
                 0);
 
             // update outer vertex for rear wheel
             // further out by treadWidth
-            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Cos(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
-            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Sin(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Cos(3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Sin(3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             HVertices[i + ArrayWheels.Length - 2] = new Vector3(
-                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
-                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,// * relative multiplier,
+                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,// * relative multiplier,
                 0);
+
+            Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
+            Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
 
         }
 
         // update vertices for front wheel
         for(int i = 0; i < curveVertexCount; i++) {
             // update inner vertex for front wheel
-            wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
-            wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
-                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,
-                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,
+                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,
+                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,
                 0);
 
             // update outer vertex for front wheel
             // further out by treadWidth
-            wheelRelx = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Cos(Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
-            wheelRely = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Sin(Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
+            wheelRelx = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
+            wheelRely = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
             HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
-                (ArrayWheels[i + 1].transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
-                (ArrayWheels[i + 1].transform.localPosition.y) + wheelRely,// * relative multiplier,
+                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,// * relative multiplier,
                 0);
 
+            Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
+            Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
         }
 
 
