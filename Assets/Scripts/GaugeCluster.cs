@@ -14,5 +14,6 @@ public class GaugeCluster : MonoBehaviour
     void Update()
     {
         //if (gameObject.GetChild[0].transform.Rotation.z > 
+            // .Rotate uses euler angles!
     }
 }
