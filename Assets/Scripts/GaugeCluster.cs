@@ -18,18 +18,18 @@ public class GaugeCluster : MonoBehaviour
     void Update()
     {
         // rotate RPM indicator
-        if (gameObject.transform.GetChild(0).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * -0.6F - 0.6F)) {
+        if (gameObject.transform.GetChild(0).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
             // .Rotate uses euler angles
             gameObject.transform.GetChild(0).transform.Rotate(0, 0, (20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * 20F);
-        } else if (gameObject.transform.GetChild(0).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * -0.6F - 0.6F)) {
+        } else if (gameObject.transform.GetChild(0).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
             gameObject.transform.GetChild(0).transform.Rotate(0, 0, (-20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * 20F);
         }
 
         // rotate fuel indicator
-        if (gameObject.transform.GetChild(1).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * -0.6F - 0.6F)) {
+        if (gameObject.transform.GetChild(1).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
             // .Rotate uses euler angles
             gameObject.transform.GetChild(1).transform.Rotate(0, 0, (20F) * Time.deltaTime);
-        } else if (gameObject.transform.GetChild(1).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * -0.6F - 0.6F)) {
+        } else if (gameObject.transform.GetChild(1).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
             gameObject.transform.GetChild(1).transform.Rotate(0, 0, (-20F) * Time.deltaTime);
         }   
 
