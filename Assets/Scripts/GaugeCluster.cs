@@ -10,7 +10,7 @@ public class GaugeCluster : MonoBehaviour
     void Start()
     {
         //script chassisScript = GameObject.Find("TChassis").GetComponent<TChassisScript>();
-        Debug.Log(typeof(GameObject.Find("TChassis").GetComponent<TChassisScript>()));
+        //Debug.Log(typeof(GameObject.Find("TChassis").GetComponent<TChassisScript>()));
     }
 
     // Update is called once per frame
