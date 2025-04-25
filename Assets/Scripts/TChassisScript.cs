@@ -41,7 +41,7 @@ public class TChassisScript : MonoBehaviour
     private Vector3[] allVertices;
     private int[] triangles = new int[0];// = new int[(int)(terrainLength * terrainVertexDensity * 6)];
     public int curveVertexCount;
-    public float treadWidth;
+    public float trackWidth;
 
     public float scale;
 
@@ -279,7 +279,7 @@ public class TChassisScript : MonoBehaviour
         }
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;
 
-        updateTread();
+        updateTrack();
 
     }
 
@@ -305,8 +305,8 @@ public class TChassisScript : MonoBehaviour
         }
     }
 
-    // tread mesh update
-    void updateTread() {
+    // track mesh update
+    void updateTrack() {
         // reset values
         triangles = new int[0];
         HVertices = new Vector3[(int)(ArrayWheels.Length - 2 + (curveVertexCount * 2))];
@@ -319,7 +319,7 @@ public class TChassisScript : MonoBehaviour
         
         // update outer vertices for roadwheels
         for(int i = 0; i < ArrayWheels.Length - 2; i++) {
-            HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - treadWidth, 0);
+            HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - trackWidth, 0);
         }
 
         // update vertices for rear wheel
@@ -336,9 +336,9 @@ public class TChassisScript : MonoBehaviour
                 0);
 
             // update outer vertex for rear wheel
-            // further out by treadWidth
-            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Cos(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
-            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Sin(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            // further out by trackWidth
+            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * Mathf.Cos(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * Mathf.Sin(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             HVertices[i + ArrayWheels.Length - 2] = new Vector3(
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.y) + wheelRely,// * relative multiplier,
@@ -360,9 +360,9 @@ public class TChassisScript : MonoBehaviour
                 0);
 
             // update outer vertex for front wheel
-            // further out by treadWidth
-            wheelRelx = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
-            wheelRely = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
+            // further out by trackWidth
+            wheelRelx = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
+            wheelRely = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
             HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,// * relative multiplier,
