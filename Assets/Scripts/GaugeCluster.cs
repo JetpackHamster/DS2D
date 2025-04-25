@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+//using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GaugeCluster : MonoBehaviour
 {
@@ -18,20 +20,43 @@ public class GaugeCluster : MonoBehaviour
     void Update()
     {
         // rotate RPM indicator
-        if (gameObject.transform.GetChild(0).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
-            // .Rotate uses euler angles
-            gameObject.transform.GetChild(0).transform.Rotate(0, 0, (20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * 20F);
-        } else if (gameObject.transform.GetChild(0).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().EngineSpeed / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
-            gameObject.transform.GetChild(0).transform.Rotate(0, 0, (-20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * 20F);
+        float IndicatorZ = gameObject.transform.GetChild(0).transform.eulerAngles.z;
+        if (IndicatorZ > 180) {
+            IndicatorZ -= 360;
         }
+        float targetZ = (Mathf.Abs(chassis.GetComponent<TChassisScript>().GetComponent<TChassisScript>().EngineSpeed)
+         / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-160F) + (80F);
+        
+        float rSpeed = (20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * (targetZ > IndicatorZ ? 10F : -10F);
+        
+        // if close enough to overshoot in this frame, decrease speed to exact distance
+        if (Mathf.Abs(targetZ - IndicatorZ) < Mathf.Abs(rSpeed)) {
+            rSpeed = targetZ - IndicatorZ;
+        }
+        // .Rotate uses euler angles
+        gameObject.transform.GetChild(0).transform.Rotate(0, 0, rSpeed);
 
         // rotate fuel indicator
-        if (gameObject.transform.GetChild(1).transform.rotation.z < ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
+        targetZ = (chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * (-160F) + (80F);
+        IndicatorZ = gameObject.transform.GetChild(1).transform.eulerAngles.z;
+        if (IndicatorZ > 180) {
+            IndicatorZ -= 360;
+        }
+        rSpeed = (20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * (targetZ > IndicatorZ ? 10F : -10F);
+        
+        // if close enough to overshoot in this frame, decrease speed to exact distance
+        if (Mathf.Abs(targetZ - IndicatorZ) < Mathf.Abs(rSpeed)) {
+            rSpeed = targetZ - IndicatorZ;
+        }
+        // .Rotate uses euler angles
+        gameObject.transform.GetChild(1).transform.Rotate(0, 0, rSpeed);
+
+        /*if (IndicatorZ < targetZ) {
             // .Rotate uses euler angles
             gameObject.transform.GetChild(1).transform.Rotate(0, 0, (20F) * Time.deltaTime);
-        } else if (gameObject.transform.GetChild(1).transform.rotation.z > ((chassis.GetComponent<TChassisScript>().fuelQty / chassis.GetComponent<TChassisScript>().fuelLimit) * (-2F * 3.14159F) - (2F * 3.14159F / 3))) {
+        } else if (IndicatorZ > targetZ) {
             gameObject.transform.GetChild(1).transform.Rotate(0, 0, (-20F) * Time.deltaTime);
-        }   
+        }*/
 
         // change fuel display
         string fuelq = ("" + chassis.GetComponent<TChassisScript>().fuelQty);

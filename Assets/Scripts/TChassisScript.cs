@@ -58,7 +58,7 @@ public class TChassisScript : MonoBehaviour
             //Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>());
             //Debug.Log(ArrayWheels[i].GetComponent<CircleCollider2D>().radius);
             
-            wheelDiameters[i] = ArrayWheels[i].GetComponent<CircleCollider2D>().radius;
+            wheelDiameters[i] = ArrayWheels[i].GetComponent<CircleCollider2D>().radius * 2;
             //Debug.Log("did wheel thing");\
         }   
 
@@ -236,24 +236,28 @@ public class TChassisScript : MonoBehaviour
                 EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 1F * Time.deltaTime)) - idleSpeed;
             }
             // if wheel target speed very small make it 0, if engine off make it 0
-            if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0) || EngineSpeed == 0)
+            if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
             {
                 wheelTargetSpeed = 0;
             }
 
             if(fuelQty < fuelLimit / 10F && !lowFuelNotified) { // debug low fuel warning, might upgrade to UI later
-                Debug.Log("fuel <10%: " + fuelQty);
+                //Debug.Log("fuel <10%: " + fuelQty);
                 lowFuelNotified = true;
             }
+        }
+        if (EngineSpeed == 0) {
+            wheelTargetSpeed = 0;
         }
         if (braking) { // brake when braking
             clutch = 0F;
             motorForce = brakingForce;
-            if (wheelTargetSpeed < (idleSpeed / (-10F))) {
+            wheelTargetSpeed = 0;
+            /*if (wheelTargetSpeed < (idleSpeed / (-10F))) {
                 wheelTargetSpeed += 10F * Time.deltaTime;
             } else if (wheelTargetSpeed > (idleSpeed / (10F))) {
                 wheelTargetSpeed -= 10F * Time.deltaTime;
-            }
+            }*/
         }
         if (fuelQty <= 0) { // kill engine if no fuel
             EngineSpeed = 0;
@@ -310,9 +314,9 @@ public class TChassisScript : MonoBehaviour
         
         // update inner vertices for roadwheels
         for(int i = 0; i < ArrayWheels.Length - 2; i++) { // axle's local position relative to chassis
-            bVertices[i] = new Vector3(gameObject.transform.GetChild(1 + i).transform.localPosition.x, gameObject.transform.GetChild(1 + i).transform.GetChild(0).transform.localPosition.y - (wheelDiameters[i + 1] / 2), 0);
+            bVertices[i] = new Vector3(gameObject.transform.GetChild(1 + i).transform.localPosition.x, gameObject.transform.GetChild(1 + i).transform.localPosition.y - (wheelDiameters[i + 1] / 2), 0);
         }
-
+        
         // update outer vertices for roadwheels
         for(int i = 0; i < ArrayWheels.Length - 2; i++) {
             HVertices[i] = new Vector3(bVertices[i].x, bVertices[i].y - treadWidth, 0);
@@ -324,11 +328,11 @@ public class TChassisScript : MonoBehaviour
         for(int i = 0; i < curveVertexCount; i++) {
             // update inner vertex for rear wheel
             wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Cos(-3.141592653589F);//Mathf.Lerp((3.141592653589F / 2), (4 * (3.141592653589F) / 3), (i/(curveVertexCount - 1))));
-            //Debug.Log(wheelRelx); // all near 0
+            //Debug.Log(wheelRelx);
             wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Sin(-3.141592653589F);//Mathf.Lerp((3.141592653589F / 2), (4 * (3.141592653589F) / 3), (i/(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2] = new Vector3(
-                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,
-                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,
+                (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.x) + wheelRelx,
+                (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.y) + wheelRely,
                 0);
 
             // update outer vertex for rear wheel
@@ -336,12 +340,12 @@ public class TChassisScript : MonoBehaviour
             wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Cos(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + treadWidth) * Mathf.Sin(-3.141592653589F);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             HVertices[i + ArrayWheels.Length - 2] = new Vector3(
-                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
-                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,// * relative multiplier,
+                (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
 
-            Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
-            Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
+            //Instantiate(thingSpawnable, HVertices[i] + transform.position, transform.rotation, transform); 
+            //Instantiate(thingSpawnable, bVertices[i] + transform.position, transform.rotation, transform);  
 
         }
 
@@ -351,8 +355,8 @@ public class TChassisScript : MonoBehaviour
             wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
-                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,
-                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,
+                (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,
+                (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,
                 0);
 
             // update outer vertex for front wheel
@@ -360,12 +364,12 @@ public class TChassisScript : MonoBehaviour
             wheelRelx = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
             wheelRely = (wheelDiameters[0] / 2 + treadWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
             HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
-                (ArrayWheels[i + 1].transform.position.x / scale) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
-                (ArrayWheels[i + 1].transform.position.y / scale) + wheelRely,// * relative multiplier,
+                (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
+                (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
 
-            Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
-            Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
+            //Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
+            //Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
         }
 
 

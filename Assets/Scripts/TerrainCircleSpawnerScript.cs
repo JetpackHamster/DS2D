@@ -53,7 +53,7 @@ public class TerrainCircleSpawnerScript : MonoBehaviour
                     temp = heightOffset;
                     heightOffset = 1F;
                     tradeStructureTimer = 0F;
-                    Debug.Log("structure make!");
+                    //Debug.Log("structure make!");
                     Instantiate(structures[0], new Vector3(transform.position.x, transform.position.y + 10, 0), new Quaternion(0F, 0F, 0F, 1F));
                 }
                 if (heightOffset > 1.1 && heightOffset < 2) {

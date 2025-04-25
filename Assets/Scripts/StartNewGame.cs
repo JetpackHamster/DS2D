@@ -28,7 +28,7 @@ public class StartNewGame : MonoBehaviour
 
     void LoadNew()
     {
-        Debug.Log("LoadNew Attempt");
+        //Debug.Log("LoadNew Attempt");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     //    return null;
     }

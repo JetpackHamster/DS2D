@@ -37,7 +37,7 @@ public class sellTileScript : MonoBehaviour
 
     void sell() {
         
-        Debug.Log("sell attempt: " + obj.transform.name);
+        //Debug.Log("sell attempt: " + obj.transform.name);
         // find seekedObjs then put obj there   
         if (!UnityEditor.ArrayUtility.Contains(StationScript.seekedObjs, obj)) {
             UnityEditor.ArrayUtility.Add(ref StationScript.seekedObjs, obj);
@@ -45,7 +45,7 @@ public class sellTileScript : MonoBehaviour
 
     }
     public void setup() {
-        Debug.Log("tile setup attempt");
+        //Debug.Log("tile setup attempt");
         
         if (cam.GetComponent<MainCamScript>().UIStructure == source) { // if source is the active UI structure, setup 
             gameObject.GetComponent<Image>().enabled = true;
@@ -58,7 +58,7 @@ public class sellTileScript : MonoBehaviour
             gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
             gameObject.GetComponent<Button>().enabled = false;
             gameObject.transform.GetChild(1).GetComponent<TMP_Text>().enabled = false;
-            Debug.Log("beef"); // "dis beef" - Red, 12:15pm, nacho day
+            //Debug.Log("beef"); // "dis beef" - Red, 12:15pm, nacho day
         }
     }
 }
