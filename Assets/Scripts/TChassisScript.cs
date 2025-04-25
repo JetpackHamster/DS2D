@@ -381,13 +381,13 @@ public class TChassisScript : MonoBehaviour
             //UnityEditor.ArrayUtility.Add(ref triangles, );
             UnityEditor.ArrayUtility.Add(ref triangles, i);
             UnityEditor.ArrayUtility.Add(ref triangles, (i + bVertices.Length));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + 2));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             
             // make far tri
             //add this far, next near, next far
             UnityEditor.ArrayUtility.Add(ref triangles, (i + bVertices.Length));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + 2));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + 2 + bVertices.Length));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + bVertices.Length));
             
         }
         
