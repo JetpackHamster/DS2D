@@ -375,7 +375,7 @@ public class TChassisScript : MonoBehaviour
 
         // triangles assignment // TODO: align this functionality with the vertex organization
         //for each height if has next
-        for (int i = 0; i < ArrayWheels.Length - 2 + (curveVertexCount * 2) - 2 ; i += 2){ // TODO: fix vertex order assignment
+        for (int i = 0; i < bVertices.Length - 1; i += 1){ // TODO: fix vertex order assignment
             // make near tri
             //add this near, this far, next near
             //UnityEditor.ArrayUtility.Add(ref triangles, );
@@ -384,21 +384,32 @@ public class TChassisScript : MonoBehaviour
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             
             // make far tri
-            //add this far, next near, next far
+            //add this far, next far, next near
             UnityEditor.ArrayUtility.Add(ref triangles, (i + bVertices.Length));
-            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + bVertices.Length));
+            UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             
         }
+        // one of the tris connecting F,R wheels is out of order, appears when negative width
         
         // connect last vertices (on front wheel) to first vertices (on first roadwheel)
+        //add this near, this far, next near
+        UnityEditor.ArrayUtility.Add(ref triangles, (bVertices.Length - 1));
         UnityEditor.ArrayUtility.Add(ref triangles, (bVertices.Length * 2 - 1));
         UnityEditor.ArrayUtility.Add(ref triangles, (0));
-        UnityEditor.ArrayUtility.Add(ref triangles, (1));
-                
+        
+        //add this far, next far, next near
+        UnityEditor.ArrayUtility.Add(ref triangles, (bVertices.Length * 2 - 1));
+        UnityEditor.ArrayUtility.Add(ref triangles, (0 + bVertices.Length));
+        UnityEditor.ArrayUtility.Add(ref triangles, (0));
+        
+        
 
         // assign data to mesh 
         UnityEditor.ArrayUtility.AddRange(ref bVertices, HVertices);
+        /*for(int i = 0; i < bVertices.Length; i++) {
+            Instantiate(thingSpawnable, (bVertices[i] * scale + transform.position), transform.rotation, transform);
+        }*/
         Mesh tMesh = new Mesh();
         tMesh.SetVertices(bVertices);
         tMesh.SetTriangles(triangles, 0, true, 0); 
