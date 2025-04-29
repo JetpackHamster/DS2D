@@ -146,7 +146,7 @@ public class TradeStationScript : MonoBehaviour
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
             sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + collision.gameObject.GetComponent<ScrapScript>().value + "L");
 
-            // move after creation
+            // move after creation // TODO: fix grid positions to fit to window and be consistent
             sellTiles[sellTiles.Length-1].transform.position = new Vector3(
                 sellTiles[sellTiles.Length-1].transform.position.x + ((-4F + tileX) * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.y + ((tileY) * camSize),

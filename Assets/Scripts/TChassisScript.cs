@@ -265,8 +265,8 @@ public class TChassisScript : MonoBehaviour
 
         // decrease fuel qty by estimate of motor work
         
-        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster // TODO: get actual wheelspeed
-            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed?*/Mathf.Abs(wheelTargetSpeed)) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * 0.01F * fuelUsageMultiplier;
+        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
+            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed ->*/Mathf.Abs(AvgWheelSpeed())) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * 0.01F * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
         } else {
             frameFuelUsage = (0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F) * fuelUsageMultiplier;
@@ -416,7 +416,7 @@ public class TChassisScript : MonoBehaviour
         
 
     }
-    float AvgWheelSpeed() { // TODO: confirm arraywheels is wheels or change code below
+    float AvgWheelSpeed() { // get average actual wheel groundspeed accounting for speed differences due to size
         float total = 0;
         for (int i = 0; i < ArrayWheels.Length; i++) {
             total += ArrayWheels[i].GetComponent<Rigidbody2D>().angularVelocity * (2 * (3.141592653589) * (wheelDiameters[i]/2));
