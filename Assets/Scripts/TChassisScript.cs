@@ -258,15 +258,17 @@ public class TChassisScript : MonoBehaviour
             EngineSpeed = 0;
         }
         if(clutch > 0) { // make clutch happen
+            // affect enginespeed with actual wheelspeed
+            EngineSpeed += ((AvgWheelVel() - EngineSpeed) * clutch / (motorForce/2));
             // change wheel target speed to match engine according to clutch engagement (LERP WOOOOOOO YEAAAA)
-            wheelTargetSpeed = Mathf.Lerp(wheelTargetSpeed, EngineSpeed, clutch); // deltatime feels wrong here since it's in changing these components
+            wheelTargetSpeed = Mathf.Lerp(AvgWheelVel(), EngineSpeed, clutch); // deltatime feels wrong here since it's in changing these components
         }
         setWheelSpeed(wheelTargetSpeed);
 
         // decrease fuel qty by estimate of motor work
         
-        if(wheelTargetSpeed < EngineSpeed) { // if motor trying to make wheels faster
-            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed ->*/Mathf.Abs(AvgWheelSpeed())) * clutch + (/*idle usage rate*/0.01F * EngineSpeed) * 0.01F * fuelUsageMultiplier;
+        if(AvgWheelVel() < EngineSpeed) { // if motor trying to make wheels faster
+            frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed ->*/Mathf.Abs(AvgWheelVel())) * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * 0.01F * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
         } else {
             frameFuelUsage = (0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F) * fuelUsageMultiplier;
@@ -275,6 +277,7 @@ public class TChassisScript : MonoBehaviour
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;
 
         updateTrack();
+        Debug.Log("Avg: " + AvgWheelVel() + "; Enginespeed: " + EngineSpeed + "; enginespeed effect: " + ((AvgWheelVel() - EngineSpeed) * clutch * 0.1F));
 
     }
 
@@ -286,10 +289,19 @@ public class TChassisScript : MonoBehaviour
         for(int i = 0; i < ArrayHJ.Length; i++)
         {
             var motor1 = ArrayHJ[i].motor;
-            motor1.motorSpeed = (float)(wheelMotorMultiplier * speedValue * 0.05F / (3.1415926535F*wheelDiameters[i]));
+            motor1.motorSpeed = (float)(wheelMotorMultiplier * speedValue / (3.1415926535F*wheelDiameters[i]));
             motor1.maxMotorTorque = motorForce;
             ArrayHJ[i].motor = motor1;
         }
+    }
+    float AvgWheelVel() { // get average actual wheel ground velocity accounting for speed differences due to size
+        float total = 0;
+        for (int i = 0; i < ArrayWheels.Length; i++) {
+            total += ArrayWheels[i].GetComponent<Rigidbody2D>().angularVelocity * (3.1415926535F*wheelDiameters[i]);
+        }
+        total /= ArrayWheels.Length;
+        total /= (-1F * wheelMotorMultiplier);
+        return total;
     }
     void increaseClutch() {
         // increase clutch engagement
@@ -412,16 +424,5 @@ public class TChassisScript : MonoBehaviour
         gameObject.transform.GetChild(ArrayWheels.Length).GetComponent<MeshFilter>().sharedMesh = tMesh;
 
 
-
-        
-
-    }
-    float AvgWheelSpeed() { // get average actual wheel groundspeed accounting for speed differences due to size
-        float total = 0;
-        for (int i = 0; i < ArrayWheels.Length; i++) {
-            total += ArrayWheels[i].GetComponent<Rigidbody2D>().angularVelocity * (2 * (3.141592653589) * (wheelDiameters[i]/2));
-        }
-        total /= ArrayWheels.Length;
-        return total;
     }
 }

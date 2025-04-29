@@ -420,7 +420,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60832411}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -474,7 +474,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60832411}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 4370c3ed4bf48b84099190eac0544679, type: 2}
@@ -2451,7 +2451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4687429353129758369, guid: 99b3520a5f68c1d4fb4e36b3a9fd979b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.56813866
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4687429353129758369, guid: 99b3520a5f68c1d4fb4e36b3a9fd979b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2528,7 +2528,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010543250}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2582,7 +2582,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010543250}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 4370c3ed4bf48b84099190eac0544679, type: 2}
@@ -2794,7 +2794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7525901984841575203, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.021394644
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7525901984841575203, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4855,7 +4855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 457082939069390901, guid: c9a0bd8868aeb074cb79f3b0f1d3ccee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.0117836
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 457082939069390901, guid: c9a0bd8868aeb074cb79f3b0f1d3ccee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4923,6 +4923,10 @@ PrefabInstance:
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: jumpStrength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: thingSpawnable
       value: 
       objectReference: {fileID: 6357951251436557908, guid: 2e969026dfcccc04e9024c3e759cb629, type: 3}
@@ -4933,6 +4937,10 @@ PrefabInstance:
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: fuelUsageMultiplier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: wheelMotorMultiplier
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: 'ArrayWheels.Array.data[0]'
@@ -5024,6 +5032,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8410618068440074381, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
+      value: 768
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410618068440074381, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_CallbackLayers.m_Bits
       value: 768
       objectReference: {fileID: 0}
     - target: {fileID: 8410618068440074381, guid: bad47cec7b909c04fb4a47508d301395, type: 3}

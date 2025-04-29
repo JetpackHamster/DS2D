@@ -65,9 +65,9 @@ public class TerrainManagerScript : MonoBehaviour
             }
 
             // spawn other structures
-            /*while (Random.Range(0F, 10F) > 7F) {
+            while (Random.Range(0F, 10F) > 7F) {
                 Instantiate(structures[Random.Range(1,structures.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.3F, 0.3F), 1F));
-            }*/
+            }
         }
         /*if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
             deltaX += gameObject.transform.position.x - prevX;
