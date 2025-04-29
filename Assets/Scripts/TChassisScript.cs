@@ -96,11 +96,6 @@ public class TChassisScript : MonoBehaviour
         // enginespeed changed with inputs, engine torque determined by torque curve and disabled when no inputs
         
         wheel target speed set to 0 unless inputs, then uses ramping multiplier up to EngineSpeed
-
-        scripting TODO:
-        
-        other bugfixing:
-
         */
     }
 
@@ -354,7 +349,7 @@ public class TChassisScript : MonoBehaviour
             // update inner vertex for front wheel
             wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
             wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
-            bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
+            bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,
                 0);
@@ -363,7 +358,7 @@ public class TChassisScript : MonoBehaviour
             // further out by trackWidth
             wheelRelx = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
             wheelRely = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
-            HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing
+            HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
@@ -373,9 +368,9 @@ public class TChassisScript : MonoBehaviour
         }
 
 
-        // triangles assignment // TODO: align this functionality with the vertex organization
+        // triangles assignment // TODO: align this functionality with the vertex organization?
         //for each height if has next
-        for (int i = 0; i < bVertices.Length - 1; i += 1){ // TODO: fix vertex order assignment
+        for (int i = 0; i < bVertices.Length - 1; i += 1){ // TODO: fix vertex order assignment?
             // make near tri
             //add this near, this far, next near
             //UnityEditor.ArrayUtility.Add(ref triangles, );
@@ -420,5 +415,13 @@ public class TChassisScript : MonoBehaviour
 
         
 
+    }
+    float AvgWheelSpeed() { // TODO: confirm arraywheels is wheels or change code below
+        float total = 0;
+        for (int i = 0; i < ArrayWheels.Length; i++) {
+            total += ArrayWheels[i].GetComponent<Rigidbody2D>().angularVelocity * (2 * (3.141592653589) * (wheelDiameters[i]/2));
+        }
+        total /= ArrayWheels.Length;
+        return total;
     }
 }
