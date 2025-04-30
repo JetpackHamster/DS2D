@@ -91,6 +91,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\PipeMoveScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\Scripts\MMCanvasScript.cs" />
     <Compile Include="Assets\Scripts\GaugeCluster.cs" />
     <Compile Include="Assets\Scripts\TradeStationScript.cs" />
     <Compile Include="Assets\Scripts\TerrainManagerScript.cs" />

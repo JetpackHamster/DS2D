@@ -4807,7 +4807,7 @@ PrefabInstance:
       objectReference: {fileID: 6357951251436557908, guid: 2e969026dfcccc04e9024c3e759cb629, type: 3}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: curveVertexCount
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: wheelMotorMultiplier
@@ -4841,6 +4841,10 @@ PrefabInstance:
       propertyPath: pointer
       value: 
       objectReference: {fileID: 142068659}
+    - target: {fileID: 4285564828375384775, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: 'xyLimits.Array.data[2]'
+      value: -0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6734265899091154288, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: m_LocalScale.x
       value: 19.98
