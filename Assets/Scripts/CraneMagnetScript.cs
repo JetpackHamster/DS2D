@@ -72,6 +72,7 @@ public class CraneMagnetScript : MonoBehaviour
                 fVector /= 10;
             }
             otherRB.velocity -= fVector;
+            gameObject.GetComponentInParent<Rigidbody2D>().AddForceAtPosition(fVector * otherRB.mass, transform.position, ForceMode2D.Impulse);
             
             
         }

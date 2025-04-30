@@ -29,7 +29,7 @@ public class FuelCanScript : MonoBehaviour
         if(Input.GetKey(KeyCode.F)) {
             // TODO: Align Z positions of relevant objects
             if (Vector3.Distance(pointer.transform.position, transform.position) < 1) {
-                Debug.Log("I have been chosen!!");
+                
                 // if enough fuel left for full flow rate & chassis not full 
                 // TODO: reevaluate mitigation of low framerate effect on fuel qty not transferred when close to full
                 if (fuelQty > fRate * Time.deltaTime && (chassis.GetComponent<TChassisScript>().fuelLimit - chassis.GetComponent<TChassisScript>().fuelQty) > fRate * Time.deltaTime) {
@@ -44,7 +44,7 @@ public class FuelCanScript : MonoBehaviour
             }
         } else if (Input.GetKey(KeyCode.G)) {
             if(Vector3.Distance(pointer.transform.position, transform.position) < 1) {
-                Debug.Log("I have been chosen!!");
+                
                 // if enough capacity left for full flow rate & chassis not full
                 if ((limit - fuelQty) > fRate * Time.deltaTime && chassis.GetComponent<TChassisScript>().fuelQty > fRate * Time.deltaTime) {
                     fuelQty += fRate * Time.deltaTime;

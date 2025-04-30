@@ -25,7 +25,7 @@ public class GaugeCluster : MonoBehaviour
             IndicatorZ -= 360;
         }
         float targetZ = (Mathf.Abs(chassis.GetComponent<TChassisScript>().GetComponent<TChassisScript>().EngineSpeed)
-         / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-140F) + (80F);
+         / chassis.GetComponent<TChassisScript>().motorTopSpeed) * (-130F) + (80F);
         
         float rSpeed = (20F + chassis.GetComponent<TChassisScript>().EngineAccel / 2F) * Time.deltaTime * (targetZ > IndicatorZ ? 10F : -10F);
         

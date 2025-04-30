@@ -33,6 +33,7 @@ public class TChassisScript : MonoBehaviour
     bool lowFuelNotified;
     bool braking;
     bool pBrake;
+    bool engineDecel;
 
     public GameObject thingSpawnable;
 
@@ -69,9 +70,6 @@ public class TChassisScript : MonoBehaviour
             ArrayHJ[i] = ArrayWheels[i].GetComponent<HingeJoint2D>();
         }
 
-        // set fuel
-        fuelQty = 20F;
-        fuelLimit = 85F;
         lowFuelNotified = false;
         EngineSpeed = idleSpeed;
 
@@ -108,6 +106,7 @@ public class TChassisScript : MonoBehaviour
         } else {
             braking = false;
         }
+        engineDecel = false;
         // set motorForce here with torquecurve?? lerp motor info to graph domain??
         if(clutch > 0) {
             // torque curve should be: sqrtx - x, 0 <= x <= 0.35
@@ -162,6 +161,8 @@ public class TChassisScript : MonoBehaviour
             if(Mathf.Abs(EngineSpeed) < motorTopSpeed)
             {
                 EngineSpeed -= EngineAccel * Time.deltaTime;
+            } else {
+                engineDecel = true;
             }
             // wheelTargetSpeed -= 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
             //Debug.Log("a accel");
@@ -192,6 +193,10 @@ public class TChassisScript : MonoBehaviour
             if(Mathf.Abs(EngineSpeed) < motorTopSpeed)
             {
                 EngineSpeed += EngineAccel * Time.deltaTime;
+            } else {  
+                engineDecel = true;
+                // much less power over top speed 
+                //EngineSpeed += EngineAccel * Time.deltaTime / (Mathf.Abs(EngineSpeed)/motorTopSpeed - 1 * 50 + 1);
             }
             // wheelTargetSpeed += 1F * Time.deltaTime;//(0.1F / (wheelTargetSpeed + 0.05F)) * Time.deltaTime;
             //Debug.Log("d accel");
@@ -224,12 +229,8 @@ public class TChassisScript : MonoBehaviour
             // make the speed smaller
             wheelTargetSpeed /= (1F + 0.4F * Time.deltaTime); // wheel target speed goes down to 0
             
-            // engine speed goes down to idle
-            if (EngineSpeed > 0) {
-                EngineSpeed = ((EngineSpeed - idleSpeed) / (1F + 1F * Time.deltaTime)) + idleSpeed;
-            } else if (EngineSpeed < 0) {
-                EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 1F * Time.deltaTime)) - idleSpeed;
-            }
+            engineDecel = true;
+            
             // if wheel target speed very small make it 0, if engine off make it 0
             if ((wheelTargetSpeed < 0.01F && wheelTargetSpeed > 0) || (wheelTargetSpeed > -0.01F && wheelTargetSpeed < 0))
             {
@@ -254,6 +255,14 @@ public class TChassisScript : MonoBehaviour
                 wheelTargetSpeed -= 10F * Time.deltaTime;
             }*/
         }
+        if (engineDecel) {
+            // engine speed goes down to idle
+            if (EngineSpeed > 0) {
+                EngineSpeed = ((EngineSpeed - idleSpeed) / (1F + 1F * Time.deltaTime)) + idleSpeed;
+            } else if (EngineSpeed < 0) {
+                EngineSpeed = ((EngineSpeed + idleSpeed) / (1F + 1F * Time.deltaTime)) - idleSpeed;
+            }
+        }
         if (fuelQty <= 0) { // kill engine if no fuel
             EngineSpeed = 0;
         }
@@ -267,17 +276,17 @@ public class TChassisScript : MonoBehaviour
 
         // decrease fuel qty by estimate of motor work
         
-        if(AvgWheelVel() < EngineSpeed) { // if motor trying to make wheels faster
+        if(Mathf.Abs(AvgWheelVel()) < Mathf.Abs(EngineSpeed)) { // if motor trying to make wheels faster
             frameFuelUsage = (Mathf.Abs(EngineSpeed) - /*actual wheelspeed ->*/Mathf.Abs(AvgWheelVel())) * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * 0.01F * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(wheelTargetSpeed) * (motorForce / 10) * Time.deltaTime;
         } else {
             frameFuelUsage = (0.1F * clutch + (/*idle usage rate*/0.01F * Mathf.Abs(EngineSpeed)) * /*fuel usage multiplier*/0.01F) * fuelUsageMultiplier;
             //frameFuelUsage = Mathf.Abs(EngineSpeed / 10) * Time.deltaTime;
         }
-        fuelQty -= frameFuelUsage * Time.deltaTime * 0.3F;
+        fuelQty -= frameFuelUsage * Time.deltaTime * 0.02F;
 
         updateTrack();
-        Debug.Log("Avg: " + AvgWheelVel() + "; Enginespeed: " + EngineSpeed + "; enginespeed effect: " + ((AvgWheelVel() - EngineSpeed) * clutch * 0.1F));
+        //Debug.Log("Avg: " + AvgWheelVel() + "; Enginespeed: " + EngineSpeed + "; enginespeed effect: " + ((AvgWheelVel() - EngineSpeed) * clutch * 0.1F));
 
     }
 
