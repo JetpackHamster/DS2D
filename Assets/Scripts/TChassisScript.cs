@@ -343,8 +343,8 @@ public class TChassisScript : MonoBehaviour
         float wheelRely;
         for(int i = 0; i < curveVertexCount; i++) {
             // update inner vertex for rear wheel // TODO: fix the lerp going the wrong way between the ends
-            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Cos(Mathf.Lerp(((3.141592653589F) / 2), (-2 * (3.141592653589F) / 3), (i/(float)(curveVertexCount - 1))));
-            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Sin(Mathf.Lerp(((3.141592653589F) / 2), (-2 * (3.141592653589F) / 3), (i/(float)(curveVertexCount - 1))));
+            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2) * -1F * Mathf.Cos(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
+            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2) * Mathf.Sin(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2] = new Vector3(
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.x) + wheelRelx,
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.y) + wheelRely,
@@ -352,24 +352,20 @@ public class TChassisScript : MonoBehaviour
 
             // update outer vertex for rear wheel
             // further out by trackWidth
-            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * Mathf.Cos(Mathf.Lerp(((3.141592653589F) / 2), (-2 * (3.141592653589F) / 3), (i/(float)(curveVertexCount - 1))));
-            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * Mathf.Sin(Mathf.Lerp(((3.141592653589F) / 2), (-2 * (3.141592653589F) / 3), (i/(float)(curveVertexCount - 1))));
+            wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * -1F * Mathf.Cos(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
+            wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 + trackWidth) * Mathf.Sin(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             HVertices[i + ArrayWheels.Length - 2] = new Vector3(
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(ArrayWheels.Length - 1).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
-
-            Debug.Log(i + "; " + wheelRely + "; l value:" + i/(float)(curveVertexCount - 1));
-            //Instantiate(thingSpawnable, HVertices[i] + transform.position, transform.rotation, transform); 
-            //Instantiate(thingSpawnable, bVertices[i] + transform.position, transform.rotation, transform);  
 
         }
 
         // update vertices for front wheel
         for(int i = 0; i < curveVertexCount; i++) {
             // update inner vertex for front wheel
-            wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
-            wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, 4 * (3.141592653589F) / 3, (i/(curveVertexCount - 1))));
+            wheelRelx = wheelDiameters[0] / 2 * Mathf.Cos(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
+            wheelRely = wheelDiameters[0] / 2 * Mathf.Sin(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,
@@ -377,15 +373,13 @@ public class TChassisScript : MonoBehaviour
 
             // update outer vertex for front wheel
             // further out by trackWidth
-            wheelRelx = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Cos(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
-            wheelRely = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Sin(0);//Mathf.Lerp(3.141592653589F / 2, -1 * (3.141592653589F) / 3, (i / curveVertexCount)));
+            wheelRelx = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Cos(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
+            wheelRely = (wheelDiameters[0] / 2 + trackWidth) * Mathf.Sin(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
 
-            //Instantiate(thingSpawnable, HVertices[i], transform.rotation); 
-            //Instantiate(thingSpawnable, bVertices[i], transform.rotation);  
         }
 
 

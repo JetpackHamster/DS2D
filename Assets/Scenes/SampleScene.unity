@@ -3284,7 +3284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 506, y: -150}
+  m_AnchoredPosition: {x: 469, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698525752
@@ -4785,6 +4785,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 600006418024008711, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: fuelQty
       value: 20.01
@@ -4795,7 +4799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: trackWidth
-      value: 0.05
+      value: 0.012
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: jumpStrength
@@ -4807,7 +4811,7 @@ PrefabInstance:
       objectReference: {fileID: 6357951251436557908, guid: 2e969026dfcccc04e9024c3e759cb629, type: 3}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: curveVertexCount
-      value: 50
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: wheelMotorMultiplier
@@ -4913,6 +4917,26 @@ PrefabInstance:
       propertyPath: m_ContactCaptureLayers.m_Bits
       value: 768
       objectReference: {fileID: 0}
+    - target: {fileID: 8988732234478254451, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988732234478254451, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988732234478254451, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988732234478254451, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988732234478254451, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
