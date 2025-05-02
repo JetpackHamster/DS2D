@@ -62,5 +62,11 @@ public class GaugeCluster : MonoBehaviour
         string fuelq = ("" + chassis.GetComponent<TChassisScript>().fuelQty);
         gameObject.transform.GetChild(2).gameObject.GetComponent<TMP_Text>().text = (fuelq.Substring(0, fuelq.IndexOf(".") + 2) + "L");
 
+        // low fuel indicator // TODO: add fuel warning light child object, maybe just change display text color?
+        /*if (chassis.GetComponent<TChassisScript>().fuelQty < (chassis.GetComponent<TChassisScript>().fuelLimit / 10)) {
+            gameObject.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = Color.Red;
+        } else {
+            gameObject.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = Color.White;
+        }*/
     }
 }
