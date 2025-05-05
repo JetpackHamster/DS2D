@@ -12,6 +12,10 @@ public class CraneMagnetScript : MonoBehaviour
     Vector3 parentpos;
     int leftofXlimit;
     int leftofYlimit;
+    public float yRailOffset;
+    public float yRailOffsetX;
+    public float xRailOffset;
+    public float xRailOffsetY; 
 
     // Start is called before the first frame update
     void Start()
@@ -126,8 +130,12 @@ public class CraneMagnetScript : MonoBehaviour
                 transform.localPosition = new Vector3(transform.localPosition.x + fVector.x, transform.localPosition.y + fVector.y, transform.localPosition.z);
 
             }
-            
         }
-
+        // move xRail
+        transform.GetChild(0).transform.localPosition = new Vector3(-(transform.localPosition.x/2) + xRailOffset, -transform.localPosition.y + xRailOffsetY, 0);
+        // move yRail
+        transform.GetChild(1).transform.localPosition = new Vector3(yRailOffsetX, -(transform.localPosition.y/2) + yRailOffset, 0);
+        // move RailMotor
+        transform.GetChild(2).transform.localPosition = new Vector3(yRailOffsetX, -transform.localPosition.y + xRailOffsetY, 0);
     }
 }

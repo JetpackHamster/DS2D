@@ -144,7 +144,7 @@ public class TradeStationScript : MonoBehaviour
             
             // assign sprite and text with value
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
-            sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + collision.gameObject.GetComponent<ScrapScript>().value + "L");
+            sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + (("" + collision.gameObject.GetComponent<ScrapScript>().value).IndexOf(".") + 2) + "L");
 
             // move after creation // TODO: fix grid positions to fit to window and be consistent
             sellTiles[sellTiles.Length-1].transform.position = new Vector3(
