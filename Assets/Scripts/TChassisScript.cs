@@ -342,7 +342,7 @@ public class TChassisScript : MonoBehaviour
         float wheelRelx;
         float wheelRely;
         for(int i = 0; i < curveVertexCount; i++) {
-            // update inner vertex for rear wheel // TODO: fix the lerp going the wrong way between the ends
+            // update inner vertex for rear wheel
             wheelRelx = (wheelDiameters[ArrayWheels.Length - 1] / 2 - trackWidth) * -1F * Mathf.Cos(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             wheelRely = (wheelDiameters[ArrayWheels.Length - 1] / 2 - trackWidth) * Mathf.Sin(Mathf.Lerp(((3.141592653589F) / 2), (-1 * (3.141592653589F) / 3), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             bVertices[i + ArrayWheels.Length - 2] = new Vector3(
@@ -366,7 +366,7 @@ public class TChassisScript : MonoBehaviour
             // update inner vertex for front wheel
             wheelRelx = (wheelDiameters[0] / 2 - trackWidth) * Mathf.Cos(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             wheelRely = (wheelDiameters[0] / 2 - trackWidth) * Mathf.Sin(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
-            bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
+            bVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3(
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,
                 0);
@@ -375,7 +375,7 @@ public class TChassisScript : MonoBehaviour
             // further out by trackWidth
             wheelRelx = (wheelDiameters[0] / 2) * Mathf.Cos(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
             wheelRely = (wheelDiameters[0] / 2) * Mathf.Sin(Mathf.Lerp((-1 * (3.141592653589F) / 3), ((3.141592653589F) / 2), (((curveVertexCount - 1) - i)/(float)(curveVertexCount - 1))));
-            HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3( // TODO: fix indexing?
+            HVertices[i + ArrayWheels.Length - 2 + curveVertexCount] = new Vector3(
                 (gameObject.transform.GetChild(0).transform.localPosition.x) + wheelRelx,// * relative multiplier, // instead of recalculating rels, use these??
                 (gameObject.transform.GetChild(0).transform.localPosition.y) + wheelRely,// * relative multiplier,
                 0);
@@ -383,9 +383,9 @@ public class TChassisScript : MonoBehaviour
         }
 
 
-        // triangles assignment // TODO: align this functionality with the vertex organization?
+        // triangles assignment
         //for each height if has next
-        for (int i = 0; i < bVertices.Length - 1; i += 1){ // TODO: fix vertex order assignment?
+        for (int i = 0; i < bVertices.Length - 1; i += 1){
             // make near tri
             //add this near, this far, next near
             //UnityEditor.ArrayUtility.Add(ref triangles, );

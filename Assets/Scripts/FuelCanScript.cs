@@ -27,7 +27,6 @@ public class FuelCanScript : MonoBehaviour
     {
         // detect when player uses the fuelcan
         if(Input.GetKey(KeyCode.F)) {
-            // TODO: Align Z positions of relevant objects
             if (Vector3.Distance(pointer.transform.position, transform.position) < 1) {
                 
                 // if enough fuel left for full flow rate & chassis not full 
