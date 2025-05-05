@@ -31,6 +31,11 @@ public class TradeStationScript : MonoBehaviour
     float whee = 0F;
     float wheeTimer = 0F;
 
+    public float tileRowSpacing; // 2?
+    public float tileXSpacing; // 2?
+    public float tileXlimit; // 9
+    public float tileXOffset; // -4?
+
     // Start is called before the first frame update
     void Start()
     {
@@ -123,11 +128,11 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
             float tileY = -7;   
-            int tileX = 0 + sellTiles.Length * 2;
+            int tileX = tileXOffset + sellTiles.Length * tileXSpacing;
             // fit to grid
-            while(tileX > 9) {
-                tileX -= 10;
-                tileY += 2F;
+            while(tileX > tileXlimit) {
+                tileX -= tileXlimit - tileXOffset;
+                tileY += tileRowSpacing;
             }
             // find camera size to account for size changes
             float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
@@ -148,7 +153,7 @@ public class TradeStationScript : MonoBehaviour
 
             // move after creation // TODO: fix grid positions to fit to window and be consistent
             sellTiles[sellTiles.Length-1].transform.position = new Vector3(
-                sellTiles[sellTiles.Length-1].transform.position.x + ((-4F + tileX) * camSize),
+                sellTiles[sellTiles.Length-1].transform.position.x + ((tileX) * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.y + ((tileY) * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.z);
             }
@@ -180,6 +185,16 @@ public class TradeStationScript : MonoBehaviour
             }
             GameObject.Destroy(sellTiles[index]);
             UnityEditor.ArrayUtility.Remove<GameObject>(ref sellTiles, sellTiles[index]);
+            // move back all later tiles
+            for(int j = index; j < sellTiles.Length; j++) {
+                float posX = sellTiles[j].transform.position.x - tileXSpacing;
+                float posY = sellTiles[j].transform.position.y;
+                if(posX < 0) {
+                    posX += tileXlimit;
+                    posY -= tileRowSpacing;
+                }
+                sellTiles[j].transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
+            }
         // remove from seeked if applicable
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(seekedObjs, collision.gameObject)) {
             UnityEditor.ArrayUtility.Remove(ref seekedObjs, collision.gameObject);
