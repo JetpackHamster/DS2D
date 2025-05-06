@@ -20,6 +20,7 @@ public class TerrainManagerScript : MonoBehaviour
     public GameObject[] structures;
     public GameObject newPiece;
     public GameObject newScrap;
+    public float terrainSpiciness;
     
     
     // Start is called before the first frame update
@@ -35,6 +36,7 @@ public class TerrainManagerScript : MonoBehaviour
     {
         if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move if need
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + terrainLength - 1, gameObject.transform.position.y, gameObject.transform.position.z);
+            //terrainSpiciness += 0.1F;
             generatePiece();
 
             // spawn scrap
@@ -99,7 +101,7 @@ public class TerrainManagerScript : MonoBehaviour
         for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
             float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F);
             //Debug.Log("perlinput " + perlinput);
-            HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * 10 + 80), 0); // make heights into vertices
+            HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * terrainSpiciness + 80), 0); // make heights into vertices
         }
         /*for (int i = 0; i < 10; i++) {
             Debug.Log("HVertices[" + i + "]: " + HVertices[i]);

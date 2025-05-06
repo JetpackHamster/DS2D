@@ -12,6 +12,8 @@ public class sellTileScript : MonoBehaviour
     public GameObject source;
     public GameObject cam;
     Canvas canvas;
+    public bool isUpdated;
+    public int index;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,21 @@ public class sellTileScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!isUpdated) {
+            isUpdated = true;
+            float tileY = -7;
+            float tileX = source.tileXOffset + index * source.tileXSpacing;
+            // fit to grid
+            while(tileX > source.tileXlimit) {
+                tileX -= source.tileXlimit - source.tileXOffset;
+                tileY += source.tileRowSpacing;
+            }
+            float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
+            transform.position = new Vector3(
+                transform.position.x + ((tileX) * camSize),
+                transform.position.y + ((tileY) * camSize),
+                transform.position.z);
+        }
     }
 
     void sell() {

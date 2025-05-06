@@ -128,7 +128,7 @@ public class TradeStationScript : MonoBehaviour
             //Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
             float tileY = -7;   
-            int tileX = tileXOffset + sellTiles.Length * tileXSpacing;
+            float tileX = tileXOffset + sellTiles.Length * tileXSpacing;
             // fit to grid
             while(tileX > tileXlimit) {
                 tileX -= tileXlimit - tileXOffset;
@@ -193,7 +193,8 @@ public class TradeStationScript : MonoBehaviour
                     posX += tileXlimit;
                     posY -= tileRowSpacing;
                 }
-                sellTiles[j].transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
+                sellTiles[j].index = j;//transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
+                sellTiles[j].isUpdated = false;
             }
         // remove from seeked if applicable
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(seekedObjs, collision.gameObject)) {
