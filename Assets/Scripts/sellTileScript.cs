@@ -36,12 +36,12 @@ public class sellTileScript : MonoBehaviour
     {
         if (!isUpdated) {
             isUpdated = true;
-            float tileY = -7;
-            float tileX = source.tileXOffset + index * source.tileXSpacing;
+            float tileY = 0;//-7;
+            float tileX = source.GetComponentInChildren<TradeStationScript>().tileXOffset + index * source.GetComponentInChildren<TradeStationScript>().tileXSpacing;
             // fit to grid
-            while(tileX > source.tileXlimit) {
-                tileX -= source.tileXlimit - source.tileXOffset;
-                tileY += source.tileRowSpacing;
+            while(tileX > source.GetComponentInChildren<TradeStationScript>().tileXlimit) {
+                tileX -= source.GetComponentInChildren<TradeStationScript>().tileXlimit - source.GetComponentInChildren<TradeStationScript>().tileXOffset;
+                tileY += source.GetComponentInChildren<TradeStationScript>().tileRowSpacing;
             }
             float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
             transform.position = new Vector3(

@@ -36,6 +36,8 @@ public class TradeStationScript : MonoBehaviour
     public float tileXlimit; // 9
     public float tileXOffset; // -4?
 
+    public GameObject[] upgradeList;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,9 @@ public class TradeStationScript : MonoBehaviour
         Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
         Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
 
+        /*for(int i = 0; i < upgradeList.Length; i++) {
+            if (upgradeList[i].transform.name == SpeedUpgradeButton)
+        }*/
         SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
         AccelUpgradeButton.onClick.AddListener(AccelUpgrade);
         WheeUpgradeButton.onClick.AddListener(WheeUpgrade);
@@ -193,8 +198,8 @@ public class TradeStationScript : MonoBehaviour
                     posX += tileXlimit;
                     posY -= tileRowSpacing;
                 }
-                sellTiles[j].index = j;//transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
-                sellTiles[j].isUpdated = false;
+                sellTiles[j].GetComponentInChildren<sellTileScript>().index = j;//transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
+                sellTiles[j].GetComponentInChildren<sellTileScript>().isUpdated = false;
             }
         // remove from seeked if applicable
         } else if (UnityEditor.ArrayUtility.Contains<GameObject>(seekedObjs, collision.gameObject)) {

@@ -7,7 +7,7 @@ public class EscMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Canvas>().enabled = false;
+        GetComponent<Canvas>().enabled = true;
     }
 
     // Update is called once per frame
