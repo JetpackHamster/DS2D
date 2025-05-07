@@ -37,6 +37,8 @@ public class TradeStationScript : MonoBehaviour
     public float tileXOffset; // -4?
 
     public GameObject[] upgradeList;
+    public GameObject[] allUpgrades;
+
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +58,18 @@ public class TradeStationScript : MonoBehaviour
         Button AccelUpgradeButton = GameObject.Find("AccelerationUpgradeButton").GetComponent<Button>();
         Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
         Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
+
+        // assign upgrades for this station
+        upgradeList = new GameObject[3];
+        int[] selectedIndices = new int[3];
+        int index = -1;
+        for(int i = 0; i < 3; i++) {
+            while (!UnityEditor.ArrayUtility.Contains(ref selectedIndices, index)) {
+                index = Random.Range(1, allUpgrades.Length);
+            }
+            selectedIndices[i] = index;
+            upgradeList[i] = allUpgrades[index - 1];
+        }
 
         // assign each upgrade button in list to its function
         for(int i = 0; i < upgradeList.Length; i++) {
