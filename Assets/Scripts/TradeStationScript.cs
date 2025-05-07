@@ -81,6 +81,8 @@ public class TradeStationScript : MonoBehaviour
                 upgradeList[i].GetComponent<Button>().onClick.AddListener(WheeUpgrade);
             } else if (upgradeList[i].transform.name == "FuelUsageUpgradeButton") {
                 upgradeList[i].GetComponent<Button>().onClick.AddListener(FuelUsageUpgrade);
+            } else if (upgradeList[i].transform.name == "IdleSpeedUpgradeButton") {
+                upgradeList[i].GetComponent<Button>().onClick.AddListener(IdleSpeedUpgrade);
             }
         }
         /*SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
@@ -112,6 +114,12 @@ public class TradeStationScript : MonoBehaviour
         if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
             TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
             TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier *= (1F - TChassis.GetComponent<TChassisScript>().fuelUsageMultiplier / 5);
+        }
+    }
+    void IdleSpeedUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
+            TChassis.GetComponent<TChassisScript>().idleSpeed *= (1F + TChassis.GetComponent<TChassisScript>().idleSpeed / 5);
         }
     }
 
