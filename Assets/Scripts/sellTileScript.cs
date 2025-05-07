@@ -36,11 +36,11 @@ public class sellTileScript : MonoBehaviour
     {
         if (!isUpdated) {
             isUpdated = true;
-            float tileY = 0;//-7;
-            float tileX = source.GetComponentInChildren<TradeStationScript>().tileXOffset + index * source.GetComponentInChildren<TradeStationScript>().tileXSpacing;
+            float tileY = 0;//-7; // why is 0 so far down on screen, is 1/2 tile from bottom, is the panel's center at the bottom?
+            float tileX = source.GetComponentInChildren<TradeStationScript>().tileXOffset + (index * source.GetComponentInChildren<TradeStationScript>().tileXSpacing);
             // fit to grid
             while(tileX > source.GetComponentInChildren<TradeStationScript>().tileXlimit) {
-                tileX -= source.GetComponentInChildren<TradeStationScript>().tileXlimit - source.GetComponentInChildren<TradeStationScript>().tileXOffset;
+                tileX -= source.GetComponentInChildren<TradeStationScript>().tileXlimit;// - source.GetComponentInChildren<TradeStationScript>().tileXOffset;
                 tileY += source.GetComponentInChildren<TradeStationScript>().tileRowSpacing;
             }
             float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;

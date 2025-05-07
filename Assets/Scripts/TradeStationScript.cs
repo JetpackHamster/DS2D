@@ -163,15 +163,15 @@ public class TradeStationScript : MonoBehaviour
             // create new image tile in canvas
             //Debug.Log("new sellTile: " + collision.transform.name);
             GameObject panel = GameObject.Find("Panel");
-            float tileY = -7;   
+            /*float tileY = -7; // disabled so tiles move selves?
             float tileX = tileXOffset + sellTiles.Length * tileXSpacing;
             // fit to grid
             while(tileX > tileXlimit) {
                 tileX -= tileXlimit - tileXOffset;
                 tileY += tileRowSpacing;
-            }
+            }*/
             // find camera size to account for size changes
-            float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
+            //float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
             // instantiate new in list
             UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
@@ -187,12 +187,12 @@ public class TradeStationScript : MonoBehaviour
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
             sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + (("" + collision.gameObject.GetComponent<ScrapScript>().value).IndexOf(".") + 2) + "L");
 
-            // move after creation // TODO: fix grid positions to fit to window and be consistent
-            sellTiles[sellTiles.Length-1].transform.position = new Vector3(
-                sellTiles[sellTiles.Length-1].transform.position.x + ((tileX) * camSize),
-                sellTiles[sellTiles.Length-1].transform.position.y + ((tileY) * camSize),
+            // move after creation // TODO: ensure grid positions fixed to fit to window and be consistent // disabled so tiles move selves?
+            /*sellTiles[sellTiles.Length-1].transform.position = new Vector3(
+                sellTiles[sellTiles.Length-1].transform.position.x + ((tileX)),// * camSize),
+                sellTiles[sellTiles.Length-1].transform.position.y + ((tileY)),// * camSize),
                 sellTiles[sellTiles.Length-1].transform.position.z);
-            }
+            }*/
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -202,7 +202,7 @@ public class TradeStationScript : MonoBehaviour
             canvas.enabled = false;
             cam.GetComponent<MainCamScript>().UIStructure = null; // reset UIStructure
 
-            // setup each tile
+            // setup each tile to ensure correct tiles enabled
             for(int i = 0; i < sellTiles.Length; i++) {
                 sellTiles[i].GetComponent<sellTileScript>().setup();
             }
@@ -223,12 +223,12 @@ public class TradeStationScript : MonoBehaviour
             UnityEditor.ArrayUtility.Remove<GameObject>(ref sellTiles, sellTiles[index]);
             // move back all later tiles
             for(int j = index; j < sellTiles.Length; j++) {
-                float posX = sellTiles[j].transform.position.x - tileXSpacing;
+                /*float posX = sellTiles[j].transform.position.x - tileXSpacing; // is this section just supposed to move the tiles back? the tiles fix their own position
                 float posY = sellTiles[j].transform.position.y;
                 if(posX < 0) {
                     posX += tileXlimit;
                     posY -= tileRowSpacing;
-                }
+                }*/
                 sellTiles[j].GetComponentInChildren<sellTileScript>().index = j;//transform.position = new Vector3(posX, posY, sellTiles[j].transform.position.z);
                 sellTiles[j].GetComponentInChildren<sellTileScript>().isUpdated = false;
             }
