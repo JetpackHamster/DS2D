@@ -57,13 +57,22 @@ public class TradeStationScript : MonoBehaviour
         Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
         Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
 
-        /*for(int i = 0; i < upgradeList.Length; i++) {
-            if (upgradeList[i].transform.name == SpeedUpgradeButton)
-        }*/
-        SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
+        // assign each upgrade button in list to its function
+        for(int i = 0; i < upgradeList.Length; i++) {
+            if (upgradeList[i].transform.name == "SpeedUpgradeButton") {
+                upgradeList[i].GetComponent<Button>().onClick.AddListener(SpeedUpgrade);
+            } else if (upgradeList[i].transform.name == "AccelerationUpgradeButton") {
+                upgradeList[i].GetComponent<Button>().onClick.AddListener(AccelUpgrade);
+            } else if (upgradeList[i].transform.name == "WheeUpgradeButton") {
+                upgradeList[i].GetComponent<Button>().onClick.AddListener(WheeUpgrade);
+            } else if (upgradeList[i].transform.name == "FuelUsageUpgradeButton") {
+                upgradeList[i].GetComponent<Button>().onClick.AddListener(FuelUsageUpgrade);
+            }
+        }
+        /*SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
         AccelUpgradeButton.onClick.AddListener(AccelUpgrade);
         WheeUpgradeButton.onClick.AddListener(WheeUpgrade);
-        FuelUsageUpgradeButton.onClick.AddListener(FuelUsageUpgrade);
+        FuelUsageUpgradeButton.onClick.AddListener(FuelUsageUpgrade);*/
 
     }
     void AccelUpgrade() {
