@@ -22,6 +22,7 @@ public class CraneMagnetScript : MonoBehaviour
     {
         craneEnabled = false;
         parentpos = GetComponentInParent<Transform>(false).position;
+        ResizeRails();
 
     }
     // check direction first float is from second float
@@ -31,6 +32,10 @@ public class CraneMagnetScript : MonoBehaviour
         } else {
             return 1;
         }
+    }
+    public void ResizeRails() {
+        transform.GetChild(0).GetComponent<SpriteRenderer>().size = new Vector2((xyLimits[1] - xyLimits[0]) / 1.9F, 0.3F);
+        transform.GetChild(1).GetComponent<SpriteRenderer>().size = new Vector2((xyLimits[3] - xyLimits[2]) / 1.9F, 0.3F);
     }
 
     // called when something is in the trigger area

@@ -21,24 +21,23 @@ public class TradeStationScript : MonoBehaviour
     //int leftofYlimit;
     Canvas canvas;
     public GameObject sellTile;
-    public GameObject[] sellList;
+    public GameObject[] sellList; // list of objects able to be sold
     public GameObject[] sellTiles;
     public GameObject[] seekedObjs; // objects player has clicked to sell but aren't yet collected
-    public float magMultiplier;
+    public float magMultiplier; // magnet multiplier
     GameObject cam;
-    
     GameObject TChassis;
-    float whee = 0F;
-    float wheeTimer = 0F;
-
-    public float tileRowSpacing; // 2?
-    public float tileXSpacing; // 2?
-    public float tileXlimit; // 9
-    public float tileXOffset; // -4?
-
+    float whee = 0F; // amount to fling
+    float wheeTimer = 0F; // how long until fling
+    public float tileRowSpacing;
+    public float tileXSpacing;
+    public float tileXlimit;
+    //public bool limitVisualizers;
+    public float tileXOffset;
     public GameObject[] upgradeList;
     public GameObject[] allUpgrades;
-
+    public int upgradeCount;
+    int[] selectedIndices;
 
     // Start is called before the first frame update
     void Start()
@@ -54,42 +53,28 @@ public class TradeStationScript : MonoBehaviour
         cam = GameObject.Find("Main Camera");
         pointer = GameObject.Find("MouseCrosshair");
         TChassis = GameObject.Find("TChassis");
-        Button SpeedUpgradeButton = GameObject.Find("SpeedUpgradeButton").GetComponent<Button>();
-        Button AccelUpgradeButton = GameObject.Find("AccelerationUpgradeButton").GetComponent<Button>();
-        Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
-        Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
+        //Button SpeedUpgradeButton = GameObject.Find("SpeedUpgradeButton").GetComponent<Button>();
+        //Button AccelUpgradeButton = GameObject.Find("AccelerationUpgradeButton").GetComponent<Button>();
+        //Button WheeUpgradeButton = GameObject.Find("WheeUpgradeButton").GetComponent<Button>();
+        //Button FuelUsageUpgradeButton = GameObject.Find("FuelUsageUpgradeButton").GetComponent<Button>();
 
         // assign upgrades for this station
-        upgradeList = new GameObject[3];
-        int[] selectedIndices = new int[3];
-        int index = -1;
-        for(int i = 0; i < 3; i++) {
-            while (!UnityEditor.ArrayUtility.Contains(ref selectedIndices, index)) {
+        upgradeList = new GameObject[upgradeCount];
+        GameObject panel = GameObject.Find("Panel");
+        selectedIndices = new int[upgradeCount];
+        int index = 0;
+        for(int i = 0; i < upgradeCount; i++) {
+            while (UnityEditor.ArrayUtility.Contains(selectedIndices, index)) {
                 index = Random.Range(1, allUpgrades.Length);
             }
             selectedIndices[i] = index;
             upgradeList[i] = allUpgrades[index - 1];
         }
 
-        // assign each upgrade button in list to its function
-        for(int i = 0; i < upgradeList.Length; i++) {
-            if (upgradeList[i].transform.name == "SpeedUpgradeButton") {
-                upgradeList[i].GetComponent<Button>().onClick.AddListener(SpeedUpgrade);
-            } else if (upgradeList[i].transform.name == "AccelerationUpgradeButton") {
-                upgradeList[i].GetComponent<Button>().onClick.AddListener(AccelUpgrade);
-            } else if (upgradeList[i].transform.name == "WheeUpgradeButton") {
-                upgradeList[i].GetComponent<Button>().onClick.AddListener(WheeUpgrade);
-            } else if (upgradeList[i].transform.name == "FuelUsageUpgradeButton") {
-                upgradeList[i].GetComponent<Button>().onClick.AddListener(FuelUsageUpgrade);
-            } else if (upgradeList[i].transform.name == "IdleSpeedUpgradeButton") {
-                upgradeList[i].GetComponent<Button>().onClick.AddListener(IdleSpeedUpgrade);
-            }
-        }
         /*SpeedUpgradeButton.onClick.AddListener(SpeedUpgrade);
         AccelUpgradeButton.onClick.AddListener(AccelUpgrade);
         WheeUpgradeButton.onClick.AddListener(WheeUpgrade);
         FuelUsageUpgradeButton.onClick.AddListener(FuelUsageUpgrade);*/
-
     }
     void AccelUpgrade() {
         if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 5 + 1) {
@@ -122,6 +107,15 @@ public class TradeStationScript : MonoBehaviour
             TChassis.GetComponent<TChassisScript>().idleSpeed *= (1F + TChassis.GetComponent<TChassisScript>().idleSpeed / 5);
         }
     }
+    void CraneRangeUpgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
+            for(int i = 0; i < 4; i++) {
+                TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] *= 1.2F;
+            }
+            TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().ResizeRails();
+        }
+    }
 
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {
@@ -147,18 +141,31 @@ public class TradeStationScript : MonoBehaviour
                 sellTiles[i].GetComponent<sellTileScript>().setup();
             }
 
+            // spawn upgrade buttons
+            GameObject panel = GameObject.Find("Panel");
+            for(int i = 0; i < upgradeCount; i++) {
+                upgradeList[i] = Instantiate(allUpgrades[selectedIndices[i] - 1], panel.transform.position, panel.transform.rotation, panel.transform);
+                upgradeList[i].transform.localPosition = new Vector3(0, (225F - 50F * i), 0);
+            }
+            // assign each upgrade button in list to its function
+            for(int i = 0; i < upgradeList.Length; i++) {
+                if (upgradeList[i].transform.name == "SpeedUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(SpeedUpgrade);
+                } else if (upgradeList[i].transform.name == "AccelerationUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(AccelUpgrade);
+                } else if (upgradeList[i].transform.name == "WheeUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(WheeUpgrade);
+                } else if (upgradeList[i].transform.name == "FuelUsageUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(FuelUsageUpgrade);
+                } else if (upgradeList[i].transform.name == "IdleSpeedUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(IdleSpeedUpgrade);
+                } else if (upgradeList[i].transform.name == "CraneRangeUpgradeButton(Clone)") {
+                    upgradeList[i].GetComponent<Button>().onClick.AddListener(CraneRangeUpgrade);
+                }
+            }
+
         } else if (collision.gameObject.layer == 8 && !UnityEditor.ArrayUtility.Contains<GameObject>(sellList, collision.gameObject)) { // if not player and not in sell list, add to sell list
-            /*int i = 0;
-            while(i < sellList.Length && sellList[i] != null) { // find empty slot index
-                i++;
-            }*/
-            
             UnityEditor.ArrayUtility.Add(ref sellList, collision.gameObject);
-            /*if (i < sellList.Length) { // add to slot if within limits
-            sellList[i] = collision.gameObject;
-            } else {
-                Debug.Log("sellList full");
-            }*/
 
             // create new image tile in canvas
             //Debug.Log("new sellTile: " + collision.transform.name);
@@ -172,6 +179,7 @@ public class TradeStationScript : MonoBehaviour
             }*/
             // find camera size to account for size changes
             //float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
+            
             // instantiate new in list
             UnityEditor.ArrayUtility.Add(ref sellTiles, Instantiate(
                 sellTile, new Vector3(
@@ -182,17 +190,15 @@ public class TradeStationScript : MonoBehaviour
             
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().obj = collision.gameObject; // assign scrap obj
             sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().source = gameObject; // assign source structure to this
-            
+            sellTiles[sellTiles.Length-1].GetComponentInChildren<sellTileScript>().index = sellTiles.Length - 1; // tell tile positioning where it is
+
             // assign sprite and text with value
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
             sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + (("" + collision.gameObject.GetComponent<ScrapScript>().value).IndexOf(".") + 2) + "L");
 
-            // move after creation // TODO: ensure grid positions fixed to fit to window and be consistent // disabled so tiles move selves?
-            /*sellTiles[sellTiles.Length-1].transform.position = new Vector3(
-                sellTiles[sellTiles.Length-1].transform.position.x + ((tileX)),// * camSize),
-                sellTiles[sellTiles.Length-1].transform.position.y + ((tileY)),// * camSize),
-                sellTiles[sellTiles.Length-1].transform.position.z);
-            }*/
+            // TODO: fix text sometimes missing
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -205,6 +211,12 @@ public class TradeStationScript : MonoBehaviour
             // setup each tile to ensure correct tiles enabled
             for(int i = 0; i < sellTiles.Length; i++) {
                 sellTiles[i].GetComponent<sellTileScript>().setup();
+            }
+
+            // delete buttons
+            for(int i = 0; i < upgradeCount; i++) {
+                GameObject.Destroy(upgradeList[i]);
+                upgradeList[i] = allUpgrades[selectedIndices[i] - 1];
             }
 
 
@@ -293,6 +305,11 @@ public class TradeStationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*if (limitVisualizers) { // debug thing i despise needing
+            Instantiate(sellTile, new Vector3(GameObject.Find("Panel").transform.localPosition.y, (0), GameObject.Find("Panel").transform.localPosition.z), GameObject.Find("Panel").transform.rotation, GameObject.Find("Panel").transform).transform.localPosition = new Vector3(((tileXlimit) * 36), (0), transform.localPosition.z);
+            Instantiate(sellTile, new Vector3(GameObject.Find("Panel").transform.localPosition.y, (0), GameObject.Find("Panel").transform.localPosition.z), GameObject.Find("Panel").transform.rotation, GameObject.Find("Panel").transform).transform.localPosition = new Vector3(((tileXOffset) * 36), (0), transform.localPosition.z);
+        }*/
+
         if (whee > 0) {
             if(wheeTimer > 0) {
                 wheeTimer -= Time.deltaTime;

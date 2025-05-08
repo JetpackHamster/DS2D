@@ -234,8 +234,16 @@ MonoBehaviour:
   magMultiplier: 0
   tileRowSpacing: 2
   tileXSpacing: 2
-  tileXlimit: 9
-  tileXOffset: -4
+  tileXlimit: 3
+  tileXOffset: -5
+  upgradeList: []
+  allUpgrades:
+  - {fileID: 9011992624517067353, guid: 9db2f072f329e8441accef44bc8e77bb, type: 3}
+  - {fileID: 6033096208032483046, guid: 45bc15b7dec6ee4458d2a3adc05d2792, type: 3}
+  - {fileID: 421860560292895156, guid: b32fb23f895f7244285a6c2460f5c948, type: 3}
+  - {fileID: 1318691088311124269, guid: 0b10ea02fb3c8524b914d0c832a52178, type: 3}
+  - {fileID: 6026529216316692805, guid: dfaba44fb50bda94b91ae9f4d7e0c139, type: 3}
+  upgradeCount: 3
 --- !u!1 &8111755858104511066
 GameObject:
   m_ObjectHideFlags: 0

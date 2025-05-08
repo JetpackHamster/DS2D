@@ -36,18 +36,18 @@ public class sellTileScript : MonoBehaviour
     {
         if (!isUpdated) {
             isUpdated = true;
-            float tileY = 0;//-7; // why is 0 so far down on screen, is 1/2 tile from bottom, is the panel's center at the bottom?
-            float tileX = source.GetComponentInChildren<TradeStationScript>().tileXOffset + (index * source.GetComponentInChildren<TradeStationScript>().tileXSpacing);
+            float tileY = -6;
+            float tileX = source.GetComponentInChildren<TradeStationScript>().tileXOffset + ((index + 1) * source.GetComponentInChildren<TradeStationScript>().tileXSpacing);
             // fit to grid
-            while(tileX > source.GetComponentInChildren<TradeStationScript>().tileXlimit) {
-                tileX -= source.GetComponentInChildren<TradeStationScript>().tileXlimit;// - source.GetComponentInChildren<TradeStationScript>().tileXOffset;
+            while(tileX > source.GetComponentInChildren<TradeStationScript>().tileXlimit + 0.1F) {
+                tileX -= (source.GetComponentInChildren<TradeStationScript>().tileXlimit - source.GetComponentInChildren<TradeStationScript>().tileXOffset);
                 tileY += source.GetComponentInChildren<TradeStationScript>().tileRowSpacing;
             }
-            float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
-            transform.position = new Vector3(
-                transform.position.x + ((tileX) * camSize),
-                transform.position.y + ((tileY) * camSize),
-                transform.position.z);
+            //float camSize = (float)cam.GetComponent<Camera>().orthographicSize / 10F;
+            transform.localPosition = new Vector3(
+                ((tileX) * 36),
+                ((tileY) * 36),
+                transform.localPosition.z);
         }
     }
 
@@ -57,6 +57,7 @@ public class sellTileScript : MonoBehaviour
         // find seekedObjs then put obj there   
         if (!UnityEditor.ArrayUtility.Contains(StationScript.seekedObjs, obj)) {
             UnityEditor.ArrayUtility.Add(ref StationScript.seekedObjs, obj);
+            obj.GetComponent<Rigidbody2D>().WakeUp(); // no time for sleep, you must go
         }
 
     }

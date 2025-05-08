@@ -47,6 +47,15 @@ TagManager:
   - name: Items
     uniqueID: 3132070603
     locked: 0
+  - name: Vehicle-3
+    uniqueID: 2491624475
+    locked: 0
+  - name: Vehicle-2
+    uniqueID: 1188791697
+    locked: 0
+  - name: Vehicle-1
+    uniqueID: 322110699
+    locked: 0
   - name: Vehicle0
     uniqueID: 241144757
     locked: 0
