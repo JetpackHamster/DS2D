@@ -65,7 +65,7 @@ public class TradeStationScript : MonoBehaviour
         int index = 0;
         for(int i = 0; i < upgradeCount; i++) {
             while (UnityEditor.ArrayUtility.Contains(selectedIndices, index)) {
-                index = Random.Range(1, allUpgrades.Length);
+                index = Random.Range(1, allUpgrades.Length + 1);
             }
             selectedIndices[i] = index;
             upgradeList[i] = allUpgrades[index - 1];
@@ -108,14 +108,20 @@ public class TradeStationScript : MonoBehaviour
         }
     }
     void CraneRangeUpgrade() {
-        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
-            TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 6 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 6;
             for(int i = 0; i < 4; i++) {
                 TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] *= 1.2F;
             }
             TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().ResizeRails();
         }
     }
+    /*void Upgrade() {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 6 + 1) {
+            TChassis.GetComponent<TChassisScript>().fuelQty -= 6;
+
+        }
+    }*/
 
     // check direction first float is from second float
     private int directionOfLimit(float pos, float limit) {

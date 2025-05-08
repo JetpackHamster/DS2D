@@ -243,6 +243,7 @@ MonoBehaviour:
   - {fileID: 421860560292895156, guid: b32fb23f895f7244285a6c2460f5c948, type: 3}
   - {fileID: 1318691088311124269, guid: 0b10ea02fb3c8524b914d0c832a52178, type: 3}
   - {fileID: 6026529216316692805, guid: dfaba44fb50bda94b91ae9f4d7e0c139, type: 3}
+  - {fileID: 1298462419492304676, guid: 9670f331cde0b0647a436578b550b436, type: 3}
   upgradeCount: 3
 --- !u!1 &8111755858104511066
 GameObject:
