@@ -68,6 +68,7 @@ public class sellTileScript : MonoBehaviour
             gameObject.GetComponent<Image>().enabled = true;
             gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
             gameObject.GetComponent<Button>().enabled = true;
+            gameObject.transform.GetChild(1).GetComponent<TMP_Text>().enabled = true;
 
         } else {
             // disable rendering

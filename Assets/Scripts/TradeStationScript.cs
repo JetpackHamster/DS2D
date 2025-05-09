@@ -102,9 +102,9 @@ public class TradeStationScript : MonoBehaviour
         }
     }
     void IdleSpeedUpgrade() {
-        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1) {
+        if(cam.GetComponent<MainCamScript>().UIStructure == gameObject && TChassis.GetComponent<TChassisScript>().fuelQty > 3 + 1 && TChassis.GetComponent<TChassisScript>().idleSpeed < (TChassis.GetComponent<TChassisScript>().motorTopSpeed*1.2F)) {
             TChassis.GetComponent<TChassisScript>().fuelQty -= 3;
-            TChassis.GetComponent<TChassisScript>().idleSpeed *= (1F + TChassis.GetComponent<TChassisScript>().idleSpeed / 5);
+            TChassis.GetComponent<TChassisScript>().idleSpeed *= (1.2F);
         }
     }
     void CraneRangeUpgrade() {
@@ -202,7 +202,6 @@ public class TradeStationScript : MonoBehaviour
             sellTiles[sellTiles.Length-1].transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = collision.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
             sellTiles[sellTiles.Length-1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = ("Sell-" + (("" + collision.gameObject.GetComponent<ScrapScript>().value).IndexOf(".") + 2) + "L");
 
-            // TODO: fix text sometimes missing
         }
         
     }
