@@ -125,10 +125,10 @@ public class TChassisScript : MonoBehaviour
                 SRRigidbody.velocity += Vector2.right * 3;
             }
         }
-        if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
+        /*if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Space)) // do a jumpy
         {

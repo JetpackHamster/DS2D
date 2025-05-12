@@ -12,10 +12,6 @@ public class StartNewGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //var button = GetComponentInChildren<Button>(false); //gameObject.GetComponent("Button");
-        //button.clicked += LoadNew();
-        //Debug.Log("whaow");
-
         Button button = GetComponent<Button>();
         button.onClick.AddListener(LoadNew);
     }
@@ -30,6 +26,5 @@ public class StartNewGame : MonoBehaviour
     {
         //Debug.Log("LoadNew Attempt");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
-    //    return null;
     }
 }
