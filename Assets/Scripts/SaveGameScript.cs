@@ -19,5 +19,12 @@ public class SaveGameScript : MonoBehaviour
 
     void SaveGame() {
         // save all game data to filename
+        // open filename prompt to get filename from user
+        // if already selected filename, just save to existing (different button "save as")
+        // get locations of stuctures and applicable data such as tradestation upgradelists
+        // get locations of existing scrap
+        // get location of player vehicle, and state of upgrades, fuel, etc
+        // ensure terrain generation same, maybe save data
+        // 
     }
 }
