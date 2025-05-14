@@ -8,6 +8,7 @@ public class SaveGameScript : MonoBehaviour
 {
     public string filename;
     private string filePath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +32,7 @@ public class SaveGameScript : MonoBehaviour
         } else {
             filePath = Path.Combine(Application.persistentDataPath, filename);
             string allData = "";
-            allData += "|structures:";
+            allData += "|structures;";
             // get locations of stuctures and applicable data such as tradestation upgradelists from terrain parent & terrain
             for (int i = 0; i < GameObject.Find("TerrainPieces").transform.childCount; i++) {
                 for (int j = 0; j < GameObject.Find("TerrainPieces").transform.GetChild(i).transform.childCount; j++) {
@@ -48,14 +49,19 @@ public class SaveGameScript : MonoBehaviour
                 }
             }
             // get locations of existing scrap in magneticScrap/Items layer and any other items
-            allData += "|items:";
+            allData += "|items;";
             GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
             for (int i = 0; i < items.Length; i++) {
                 // add localPosition and value of each item // check if readable numbers, maybe convert // some items don't have ScrapScript
-                allData += "" + items[i].transform.localPosition/* + ";" + items[i].GetComponent<ScrapScript>().value*/ + ";endobj;";
+                allData += "" + items[i].transform.localPosition + ";";
+                items[i].TryGetComponent<ScrapScript>(out ScrapScript script);
+                if (script != null) {
+                    allData += "" + script.value + ";";
+                }
+                allData += "endobj;";
             }
             // get location of player vehicle, and state of upgrades, fuel, etc
-            allData += "|playervehicle:";
+            allData += "|playervehicle;";
             GameObject TChassis = GameObject.Find("TChassis");
             var TChassisScript = GameObject.Find("TChassis").GetComponent<TChassisScript>();
             allData += TChassis.transform.position + ";";
