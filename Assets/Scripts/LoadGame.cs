@@ -82,7 +82,23 @@ public class LoadGame : MonoBehaviour
                     }
                 } else if(sectionView.contains("items;") {
                     // section start
+                    string position;
+                    string value;
 
+                    // maybe split by endobj; instead
+                    string dicedData[] = section.Split(";");
+                    for(int i = 1; i < dicedData.Length; i++) {
+                        // 
+                        if (dicedData[i].charAt(0) == '(') {
+                            // item position
+                            position = dicedData[i];
+                        } else if(dicedData[i].Equals("endobj")) {
+                            // TODO: instantiate newStructure from type map with data
+                        } else if (dicedData[i].charAt(0) == 'v') {
+                            // has value, assign without indicator ("v2.6" -> "2.6")
+                            value = dicedData[i].Substring(1, dicedData[i].Length);
+                        }
+                    }
                 }
             }
         }
