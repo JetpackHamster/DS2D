@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2406833873580200945}
   m_Layer: 8
   m_Name: Scrap_Engine_sV6
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,3 +182,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 2
+  disco: 0

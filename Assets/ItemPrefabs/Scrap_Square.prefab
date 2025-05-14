@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6601171709207643572}
   m_Layer: 8
   m_Name: Scrap_Square
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,3 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 2
+  disco: 0

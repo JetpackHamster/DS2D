@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c714bb5417cbb4a45b5ec8d086622f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filename: save0.txt
 --- !u!1 &161993550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,7 +1598,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 519420031}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 7.1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2260,6 +2261,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scrap_Engine_sV6 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     - target: {fileID: 8655525823653690518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -78.63295
@@ -2316,6 +2321,10 @@ PrefabInstance:
     - target: {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
       propertyPath: m_Name
       value: Scrap_Pipe_C (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 9108684407757901346, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2378,6 +2387,10 @@ PrefabInstance:
     - target: {fileID: 3975320202812067792, guid: 99b3520a5f68c1d4fb4e36b3a9fd979b, type: 3}
       propertyPath: m_Name
       value: FuelCan
+      objectReference: {fileID: 0}
+    - target: {fileID: 3975320202812067792, guid: 99b3520a5f68c1d4fb4e36b3a9fd979b, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 4687429353129758369, guid: 99b3520a5f68c1d4fb4e36b3a9fd979b, type: 3}
       propertyPath: m_Pivot.x
@@ -2753,6 +2766,10 @@ PrefabInstance:
     - target: {fileID: 4793006469209083836, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
       propertyPath: m_Name
       value: Scrap_Wheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4793006469209083836, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 7525901984841575203, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3502,6 +3519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scrap_Component0 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 384262184926286563, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     - target: {fileID: 1519989490075915774, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -74.48664
@@ -4117,6 +4138,10 @@ PrefabInstance:
     - target: {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
       propertyPath: m_Name
       value: Scrap_Engine_sV6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 8655525823653690518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4778,6 +4803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scrap_Water
       objectReference: {fileID: 0}
+    - target: {fileID: 5120173265309804967, guid: d8abdc61ce10f624c9ed84c9c9ae6067, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4839,6 +4868,10 @@ PrefabInstance:
     - target: {fileID: 8865488171642766104, guid: 9f35ec949e5129647a5094376200b53c, type: 3}
       propertyPath: m_Name
       value: Scrap_Toaster
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865488171642766104, guid: 9f35ec949e5129647a5094376200b53c, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5152,6 +5185,10 @@ PrefabInstance:
     - target: {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
       propertyPath: m_Name
       value: Scrap_Pipe_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 9108684407757901346, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
       propertyPath: m_LocalPosition.x

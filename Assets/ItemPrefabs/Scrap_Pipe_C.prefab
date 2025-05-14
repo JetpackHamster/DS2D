@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8614325908431292074}
   m_Layer: 8
   m_Name: Scrap_Pipe_C
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,3 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1.5
+  disco: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -707784038667406080}
   m_Layer: 8
   m_Name: Scrap_Wheel
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,3 +165,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 3
+  disco: 0

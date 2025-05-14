@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 
 public class SaveGameScript : MonoBehaviour
@@ -30,26 +31,28 @@ public class SaveGameScript : MonoBehaviour
         } else {
             filePath = Path.Combine(Application.persistentDataPath, filename);
             string allData = "";
-            allData += "|structures:"
+            allData += "|structures:";
             // get locations of stuctures and applicable data such as tradestation upgradelists from terrain parent & terrain
-            for (int i = 0; i < GameObject.Find("TerrainParent").transform.childCount; i++) {
-                for (int j = 0; j < GameObject.Find("TerrainParent").transform.GetChild(i).transform.childCount; j++) {
+            for (int i = 0; i < GameObject.Find("TerrainPieces").transform.childCount; i++) {
+                for (int j = 0; j < GameObject.Find("TerrainPieces").transform.GetChild(i).transform.childCount; j++) {
                     // add localPosition of each structure // check if readable numbers, maybe convert
-                    allData += "" + GameObject.Find("TerrainParent").transform.GetChild(i).transform.GetChild(j).transform.localPosition + ";";
+                    allData += "" + GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.localPosition + ";";
                     // if tradestation, add instance specific data (upgradeList)
-                    if (GameObject.Find("TerrainParent").transform.GetChild(i).transform.GetChild(j).transform.name.equals("TradeStation(Clone)")) {
-                        allData += "upgradeList:" + GameObject.Find("TerrainParent").transform.GetChild(i).transform.GetChild(j).GetComponent<TradeStationScript>().upgradeList + ";endobj;";
-                    } else {
+                    if (GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.name.Equals("TradeStation(Clone)")) {
+                        allData += "upgradeList:";
+                        for(int k = 0; k < GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).GetComponent<TradeStationScript>().upgradeList.Length; k++) {
+                            allData += GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).GetComponent<TradeStationScript>().upgradeList[k].transform.name + ";";
+                        }
                         allData += "endobj;";
                     }
                 }
             }
             // get locations of existing scrap in magneticScrap/Items layer and any other items
             allData += "|items:";
-            GameObject[] items = GameObject.FindGameObjectsWithTag("MagneticScrap");
-            for (item : items) {
-                // add localPosition and value of each item // check if readable numbers, maybe convert
-                allData += "" + item.transform.localPosition + ";" + item.GetComponent<ScrapScript>().value + ";endobj;"
+            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+            for (int i = 0; i < items.Length; i++) {
+                // add localPosition and value of each item // check if readable numbers, maybe convert // some items don't have ScrapScript
+                allData += "" + items[i].transform.localPosition/* + ";" + items[i].GetComponent<ScrapScript>().value*/ + ";endobj;";
             }
             // get location of player vehicle, and state of upgrades, fuel, etc
             allData += "|playervehicle:";
@@ -69,11 +72,14 @@ public class SaveGameScript : MonoBehaviour
             allData += TChassisScript.fuelUsageMultiplier + ";";
             allData += TChassisScript.trackWidth + ";";
             // get crane magnet properties // TODO: verify unprocessed arrays readable
-            allData += TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits + ";";
+            for(int i = 0; i < TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits.Length; i++) {
+                allData += TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] + ";";
+            }
             allData += "endobj;";
             // TODO: ensure terrain generation same, maybe save terrain data
             
             // save all above data to file, might make new file if none exists
+            Debug.Log(filePath);
             File.WriteAllText(filePath, allData);
         }
         
