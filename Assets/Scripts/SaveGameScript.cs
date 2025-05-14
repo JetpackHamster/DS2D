@@ -40,7 +40,7 @@ public class SaveGameScript : MonoBehaviour
                     allData += "" + GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.localPosition + ";";
                     // if tradestation, add instance specific data (upgradeList)
                     if (GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.name.Equals("TradeStation(Clone)")) {
-                        allData += "upgradeList:";
+                        allData += "upgradeList;";
                         for(int k = 0; k < GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).GetComponent<TradeStationScript>().upgradeList.Length; k++) {
                             allData += GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).GetComponent<TradeStationScript>().upgradeList[k].transform.name + ";";
                         }

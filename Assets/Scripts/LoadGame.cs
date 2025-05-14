@@ -40,11 +40,50 @@ public class LoadGame : MonoBehaviour
             // *begin epic data parsing montage*
 
             // parse structures
-            string[] splitData = allData.Split(";");
+            string[] sortedData = allData.Split("|");
             // biiig loop
-            foreach (var term in splitData) {
-                //if(term.) // if contains thing do thing
-    
+            foreach (var section in sortedData) {
+                StringView sectionView = new StringView(section);
+                if(sectionView.contains("structures;")) { // if contains thing do thing
+                    // section start
+                    string position;
+                    string type;
+                    GameObject newStructure;
+                    string[] upgrades;
+                    
+                    // maybe split by endobj; instead
+                    string dicedData[] = section.Split(";");
+                    for(int i = 1; i < dicedData.Length; i++) {
+                        // 
+                        if (dicedData[i].charAt(0) == '(') {
+                            // structure position
+                            position = dicedData[i];
+                        } else if(dicedData[i].Equals("upgradeList")) {
+                            type = "TradeStation";
+                            
+                            // maybe use map of type strings to obj prefabs
+                            // clear upgrades list if default not empty
+                        } else if(new StringView(dicedData[i].contains("Upgrade"))) {
+                            // add this upgrade to the list for instantiated structure
+                        } else if(dicedData[i].Equals("endobj")) {
+                            // TODO: instantiate newStructure from type map with data
+
+                            // add data if applicable
+                            if (type.Equals("TradeStation")) {
+                                // add upgrades
+                                //UnityEditor.ArrayUtility.Add(ref newStructure.GetComponent<TradeStationScript>().upgradeList, upgrades[]//index
+                            }
+
+                            // reset variables position, type, newStructure
+                            type = null;
+                            position = null;
+                            newStructure = null;
+                        }
+                    }
+                } else if(sectionView.contains("items;") {
+                    // section start
+
+                }
             }
         }
     }
