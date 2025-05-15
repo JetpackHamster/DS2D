@@ -82,9 +82,10 @@ public class SaveGameScript : MonoBehaviour
                 allData += TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] + ";";
             }
             allData += "endobj;";
-            // TODO: ensure terrain generation same, maybe save terrain data
-            //allData += "|terrain;";
-            //allData += GameObject.Find("TerrainPieceManager").GetComponent().terrainOffset;
+            // save terrain offset
+            allData += "|terrain;";
+            allData += GameObject.Find("TerrainPieceManager").GetComponent(TerrainManagerScript).terrainOffset;
+            allData += "endobj;";
 
             // save all above data to file, might make new file if none exists
             Debug.Log(filePath);

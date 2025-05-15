@@ -34,7 +34,7 @@ public class LoadGame : MonoBehaviour
     void LoadGameThing() 
     {
         Debug.Log("LoadGame Attempt");
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Level0", LoadSceneMode.Additive);
         
         // load file
         if (filename == null) {
@@ -107,6 +107,9 @@ public class LoadGame : MonoBehaviour
                             value = dicedData[i].Substring(1, dicedData[i].Length);
                         }
                     }
+                } else if(sectionView.StartsWith("terrain;") {
+                    // get and assign terrain offset
+                    GameObject.Find("TerrainManager").GetComponent(TerrainManagerScript).terrainOffset = (float)sectionView.Substring(8);
                 }
             }
         }

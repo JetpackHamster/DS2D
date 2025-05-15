@@ -21,7 +21,7 @@ public class TerrainManagerScript : MonoBehaviour
     public GameObject newPiece;
     public GameObject newScrap;
     public float terrainSpiciness;
-    public float terrainOffset;
+    public float terrainOffset; // start value in editor should be ~200? // randomize on newGame
     
     
     // Start is called before the first frame update
@@ -101,7 +101,7 @@ public class TerrainManagerScript : MonoBehaviour
         
         // generate list of heights
         for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
-            float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F);
+            float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F) + terrainOffset;
             //Debug.Log("perlinput " + perlinput);
             HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * terrainSpiciness + 80), 0); // make heights into vertices
         }
