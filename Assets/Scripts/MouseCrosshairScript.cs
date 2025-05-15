@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseCrosshairScript : MonoBehaviour
 {
-    public GameObject thingSpawnable;
+    public GameObject[] thingsSpawnable;
     public GameObject cam;
     public PolygonCollider2D collider;
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class MouseCrosshairScript : MonoBehaviour
         // RMB hold spawns things
         if(Input.GetMouseButton(1))
         {
-            Instantiate(thingSpawnable, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+            Instantiate(thingsSpawnable[0], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }
         // MMB hold activates collision
         if (Input.GetMouseButtonDown(2))
@@ -32,6 +32,11 @@ public class MouseCrosshairScript : MonoBehaviour
         } else if (Input.GetMouseButtonUp(2))
         {
             collider.enabled = false;
+        }
+        // spawn a single other thing
+        if (Input.GetKeyDown(KeyCode.Slash))
+        {
+            Instantiate(thingsSpawnable[1], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }
         // set position to mouse position
         Vector3 mousePos = cam.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);

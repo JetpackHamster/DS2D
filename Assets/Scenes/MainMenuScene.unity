@@ -2389,6 +2389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11180df6dda204245a0014f49f75b4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filename: save0.txt
 --- !u!1001 &2034983648
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,11 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEditor.Search;
+
 
 public class LoadGame : MonoBehaviour
 {
     public string filename;
     private string filePath;
+    AsyncOperation unloadtask;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +24,17 @@ public class LoadGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (unloadtask != null) {
+            if (!unloadtask.isDone) {
+                Debug.Log("unloadprogress: " + unloadtask.progress);
+            }
+        }
     }
 
     void LoadGameThing() 
     {
         Debug.Log("LoadGame Attempt");
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
         
         // load file
         if (filename == null) {
@@ -43,19 +50,19 @@ public class LoadGame : MonoBehaviour
             string[] sortedData = allData.Split("|");
             // biiig loop
             foreach (var section in sortedData) {
-                StringView sectionView = new StringView(section);
-                if(sectionView.contains("structures;")) { // if contains thing do thing
+                UnityEditor.Search.StringView sectionView = new StringView(section);
+                if(sectionView.Contains("structures;")) { // if Contains thing do thing
                     // section start
-                    string position;
-                    string type;
+                    string position = "";
+                    string type = "";;
                     GameObject newStructure;
                     string[] upgrades;
                     
                     // maybe split by endobj; instead
-                    string dicedData[] = section.Split(";");
+                    string[] dicedData = section.Split(";");
                     for(int i = 1; i < dicedData.Length; i++) {
                         // 
-                        if (dicedData[i].charAt(0) == '(') {
+                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('(')) {
                             // structure position
                             position = dicedData[i];
                         } else if(dicedData[i].Equals("upgradeList")) {
@@ -63,10 +70,11 @@ public class LoadGame : MonoBehaviour
                             
                             // maybe use map of type strings to obj prefabs
                             // clear upgrades list if default not empty
-                        } else if(new StringView(dicedData[i].contains("Upgrade"))) {
+                        } else if(new UnityEditor.Search.StringView(dicedData[i]).Contains("Upgrade")) {
                             // add this upgrade to the list for instantiated structure
                         } else if(dicedData[i].Equals("endobj")) {
                             // TODO: instantiate newStructure from type map with data
+
 
                             // add data if applicable
                             if (type.Equals("TradeStation")) {
@@ -75,26 +83,26 @@ public class LoadGame : MonoBehaviour
                             }
 
                             // reset variables position, type, newStructure
-                            type = null;
-                            position = null;
+                            type = "";
+                            position = "";
                             newStructure = null;
                         }
                     }
-                } else if(sectionView.contains("items;") {
+                } else if(sectionView.Contains("items;")) {
                     // section start
                     string position;
                     string value;
 
                     // maybe split by endobj; instead
-                    string dicedData[] = section.Split(";");
+                    string[] dicedData = section.Split(";");
                     for(int i = 1; i < dicedData.Length; i++) {
                         // 
-                        if (dicedData[i].charAt(0) == '(') {
+                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('(')) {
                             // item position
                             position = dicedData[i];
                         } else if(dicedData[i].Equals("endobj")) {
                             // TODO: instantiate newStructure from type map with data
-                        } else if (dicedData[i].charAt(0) == 'v') {
+                        } else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('v')) {
                             // has value, assign without indicator ("v2.6" -> "2.6")
                             value = dicedData[i].Substring(1, dicedData[i].Length);
                         }
@@ -102,5 +110,7 @@ public class LoadGame : MonoBehaviour
                 }
             }
         }
+        Debug.Log("unloading menu");
+        unloadtask = SceneManager.UnloadSceneAsync("MainMenuScene");
     }
 }
