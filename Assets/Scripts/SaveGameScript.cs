@@ -83,7 +83,9 @@ public class SaveGameScript : MonoBehaviour
             }
             allData += "endobj;";
             // TODO: ensure terrain generation same, maybe save terrain data
-            
+            //allData += "|terrain;";
+            //allData += GameObject.Find("TerrainPieceManager").GetComponent().terrainOffset;
+
             // save all above data to file, might make new file if none exists
             Debug.Log(filePath);
             File.WriteAllText(filePath, allData);

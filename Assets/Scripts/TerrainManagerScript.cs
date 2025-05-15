@@ -21,6 +21,7 @@ public class TerrainManagerScript : MonoBehaviour
     public GameObject newPiece;
     public GameObject newScrap;
     public float terrainSpiciness;
+    public float terrainOffset;
     
     
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class TerrainManagerScript : MonoBehaviour
         //generatePiece();
         cam = GameObject.Find("Main Camera");
         tradeStructureTimer = 0F;
+        //terrainOffset = 
     }
 
     // Update is called once per frame
