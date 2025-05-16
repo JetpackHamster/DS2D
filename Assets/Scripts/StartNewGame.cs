@@ -14,6 +14,8 @@ public class StartNewGame : MonoBehaviour
     {
         Button button = GetComponent<Button>();
         button.onClick.AddListener(LoadNew);
+        // enable scrap spawning in menu
+        GameObject.Find("MMScrapSpawner").SetActive(true);
     }
 
     // Update is called once per frame

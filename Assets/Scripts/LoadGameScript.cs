@@ -8,33 +8,36 @@ using UnityEngine.SceneManagement;
 using UnityEditor.Search;
 
 
-public class LoadGame : MonoBehaviour
+public class LoadGameScript : MonoBehaviour
 {
     public string filename;
     private string filePath;
-    AsyncOperation unloadtask;
+    //AsyncOperation unloadtask;
 
     // Start is called before the first frame update
     void Start()
     {
-        Button button = GetComponent<Button>();
-        button.onClick.AddListener(LoadGameThing);
+        // add this to list of persistent between scenes
+        GameObject.DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (unloadtask != null) {
+        /*if (unloadtask != null) {
             if (!unloadtask.isDone) {
                 Debug.Log("unloadprogress: " + unloadtask.progress);
             }
-        }
+        }*/
     }
 
-    void LoadGameThing() 
+    public void LoadGame()
     {
         Debug.Log("LoadGame Attempt");
-        SceneManager.LoadScene("Level0", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Level0", LoadSceneMode.Single);
+        // disable scrap spawning in menu
+        //GameObject.Find("MMScrapSpawner").SetActive(false);
+        //GameObject.Find("EventSystem").SetActive(false);
         
         // load file
         if (filename == null)
@@ -133,11 +136,12 @@ public class LoadGame : MonoBehaviour
                 else if (sectionView.StartsWith("terrain;"))
                 {
                     // get and assign terrain offset
-                    GameObject.Find("TerrainManager").GetComponent<TerrainManagerScript>().terrainOffset = float.Parse(sectionView.Substring(8).ToString());
+                    Debug.Log(float.Parse(sectionView.Substring(8, sectionView.length - 2).ToString())); // TODO: fix
+                    GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = float.Parse(sectionView.Substring(8, sectionView.length - 2).ToString());
                 }
             }
         }
-        Debug.Log("unloading menu");
-        unloadtask = SceneManager.UnloadSceneAsync("MainMenuScene");
+        //Debug.Log("unloading menu");
+        //unloadtask = SceneManager.UnloadSceneAsync("MainMenuScene");
     }
 }

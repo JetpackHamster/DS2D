@@ -1476,7 +1476,7 @@ MonoBehaviour:
   newPiece: {fileID: 0}
   newScrap: {fileID: 0}
   terrainSpiciness: 9
-  terrainOffset: 0
+  terrainOffset: 500
 --- !u!1 &415775290
 GameObject:
   m_ObjectHideFlags: 0

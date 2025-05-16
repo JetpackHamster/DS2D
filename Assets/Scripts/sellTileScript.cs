@@ -51,6 +51,7 @@ public class sellTileScript : MonoBehaviour
         }
     }
 
+    // sell the associated obj and give the player fuel, by adding it to the list in TradeStation
     void sell() {
         
         //Debug.Log("sell attempt: " + obj.transform.name);
@@ -61,6 +62,7 @@ public class sellTileScript : MonoBehaviour
         }
 
     }
+    // ensure tile is enabled or disabled appropriately based on which TradeStation it is associated with
     public void setup() {
         //Debug.Log("tile setup attempt");
         
