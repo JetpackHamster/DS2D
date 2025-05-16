@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TChassis Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7798490305729431678, guid: 89f273600486714469e854fa758def7e, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

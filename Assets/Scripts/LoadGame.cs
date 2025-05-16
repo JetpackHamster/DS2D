@@ -37,47 +37,61 @@ public class LoadGame : MonoBehaviour
         SceneManager.LoadScene("Level0", LoadSceneMode.Additive);
         
         // load file
-        if (filename == null) {
+        if (filename == null)
+        {
             // TODO: open prompt to get filename and append extension
             Debug.Log("Open filename prompt");
-        } else {
+        }
+        else
+        {
             filePath = Path.Combine(Application.persistentDataPath, filename);
             string allData = File.ReadAllText(filePath);
-            
+
             // *begin epic data parsing montage*
 
             // parse structures
             string[] sortedData = allData.Split("|");
             // biiig loop
-            foreach (var section in sortedData) {
+            foreach (var section in sortedData)
+            {
                 UnityEditor.Search.StringView sectionView = new StringView(section);
-                if(sectionView.Contains("structures;")) { // if Contains thing do thing
+                if (sectionView.Contains("structures;"))
+                { // if Contains thing do thing
                     // section start
                     string position = "";
-                    string type = "";;
+                    string type = ""; ;
                     GameObject newStructure;
                     string[] upgrades;
-                    
+
                     // maybe split by endobj; instead
                     string[] dicedData = section.Split(";");
-                    for(int i = 1; i < dicedData.Length; i++) {
+                    for (int i = 1; i < dicedData.Length; i++)
+                    {
                         // 
-                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('(')) {
+                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('('))
+                        {
                             // structure position
                             position = dicedData[i];
-                        } else if(dicedData[i].Equals("upgradeList")) {
+                        }
+                        else if (dicedData[i].Equals("upgradeList"))
+                        {
                             type = "TradeStation";
-                            
+
                             // maybe use map of type strings to obj prefabs
                             // clear upgrades list if default not empty
-                        } else if(new UnityEditor.Search.StringView(dicedData[i]).Contains("Upgrade")) {
+                        }
+                        else if (new UnityEditor.Search.StringView(dicedData[i]).Contains("Upgrade"))
+                        {
                             // add this upgrade to the list for instantiated structure
-                        } else if(dicedData[i].Equals("endobj")) {
+                        }
+                        else if (dicedData[i].Equals("endobj"))
+                        {
                             // TODO: instantiate newStructure from type map with data
 
 
                             // add data if applicable
-                            if (type.Equals("TradeStation")) {
+                            if (type.Equals("TradeStation"))
+                            {
                                 // add upgrades
                                 //UnityEditor.ArrayUtility.Add(ref newStructure.GetComponent<TradeStationScript>().upgradeList, upgrades[]//index
                             }
@@ -88,28 +102,38 @@ public class LoadGame : MonoBehaviour
                             newStructure = null;
                         }
                     }
-                } else if(sectionView.Contains("items;")) {
+                }
+                else if (sectionView.Contains("items;"))
+                {
                     // section start
                     string position;
                     string value;
 
                     // maybe split by endobj; instead
                     string[] dicedData = section.Split(";");
-                    for(int i = 1; i < dicedData.Length; i++) {
+                    for (int i = 1; i < dicedData.Length; i++)
+                    {
                         // 
-                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('(')) {
+                        if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('('))
+                        {
                             // item position
                             position = dicedData[i];
-                        } else if(dicedData[i].Equals("endobj")) {
+                        }
+                        else if (dicedData[i].Equals("endobj"))
+                        {
                             // TODO: instantiate newStructure from type map with data
-                        } else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('v')) {
+                        }
+                        else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('v'))
+                        {
                             // has value, assign without indicator ("v2.6" -> "2.6")
                             value = dicedData[i].Substring(1, dicedData[i].Length);
                         }
                     }
-                } else if(sectionView.StartsWith("terrain;") {
+                }
+                else if (sectionView.StartsWith("terrain;"))
+                {
                     // get and assign terrain offset
-                    GameObject.Find("TerrainManager").GetComponent(TerrainManagerScript).terrainOffset = (float)sectionView.Substring(8);
+                    GameObject.Find("TerrainManager").GetComponent<TerrainManagerScript>().terrainOffset = float.Parse(sectionView.Substring(8).ToString());
                 }
             }
         }

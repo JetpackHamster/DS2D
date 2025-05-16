@@ -740,8 +740,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1470394877
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3fa07c6220353a643ba2d47904a77508, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -763,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 142068659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.478461, y: -3.3911557, z: -0.072033435}
+  m_LocalPosition: {x: -6.478461, y: -3.3911557, z: -0.4}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1464,7 +1464,6 @@ MonoBehaviour:
   - {fileID: 4793006469209083836, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
   - {fileID: 992695334271573473, guid: af1912e6be896e3408e106d15922e4fc, type: 3}
   - {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
-  - {fileID: 6269092990122627440, guid: af493e3005d6de84c97bf322705a6d57, type: 3}
   - {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
   - {fileID: 5120173265309804967, guid: d8abdc61ce10f624c9ed84c9c9ae6067, type: 3}
   - {fileID: 8865488171642766104, guid: 9f35ec949e5129647a5094376200b53c, type: 3}
@@ -1477,6 +1476,7 @@ MonoBehaviour:
   newPiece: {fileID: 0}
   newScrap: {fileID: 0}
   terrainSpiciness: 9
+  terrainOffset: 0
 --- !u!1 &415775290
 GameObject:
   m_ObjectHideFlags: 0
@@ -4987,6 +4987,10 @@ PrefabInstance:
     - target: {fileID: 1016014112017780434, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: m_SortingLayerID
       value: 322110699
+      objectReference: {fileID: 0}
+    - target: {fileID: 2695084519196741082, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: fuelQty

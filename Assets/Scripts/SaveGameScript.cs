@@ -84,7 +84,7 @@ public class SaveGameScript : MonoBehaviour
             allData += "endobj;";
             // save terrain offset
             allData += "|terrain;";
-            allData += GameObject.Find("TerrainPieceManager").GetComponent(TerrainManagerScript).terrainOffset;
+            allData += GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset;
             allData += "endobj;";
 
             // save all above data to file, might make new file if none exists

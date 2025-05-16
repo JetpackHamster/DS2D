@@ -140,7 +140,7 @@ Rigidbody2D:
   m_Mass: 0.05
   m_LinearDrag: 0
   m_AngularDrag: 0.8
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 4370c3ed4bf48b84099190eac0544679, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

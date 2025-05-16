@@ -599,6 +599,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1944589390428415679, guid: a3641819891cd0c4e87d6c78108e9cec, type: 3}
+    - target: {fileID: 2960582996526216008, guid: 640b91008c75d774bb6fd8c43bd6f5e1, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3899396600137042040, guid: 640b91008c75d774bb6fd8c43bd6f5e1, type: 3}
       propertyPath: yRailOffset
       value: 0.045
