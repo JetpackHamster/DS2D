@@ -6,9 +6,8 @@ public class TerrainManagerScript : MonoBehaviour
 {
     public GameObject terrainPiece;
     public float deltaX;
-    public static float terrainLength = 80F;
-    public static float terrainVertexDensity = 1F;
-    private float prevX;
+    public static float terrainLength; // 80F; TODO: consider changing to 100
+    public static float terrainVertexDensity; // 1F
     private Vector3[] HVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] allVertices;
@@ -22,6 +21,8 @@ public class TerrainManagerScript : MonoBehaviour
     public GameObject newScrap;
     public float terrainSpiciness;
     public float terrainOffset; // start value in editor should be ~200? // randomize on newGame
+    public float[] loadedLimits; // stores a float for x value of furthest left loaded terrain, and furthest right respectively
+    public bool isNewTerrain;
     
     
     // Start is called before the first frame update
@@ -30,16 +31,21 @@ public class TerrainManagerScript : MonoBehaviour
         //generatePiece();
         cam = GameObject.Find("Main Camera");
         tradeStructureTimer = 0F;
-        //terrainOffset = 
+        loadedLimits = new float[2];
+        loadedLimits[0] = -10F * terrainLength;
+        loadedLimits[1] = 10F * terrainLength;
+        /*if (isNewTerrain) {
+            
+        }*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move if need
+        if(cam.transform.position.x > gameObject.transform.position.x - 150){ // move forward if camera close
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + terrainLength - 1, gameObject.transform.position.y, gameObject.transform.position.z);
             //terrainSpiciness += 0.1F;
-            generatePiece();
+            generatePiece(transform.position.x);
 
             // spawn scrap
             while (Random.Range(0F, 10F) > 7F) {
@@ -78,22 +84,10 @@ public class TerrainManagerScript : MonoBehaviour
                 }
             }
         }
-        /*if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving) {
-            deltaX += gameObject.transform.position.x - prevX;
-            prevX = gameObject.transform.position.x;
-        }   
-        if (gameObject.transform.parent.GetComponent<TerrainCircleSpawnerScript>().moving && deltaX > (terrainLength * 0.93F)) {
-            deltaX = 0;
-            //generatePiece();
-
-        }*/
-        
     }
 
-    //public void Cleanup(float beginX, bool isLeft) {
-        
-    //}
-    void generatePiece() {
+    // generate a new terrain piece
+    void generatePiece(float posX) {
 
         // instantiate new object
         newPiece = Instantiate(terrainPiece, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 80, gameObject.transform.position.z), gameObject.transform.rotation, GameObject.Find("TerrainPieces").transform);
@@ -101,6 +95,7 @@ public class TerrainManagerScript : MonoBehaviour
         
         // generate list of heights
         for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
+            // calculate perlin noise input value
             float perlinput = (gameObject.transform.position.x + (i / (terrainVertexDensity))) / (terrainLength * 0.3F) + terrainOffset;
             //Debug.Log("perlinput " + perlinput);
             HVertices[i] = new Vector3(((i / terrainVertexDensity)), (Mathf.PerlinNoise1D(perlinput) * terrainSpiciness + 80), 0); // make heights into vertices
@@ -112,6 +107,7 @@ public class TerrainManagerScript : MonoBehaviour
         for(int i = 0; i < terrainLength * terrainVertexDensity; i++) {
             bVertices[i] = new Vector3(HVertices[i].x, -10, 0); // make base vertices
         }
+        // combine vertex arrays
         allVertices = HVertices;
         UnityEditor.ArrayUtility.AddRange(ref allVertices, bVertices);
         
@@ -121,14 +117,14 @@ public class TerrainManagerScript : MonoBehaviour
         // assign triangles array
         //for each height if has next
         for (int i = 0; i < terrainLength * terrainVertexDensity - 1; i++){
-            // make this tri
+            // make this (surface) tri
             //add this height, next height, this base
             //UnityEditor.ArrayUtility.Add(ref triangles, );
             UnityEditor.ArrayUtility.Add(ref triangles, i);
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             UnityEditor.ArrayUtility.Add(ref triangles, (i + (int)(terrainLength * terrainVertexDensity)));
             
-            // make sub tri
+            // make sub (base) tri
             //add next height, next base, this base
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1));
             UnityEditor.ArrayUtility.Add(ref triangles, (i + 1 + (int)(terrainLength * terrainVertexDensity)));
@@ -139,7 +135,7 @@ public class TerrainManagerScript : MonoBehaviour
 
         tMesh.SetTriangles(triangles, 0, true, 0); 
         tMesh.RecalculateBounds();
-        newPiece.GetComponent<MeshFilter>().sharedMesh = tMesh;
+        newPiece.GetComponent<MeshFilter>().sharedMesh = tMesh; // assign new mesh as the mesh of the new piece
 
         Vector2[] allVertices2D = new Vector2[allVertices.Length];
         for (int i = 0; i < allVertices.Length; i++){
