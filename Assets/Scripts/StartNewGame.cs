@@ -12,6 +12,9 @@ public class StartNewGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // add this to list of persistent between scenes
+        GameObject.DontDestroyOnLoad(gameObject);
+
         Button button = GetComponent<Button>();
         button.onClick.AddListener(LoadNew);
         // enable scrap spawning in menu
@@ -28,5 +31,6 @@ public class StartNewGame : MonoBehaviour
     {
         //Debug.Log("LoadNew Attempt");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = Random.Range(100F, 1000F); // TODO: ensure actually changes value
     }
 }

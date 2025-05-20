@@ -6,8 +6,8 @@ public class TerrainManagerScript : MonoBehaviour
 {
     public GameObject terrainPiece;
     public float deltaX;
-    public static float terrainLength; // 80F; TODO: consider changing to 100
-    public static float terrainVertexDensity; // 1F
+    public static float terrainLength = 80F; // TODO: consider changing to 100
+    public static float terrainVertexDensity = 1F;
     private Vector3[] HVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] bVertices = new Vector3[(int)(terrainLength * terrainVertexDensity)];
     private Vector3[] allVertices;
