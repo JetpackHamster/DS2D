@@ -1477,6 +1477,8 @@ MonoBehaviour:
   newScrap: {fileID: 0}
   terrainSpiciness: 9
   terrainOffset: 500
+  loadedLimits: []
+  isNewTerrain: 0
 --- !u!1 &415775290
 GameObject:
   m_ObjectHideFlags: 0
@@ -4726,7 +4728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4903542451923971479, guid: 4d1f7b8d39b607b48aa1d4bb6e8b93a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.81
+      value: -6.39
       objectReference: {fileID: 0}
     - target: {fileID: 4903542451923971479, guid: 4d1f7b8d39b607b48aa1d4bb6e8b93a1, type: 3}
       propertyPath: m_LocalPosition.z

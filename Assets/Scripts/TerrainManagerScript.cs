@@ -69,7 +69,7 @@ public class TerrainManagerScript : MonoBehaviour
                             // reset timer and make structure
                             tradeStructureTimer = 0F;
                             //Debug.Log("structure make!");
-                            Instantiate(structures[0], new Vector3((transform.position.x + (i - 3) / terrainVertexDensity) + 5, transform.position.y + prevH/10 + 1.4F, 0), new Quaternion(0F, 0F, 0F, 1F), newPiece.transform);
+                            Instantiate(structures[0], new Vector3((transform.position.x + (i - 3) / terrainVertexDensity) + 5, transform.position.y + prevH/10 + 1F, 0), new Quaternion(0F, 0F, 0F, 1F), newPiece.transform);
                             i = HVertices.Length - 1; // exit loop
                         }
                     }

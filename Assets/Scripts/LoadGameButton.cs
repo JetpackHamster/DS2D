@@ -19,6 +19,6 @@ public class LoadGameButton : MonoBehaviour
     }
 
     void LoadGameThing() {
-        GameObject.Find("GameLoader").GetComponent<LoadGameScript>().LoadGame();
+        GameObject.Find("GameLoader").GetComponent<LoadGameScript>().doLoadGame = true;
     }
 }

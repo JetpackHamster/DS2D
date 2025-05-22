@@ -77,7 +77,7 @@ public class SaveGameScript : MonoBehaviour
             allData += TChassisScript.brakingForce + ";";
             allData += TChassisScript.fuelUsageMultiplier + ";";
             allData += TChassisScript.trackWidth + ";";
-            // get crane magnet properties // TODO: verify unprocessed arrays readable
+            // get crane magnet properties
             for(int i = 0; i < TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits.Length; i++) {
                 allData += TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] + ";";
             }

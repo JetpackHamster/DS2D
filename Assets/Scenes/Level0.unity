@@ -666,6 +666,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4285564828375384775, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: pointer
+      value: 
+      objectReference: {fileID: 1678043107}
     - target: {fileID: 6734265899091154288, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.9261
@@ -1129,10 +1133,13 @@ MonoBehaviour:
   - {fileID: 384262184926286563, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
   tradeStructureSpawnRate: 220
   structures:
-  - {fileID: 0}
+  - {fileID: 3080719780370042063, guid: 4d1f7b8d39b607b48aa1d4bb6e8b93a1, type: 3}
   newPiece: {fileID: 0}
   newScrap: {fileID: 0}
   terrainSpiciness: 9
+  terrainOffset: 0
+  loadedLimits: []
+  isNewTerrain: 0
 --- !u!4 &743374253
 Transform:
   m_ObjectHideFlags: 0
