@@ -78,9 +78,10 @@ public class TerrainManagerScript : MonoBehaviour
             }
 
             if (structures.Length > 1) {
-                // spawn other structures
+                // spawn other structures // TODO: fix; y was at 12 ish when should be at -16 ish with - 50 offset in below big code line
                 while (Random.Range(0F, 10F) > 7F) {
-                    Instantiate(structures[Random.Range(1,structures.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.3F, 0.3F), 1F));
+                    float structX = Random.Range(-0.5F * terrainLength, 0.5F * terrainLength);
+                    Instantiate(structures[Random.Range(1,structures.Length)], new Vector3(transform.position.x + structX, transform.position.y - 50 + HVertices[Mathf.RoundToInt(structX / terrainVertexDensity)].y/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.3F, 0.3F), 1F));
                 }
             }
         }
