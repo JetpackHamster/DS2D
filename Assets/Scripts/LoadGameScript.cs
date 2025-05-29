@@ -16,6 +16,7 @@ public class LoadGameScript : MonoBehaviour
     public bool loaded;
     public bool loading;
     public bool doLoadGame;
+    public bool isNewGame;
     //AsyncOperation unloadtask;
 
     // Start is called before the first frame update
@@ -41,11 +42,32 @@ public class LoadGameScript : MonoBehaviour
 
         if(!loaded && doLoadGame) {
             LoadGame();
-        } else if (loaded && doLoadGame && loading) {
+        } else if(!loaded && isNewGame) {
+            newGame();
+        } else if (loaded && (doLoadGame || isNewGame) && loading) {
             // reset
             loaded = false;
             doLoadGame = false;
+            isNewGame = false;
             loading = false;
+        }
+    }
+
+    public void newGame() {
+        isNewGame = true;
+        Debug.Log("LoadNew Attempt");
+        if(!loading) {
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            loading = true;
+        }
+        // check if loaded
+        if (GameObject.Find("TChassis") == null) {
+            //Debug.Log("didn't find");
+        } else {
+            // set offset
+            GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = Random.Range(100F, 1000F);
+            // mark successful
+            loaded = true;
         }
     }
 
@@ -61,8 +83,9 @@ public class LoadGameScript : MonoBehaviour
         //GameObject.Find("MMScrapSpawner").SetActive(false);
         //GameObject.Find("EventSystem").SetActive(false);
 
+        // check if loaded
         if (GameObject.Find("TChassis") == null) {
-            Debug.Log("didn't find");
+            //Debug.Log("didn't find");
         } else {
             
             // load file

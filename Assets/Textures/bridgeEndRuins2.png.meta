@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1c2a8dc2e5febbf408640f37df89beba
+guid: 211461e6f52456f44b6226fc3f0cb4b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1868133844328934284
-    second: ruins2_0
+      213: 7738493901132564874
+    second: bridgeEndRuins2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,22 +126,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ruins2_0
+      name: bridgeEndRuins2_0
       rect:
         serializedVersion: 2
-        x: 26
-        y: 22
-        width: 15
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.28}
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8b6c1865d1fce910800000000000000
-      internalID: 1868133844328934284
+      spriteID: a898889e337a46b60800000000000000
+      internalID: 7738493901132564874
       vertices: []
       indices: 
       edges: []
@@ -149,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5c2170ac183754345a7e0aae8505eacc
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -157,7 +157,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ruins2_0: 1868133844328934284
+      bridgeEndRuins2_0: 7738493901132564874
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

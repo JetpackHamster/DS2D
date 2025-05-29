@@ -29,8 +29,6 @@ public class StartNewGame : MonoBehaviour
 
     void LoadNew()
     {
-        //Debug.Log("LoadNew Attempt");
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
-        GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = Random.Range(100F, 1000F); // TODO: ensure actually changes value
+        GameObject.Find("GameLoader").GetComponent<LoadGameScript>().newGame();
     }
 }
