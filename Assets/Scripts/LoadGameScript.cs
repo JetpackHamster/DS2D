@@ -17,6 +17,7 @@ public class LoadGameScript : MonoBehaviour
     public bool loading;
     public bool doLoadGame;
     public bool isNewGame;
+    public float loadingTime;
     //AsyncOperation unloadtask;
 
     // Start is called before the first frame update
@@ -75,7 +76,16 @@ public class LoadGameScript : MonoBehaviour
     {
         Debug.Log("LoadGame Attempt");
 
-        if(!loading) {
+        // record time to load so far and stop attempts if too long
+        loadingTime += Time.deltaTime;
+        if (loadingTime > 2F)
+        {
+            Debug.Log("Loading Incomplete");
+            loaded = true;
+        }
+
+        if (!loading)
+        {
             SceneManager.LoadScene("Level0", LoadSceneMode.Single);
             loading = true;
         }
@@ -231,7 +241,7 @@ public class LoadGameScript : MonoBehaviour
                     else if (sectionView.StartsWith("terrain;"))
                     {
                         // get and assign terrain offset
-                        Debug.Log(sectionView.Substring(8, sectionView.length - 16)); // TODO: fix
+                        Debug.Log(sectionView.Substring(8, sectionView.length - 16)); // TODO: fix string format error, reading incorrect thing?
                         GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = float.Parse(sectionView.Substring(8, sectionView.length - 16).ToString());
                     }
                 }

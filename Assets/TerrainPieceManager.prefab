@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4358313552605669345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1600234500796125260}
+  - component: {fileID: 3703847915452150892}
+  m_Layer: 0
+  m_Name: TerrainPieceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1600234500796125260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358313552605669345}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -40, y: -25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3703847915452150892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358313552605669345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ecaab8338d1ed4dad723f691906b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainPiece: {fileID: 2051217888574381578, guid: 60987e966bcbde84790f37325a83912e, type: 3}
+  deltaX: 0
+  spawnedObjs:
+  - {fileID: 4793006469209083836, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
+  - {fileID: 992695334271573473, guid: af1912e6be896e3408e106d15922e4fc, type: 3}
+  - {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
+  - {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
+  - {fileID: 5120173265309804967, guid: d8abdc61ce10f624c9ed84c9c9ae6067, type: 3}
+  - {fileID: 8865488171642766104, guid: 9f35ec949e5129647a5094376200b53c, type: 3}
+  - {fileID: 3361529960488582457, guid: 33fa66971cdab514ea021ddbaa15389a, type: 3}
+  - {fileID: 6302419789694249459, guid: d10ed19144e22924886dcefb4c39b234, type: 3}
+  - {fileID: 384262184926286563, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
+  tradeStructureSpawnRate: 220
+  structures:
+  - {fileID: 3080719780370042063, guid: 4d1f7b8d39b607b48aa1d4bb6e8b93a1, type: 3}
+  - {fileID: 6872437189081974675, guid: 0c88b8605e80cd544bb6ac09e1c37d04, type: 3}
+  - {fileID: 3056257816524462192, guid: f928e69ea042aae49b5bbfca5223802e, type: 3}
+  - {fileID: 6851038726870507634, guid: b47e481eb0949a84dbd4e006fbd61c9d, type: 3}
+  newPiece: {fileID: 0}
+  newScrap: {fileID: 0}
+  terrainSpiciness: 9
+  terrainOffset: 500
+  loadedLimits: []
+  isNewTerrain: 0
+  isLoading: 0

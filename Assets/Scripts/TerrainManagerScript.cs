@@ -49,7 +49,7 @@ public class TerrainManagerScript : MonoBehaviour
             generatePiece(transform.position.x);
 
             // spawn scrap
-            while (Random.Range(0F, 10F) > 7F && isLoading) {
+            while (Random.Range(0F, 10F) > 7F && !isLoading) {
                 newScrap = Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
                 newScrap.GetComponent<ScrapScript>().value *= Random.Range(0.6F,1.4F);
             }
@@ -80,9 +80,10 @@ public class TerrainManagerScript : MonoBehaviour
 
             if (structures.Length > 1 && !isLoading) {
                 // spawn other structures // TODO: fix; y was at 12 ish when should be at -16 ish with - 50 offset in below big code line
-                while (Random.Range(0F, 10F) > 7F) {
+                while (Random.Range(0F, 10F) > 6F) {
                     float structX = Random.Range(-0.5F * terrainLength, 0.5F * terrainLength);
-                    Instantiate(structures[Random.Range(1,structures.Length)], new Vector3(transform.position.x + structX, transform.position.y - 79 + HVertices[Mathf.RoundToInt(structX / terrainVertexDensity)].y/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.08F, 0.08F), 1F));
+                    // this line sometimes throwing nullref at HVertices index
+                    Instantiate(structures[Random.Range(1, structures.Length)], new Vector3(transform.position.x + structX, transform.position.y - 79 + HVertices[Mathf.RoundToInt(structX / terrainVertexDensity)].y/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.08F, 0.08F), 1F));
                 }
             }
         } else {
