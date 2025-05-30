@@ -48,7 +48,6 @@ MonoBehaviour:
   deltaX: 0
   spawnedObjs:
   - {fileID: 4793006469209083836, guid: 471e6794f1c122540b2b739fbdb995a9, type: 3}
-  - {fileID: 992695334271573473, guid: af1912e6be896e3408e106d15922e4fc, type: 3}
   - {fileID: 3361198738974146518, guid: 877bb021468dae941b44b35e44af385e, type: 3}
   - {fileID: 4478531361122850295, guid: c1530fbea464f9d4db753078bd10ab5c, type: 3}
   - {fileID: 5120173265309804967, guid: d8abdc61ce10f624c9ed84c9c9ae6067, type: 3}
@@ -56,12 +55,15 @@ MonoBehaviour:
   - {fileID: 3361529960488582457, guid: 33fa66971cdab514ea021ddbaa15389a, type: 3}
   - {fileID: 6302419789694249459, guid: d10ed19144e22924886dcefb4c39b234, type: 3}
   - {fileID: 384262184926286563, guid: bb02404b4df89de4084c021969db7f3b, type: 3}
+  - {fileID: 2045755169100348952, guid: 07e77f7dfc1102c4e8f484db6eb01d34, type: 3}
   tradeStructureSpawnRate: 220
   structures:
   - {fileID: 3080719780370042063, guid: 4d1f7b8d39b607b48aa1d4bb6e8b93a1, type: 3}
   - {fileID: 6872437189081974675, guid: 0c88b8605e80cd544bb6ac09e1c37d04, type: 3}
   - {fileID: 3056257816524462192, guid: f928e69ea042aae49b5bbfca5223802e, type: 3}
   - {fileID: 6851038726870507634, guid: b47e481eb0949a84dbd4e006fbd61c9d, type: 3}
+  - {fileID: 2997755806462680837, guid: 4a20ee1c99e5a7943873e972f29bff03, type: 3}
+  - {fileID: 545632556103826305, guid: 6a198cfab23394b4292ee6c88862752a, type: 3}
   newPiece: {fileID: 0}
   newScrap: {fileID: 0}
   terrainSpiciness: 9

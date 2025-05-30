@@ -37,7 +37,7 @@ public class SaveGameScript : MonoBehaviour
             for (int i = 0; i < GameObject.Find("TerrainPieces").transform.childCount; i++) {
                 for (int j = 0; j < GameObject.Find("TerrainPieces").transform.GetChild(i).transform.childCount; j++) {
                     // add localPosition of each structure // check if readable numbers, maybe convert
-                    allData += "" + GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.localPosition + ";";
+                    allData += "" + GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.name + ";" + GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.localPosition + ";";
                     // if tradestation, add instance specific data (upgradeList)
                     if (GameObject.Find("TerrainPieces").transform.GetChild(i).transform.GetChild(j).transform.name.Equals("TradeStation(Clone)")) {
                         allData += "upgradeList;";
@@ -53,7 +53,7 @@ public class SaveGameScript : MonoBehaviour
             GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
             for (int i = 0; i < items.Length; i++) {
                 // add localPosition and value of each item // check if readable numbers, maybe convert // some items don't have ScrapScript
-                allData += "" + items[i].transform.localPosition + ";";
+                allData += "" + items[i].transform.name + ";" + items[i].transform.localPosition + ";";
                 items[i].TryGetComponent<ScrapScript>(out ScrapScript script);
                 if (script != null) {
                     allData += "" + script.value + ";";
