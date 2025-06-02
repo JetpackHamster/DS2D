@@ -7,6 +7,7 @@ public class ScrapScript : MonoBehaviour
     public float value;
     public bool disco;
     float discoDelay;
+    public int spawnIndex;
 
     // Start is called before the first frame update
     void Start()

@@ -50,8 +50,10 @@ public class TerrainManagerScript : MonoBehaviour
 
             // spawn scrap
             while (Random.Range(0F, 10F) > 7F && !isLoading) {
-                newScrap = Instantiate(spawnedObjs[Random.Range(0,spawnedObjs.Length)], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
+                int spawnIndex = Random.Range(0,spawnedObjs.Length);
+                newScrap = Instantiate(spawnedObjs[spawnIndex], new Vector3(transform.position.x + Random.Range(-0.5F * terrainLength, 0.5F * terrainLength), transform.position.y + 10, 0), new Quaternion(0F, 0F, Random.Range(-1F, 1F), 1F));
                 newScrap.GetComponent<ScrapScript>().value *= Random.Range(0.6F,1.4F);
+                newScrap.GetComponent<ScrapScript>().spawnIndex = spawnIndex;
             }
 
             

@@ -97,6 +97,8 @@ public class LoadGameScript : MonoBehaviour
         if (GameObject.Find("TChassis") == null) {
             //Debug.Log("didn't find");
         } else {
+
+            GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().isLoading = true;
             
             // load file
             if (filename == null)
@@ -168,8 +170,9 @@ public class LoadGameScript : MonoBehaviour
                     else if (sectionView.Contains("items;"))
                     {
                         // section start
-                        string position;
-                        string value;
+                        string position = "";
+                        string rotation = "";
+                        string value = "";
 
                         // maybe split by endobj; instead
                         string[] dicedData = section.Split(";");
@@ -189,6 +192,19 @@ public class LoadGameScript : MonoBehaviour
                             {
                                 // has value, assign without indicator ("v2.6" -> "2.6")
                                 value = dicedData[i].Substring(1, dicedData[i].Length);
+                            }
+                            else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('r'))
+                            {
+                                // has rotation, assign without indicator ("r(2,6)" -> "(2,6)")
+                                rotation = dicedData[i].Substring(1, dicedData[i].Length);
+                            }
+                            else 
+                            {
+                                // instantiate new with index and data
+                                //var newItem = Instantiate(GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().spawnedObjs[int.Parse(dicedData[i])], position, rotation);
+                                if(!value.Equals("")) {
+                                    //newItem.GetComponent("ScrapScript").value = value;
+                                }
                             }
                         }
                     }
