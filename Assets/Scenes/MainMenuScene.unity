@@ -421,6 +421,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filename: save0.txt
+  newVehicle: {fileID: 0}
+  loaded: 0
+  loading: 0
+  doLoadGame: 0
+  isNewGame: 0
+  loadingTime: 0
 --- !u!4 &271684063
 Transform:
   m_ObjectHideFlags: 0
@@ -1857,6 +1863,7 @@ MonoBehaviour:
   - Weapon-free!
   - Cool splash text here!
   - nice.
+  - Also try Chance of Precipitation 2!
   - Click to add text!
 --- !u!1 &1484420004
 GameObject:
