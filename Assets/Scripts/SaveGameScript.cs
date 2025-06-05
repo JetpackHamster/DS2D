@@ -53,12 +53,12 @@ public class SaveGameScript : MonoBehaviour
             GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
             for (int i = 0; i < items.Length; i++) {
                 // add localPosition, rotation, and value of each item // check if readable numbers, maybe convert // some items don't have ScrapScript
-                allData += "" + items[i].transform.localPosition + ";";
+                allData += "" + items[i].transform.position + ";";
                 allData += "r" + items[i].transform.rotation + ";";
                 
                 items[i].TryGetComponent<ScrapScript>(out ScrapScript script);
                 if (script != null) {
-                    allData += "" + script.value + ";" + items[i].GetComponent<ScrapScript>().spawnIndex + ";";
+                    allData += "v" + script.value + ";" + items[i].GetComponent<ScrapScript>().spawnIndex + ";";
                 } else {
                     Debug.Log("unsaveable item (" + items[i].transform.name + "). enjoy not having it!");
                 }
@@ -85,6 +85,7 @@ public class SaveGameScript : MonoBehaviour
             for(int i = 0; i < TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits.Length; i++) {
                 allData += TChassis.transform.GetChild(7).GetComponent<CraneMagnetScript>().xyLimits[i] + ";";
             }
+            allData += "r" + TChassis.transform.rotation + ";";
             allData += "endobj;";
             // save terrain offset
             allData += "|terrain;";

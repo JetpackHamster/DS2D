@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEditor.Search;
+using Unity.Mathematics;
 
 
 public class LoadGameScript : MonoBehaviour
@@ -18,6 +19,7 @@ public class LoadGameScript : MonoBehaviour
     public bool doLoadGame;
     public bool isNewGame;
     public float loadingTime;
+    public bool areItemsLoaded;
     //AsyncOperation unloadtask;
 
     // Start is called before the first frame update
@@ -41,22 +43,28 @@ public class LoadGameScript : MonoBehaviour
             }
         }*/
 
-        if(!loaded && doLoadGame) {
+        if (!loaded && doLoadGame)
+        {
             LoadGame();
-        } else if(!loaded && isNewGame) {
+        }
+        else if (!loaded && isNewGame)
+        {
             newGame();
-        } else if (loaded && (doLoadGame || isNewGame) && loading) {
+        }
+        else if (loaded && (doLoadGame || isNewGame) && loading)
+        {
             // reset
             loaded = false;
             doLoadGame = false;
             isNewGame = false;
             loading = false;
+            areItemsLoaded = false;
         }
     }
 
     public void newGame() {
         isNewGame = true;
-        Debug.Log("LoadNew Attempt");
+        //Debug.Log("LoadNew Attempt");
         if(!loading) {
             SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
             loading = true;
@@ -66,7 +74,7 @@ public class LoadGameScript : MonoBehaviour
             //Debug.Log("didn't find");
         } else {
             // set offset
-            GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = Random.Range(100F, 1000F);
+            GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = UnityEngine.Random.Range(100F, 1000F);
             // mark successful
             loaded = true;
         }
@@ -74,11 +82,11 @@ public class LoadGameScript : MonoBehaviour
 
     public void LoadGame()
     {
-        Debug.Log("LoadGame Attempt");
+        //Debug.Log("LoadGame Attempt");
 
         // record time to load so far and stop attempts if too long
         loadingTime += Time.deltaTime;
-        if (loadingTime > 2F)
+        if (loadingTime > 3F)
         {
             Debug.Log("Loading Incomplete");
             loaded = true;
@@ -170,8 +178,8 @@ public class LoadGameScript : MonoBehaviour
                     else if (sectionView.Contains("items;"))
                     {
                         // section start
-                        string position = "";
-                        string rotation = "";
+                        Vector3 position = new Vector3();
+                        quaternion rotation = new quaternion();
                         string value = "";
 
                         // maybe split by endobj; instead
@@ -182,34 +190,45 @@ public class LoadGameScript : MonoBehaviour
                             if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('('))
                             {
                                 // item position
-                                position = dicedData[i];
+                                // remove (), parse string
+                                string tempStr = dicedData[i].Substring(1, dicedData[i].Length - 2);
+                                string[] tempValues = tempStr.Split(",");
+                                position = new Vector3(float.Parse(tempValues[0]), float.Parse(tempValues[1]), float.Parse(tempValues[2]));
                             }
                             else if (dicedData[i].Equals("endobj"))
                             {
-                                // TODO: instantiate newStructure from type map with data
+                                // TODO: instantiate new from type map with data ??
                             }
                             else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('v'))
                             {
                                 // has value, assign without indicator ("v2.6" -> "2.6")
-                                value = dicedData[i].Substring(1, dicedData[i].Length);
+                                value = dicedData[i].Substring(1, dicedData[i].Length - 1);
                             }
                             else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('r'))
                             {
                                 // has rotation, assign without indicator ("r(2,6)" -> "(2,6)")
-                                rotation = dicedData[i].Substring(1, dicedData[i].Length);
+                                // remove (), parse string
+                                //Debug.Log(dicedData[i] + " | " + dicedData[i].Substring(2, dicedData[i].Length - 3));
+                                string tempStr = dicedData[i].Substring(2, dicedData[i].Length - 3);
+                                string[] tempValues = tempStr.Split(",");
+                                rotation = new quaternion(float.Parse(tempValues[0]), float.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]));
                             }
-                            else 
+                            else if (dicedData[i].Length > 0 && !areItemsLoaded)
                             {
-                                // instantiate new with index and data
-                                //var newItem = Instantiate(GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().spawnedObjs[int.Parse(dicedData[i])], position, rotation);
-                                if(!value.Equals("")) {
-                                    //newItem.GetComponent("ScrapScript").value = value;
+                                // instantiate new item with index and data
+                                //Debug.Log("itemIndex: " + dicedData[i]);
+                                var newItem = Instantiate(GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().spawnedObjs[int.Parse(dicedData[i])], position, rotation);
+                                if (!value.Equals(""))
+                                {
+                                    newItem.GetComponent<ScrapScript>().value = float.Parse(value);
                                 }
+                                newItem.GetComponent<ScrapScript>().spawnIndex = int.Parse(dicedData[i]);
                             }
                         }
                     }
                     else if (sectionView.StartsWith("playervehicle;"))
                     {
+                        areItemsLoaded = true;
                         // section start
                         string position;
 
@@ -223,12 +242,22 @@ public class LoadGameScript : MonoBehaviour
                                 // vehicle position // TODO: rotation saveload
                                 position = dicedData[i];
                                 string[] values = position.Trim('(', ')').Split(',');
-                                
-                                GameObject.Find("TChassis").transform.position = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
 
-                            } else {
+                                GameObject.Find("TChassis").transform.position = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+                            }
+                            else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('r'))
+                            {
+                                // vehicle rotation, assign without indicator ("r(2,6)" -> "(2,6)")
+                                // remove (), parse string
+                                //Debug.Log(dicedData[i] + " | " + dicedData[i].Substring(2, dicedData[i].Length - 3));
+                                string[] tempValues = dicedData[i].Substring(1, dicedData[i].Length - 1).Trim('(', ')').Split(',');
+                                //Debug.Log(tempValues[0] + "|" + tempValues[1] + "|" + tempValues[2] + "|" + tempValues[3]);
+                                GameObject.Find("TChassis").transform.rotation = new quaternion(float.Parse(tempValues[0]), float.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]));
+                            }
+                            else
+                            {
                                 var chassisScript = GameObject.Find("TChassis").GetComponent<TChassisScript>();
-                                
+
                                 chassisScript.motorTopSpeed = float.Parse(dicedData[2]);
                                 chassisScript.idleSpeed = float.Parse(dicedData[3]);
                                 chassisScript.EngineSpeed = float.Parse(dicedData[4]);
@@ -246,9 +275,7 @@ public class LoadGameScript : MonoBehaviour
                                 GameObject.Find("CraneMagnet").GetComponent<CraneMagnetScript>().xyLimits[2] = float.Parse(dicedData[16]);
                                 GameObject.Find("CraneMagnet").GetComponent<CraneMagnetScript>().xyLimits[3] = float.Parse(dicedData[17]);
                                 GameObject.Find("CraneMagnet").GetComponent<CraneMagnetScript>().ResizeRails();
-                                
-                                
-                                
+
                             }
                         }
 
@@ -257,7 +284,7 @@ public class LoadGameScript : MonoBehaviour
                     else if (sectionView.StartsWith("terrain;"))
                     {
                         // get and assign terrain offset
-                        Debug.Log(sectionView.Substring(8, sectionView.length - 16)); // TODO: fix string format error, reading incorrect thing?
+                        //Debug.Log(sectionView.Substring(8, sectionView.length - 16)); // TODO: fix string format error, reading incorrect thing?
                         GameObject.Find("TerrainPieceManager").GetComponent<TerrainManagerScript>().terrainOffset = float.Parse(sectionView.Substring(8, sectionView.length - 16).ToString());
                     }
                 }
