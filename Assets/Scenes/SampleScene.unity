@@ -567,6 +567,7 @@ MonoBehaviour:
   - {fileID: 1440799587}
   cam: {fileID: 519420028}
   collider: {fileID: 142068663}
+  isDebugMode: 0
 --- !u!212 &142068661
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -951,8 +952,13 @@ MonoBehaviour:
     Toggle Engine
     - V
 
+    Take fuel from can - F
 
-    Toggle Menu - Esc'
+    ADd fuel to can - G
+
+
+    Toggle Menu -
+    Esc'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -979,8 +985,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20.64
+  m_fontSizeBase: 20.64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3993,6 +3999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 200
   disco: 0
+  spawnIndex: 0
 --- !u!1 &1789448379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5033687877741608106, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
@@ -5622,6 +5629,10 @@ PrefabInstance:
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: trackWidth
       value: 0.012
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
+      propertyPath: jumpCooldown
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2730088015097274971, guid: bad47cec7b909c04fb4a47508d301395, type: 3}
       propertyPath: motorTopSpeed

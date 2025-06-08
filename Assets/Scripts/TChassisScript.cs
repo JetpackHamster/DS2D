@@ -35,6 +35,9 @@ public class TChassisScript : MonoBehaviour
     bool pBrake;
     bool engineDecel;
 
+    public float jumpCooldown;
+    public float jumpTimer;
+
     public GameObject thingSpawnable;
 
     private Vector3[] HVertices;
@@ -130,9 +133,16 @@ public class TChassisScript : MonoBehaviour
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
         }*/
 
-        if (Input.GetKeyDown(KeyCode.Space)) // do a jumpy
+        if (Input.GetKeyDown(KeyCode.Space) && jumpTimer > jumpCooldown) // do a jumpy
         {
             SRRigidbody.velocity += Vector2.up * jumpStrength;
+
+            // reset timer / cooldown
+            jumpTimer = 0;
+        }
+        else
+        {
+            jumpTimer += Time.deltaTime;
         }
         if(Input.GetKeyDown(KeyCode.P)) // toggle parking brake
         {

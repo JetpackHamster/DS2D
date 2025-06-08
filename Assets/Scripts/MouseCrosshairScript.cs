@@ -7,6 +7,7 @@ public class MouseCrosshairScript : MonoBehaviour
     public GameObject[] thingsSpawnable;
     public GameObject cam;
     public PolygonCollider2D collider;
+    public bool isDebugMode;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +26,8 @@ public class MouseCrosshairScript : MonoBehaviour
         {
             Instantiate(thingsSpawnable[0], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }
-        // MMB hold activates collision
-        if (Input.GetMouseButtonDown(2))
+        // MMB hold activates collision for debugging
+        if (Input.GetMouseButtonDown(2) && isDebugMode)
         {
             collider.enabled = true;
         } else if (Input.GetMouseButtonUp(2))
@@ -34,7 +35,7 @@ public class MouseCrosshairScript : MonoBehaviour
             collider.enabled = false;
         }
         // spawn a single other thing
-        if (Input.GetKeyDown(KeyCode.Slash))
+        if (Input.GetKeyDown(KeyCode.Slash) && isDebugMode)
         {
             Instantiate(thingsSpawnable[1], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }

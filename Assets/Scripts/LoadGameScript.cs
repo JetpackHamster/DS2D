@@ -196,7 +196,7 @@ public class LoadGameScript : MonoBehaviour
                             else if (new UnityEditor.Search.StringView(dicedData[i]).StartsWith('r'))
                             {
                                 // has rotation, assign without indicator ("r(2,6)" -> "(2,6)")
-                                rotation = dicedData[i].Substring(1, dicedData[i].Length);
+                                rotation = dicedData[i].Substring(1, dicedData[i].Length - 1);
                             }
                             else 
                             {
