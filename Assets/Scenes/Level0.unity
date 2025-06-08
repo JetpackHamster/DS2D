@@ -3059,7 +3059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed4a4f5126a4ba458389dadfc93ecae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingsSpawnable: []
+  thingsSpawnable:
+  - {fileID: 6269092990122627440, guid: af493e3005d6de84c97bf322705a6d57, type: 3}
   cam: {fileID: 588957598}
   collider: {fileID: 1678043108}
   isDebugMode: 0

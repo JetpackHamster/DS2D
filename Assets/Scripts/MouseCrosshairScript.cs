@@ -21,8 +21,8 @@ public class MouseCrosshairScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // RMB hold spawns things
-        if(Input.GetMouseButton(1))
+        // RMB hold spawns things for debugging
+        if(Input.GetMouseButton(1) && isDebugMode && thingsSpawnable.Length > 0)
         {
             Instantiate(thingsSpawnable[0], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
         }
@@ -34,7 +34,7 @@ public class MouseCrosshairScript : MonoBehaviour
         {
             collider.enabled = false;
         }
-        // spawn a single other thing
+        // spawn a single other thing for debugging
         if (Input.GetKeyDown(KeyCode.Slash) && isDebugMode)
         {
             Instantiate(thingsSpawnable[1], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
