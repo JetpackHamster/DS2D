@@ -785,6 +785,7 @@ MonoBehaviour:
   thingsSpawnable: []
   cam: {fileID: 1756411454}
   collider: {fileID: 395355800}
+  isDebugMode: 0
 --- !u!212 &395355802
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1569,6 +1570,7 @@ GameObject:
   - component: {fileID: 1296776660}
   - component: {fileID: 1296776659}
   - component: {fileID: 1296776662}
+  - component: {fileID: 1296776663}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -1736,6 +1738,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 336.79626, y: 57.19394}
   m_EdgeRadius: 0
+--- !u!114 &1296776663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296776657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf48c54ad6dad144ad64e8dd7bd9c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1359456841
 GameObject:
   m_ObjectHideFlags: 0
