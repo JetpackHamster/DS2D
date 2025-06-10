@@ -136,6 +136,7 @@ public class LoadGameScript : MonoBehaviour
                         string[] upgrades;
 
                         // maybe split by endobj; instead
+                        // split data for parsing
                         string[] dicedData = section.Split(";");
                         for (int i = 1; i < dicedData.Length; i++)
                         {

@@ -99,8 +99,8 @@ public class TerrainManagerScript : MonoBehaviour
                     Instantiate(structures[Random.Range(1, structures.Length)], new Vector3(transform.position.x + structX, transform.position.y - 79 + HVertices[Mathf.RoundToInt(structX / terrainVertexDensity)].y/*<- TODO: terrain y at closest*/, 0), /*constrained rotation->*/new Quaternion(0F, 0F, Random.Range(-0.08F, 0.08F), 1F));
                 }
             }
-        // else
-        } if(!(cam.transform.position.x > gameObject.transform.position.x - 150)) {
+        // else disable loading to allow new items
+        } if(cam.transform.position.x < gameObject.transform.position.x - 150) {
             isLoading = false;
         }
     }

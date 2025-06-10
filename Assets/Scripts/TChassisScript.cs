@@ -142,11 +142,12 @@ public class TChassisScript : MonoBehaviour
         }
         else
         {
+            // acknowledge the passage of time to prevent unwanted flight exploit
             jumpTimer += Time.deltaTime;
         }
         if(Input.GetKeyDown(KeyCode.P)) // toggle parking brake
         {
-            pBrake = !pBrake;
+            pBrake = !pBrake; // if is, then isn't
         }
         if(Input.GetKeyDown(KeyCode.V)) // toggle engine
         {
@@ -157,7 +158,7 @@ public class TChassisScript : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(KeyCode.S)) // universal brake key
+        if(Input.GetKey(KeyCode.S)) // universal brake key (for both drive directions)
         {
             braking = true;
         }
