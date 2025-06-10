@@ -34,6 +34,8 @@ public class TChassisScript : MonoBehaviour
     bool braking;
     bool pBrake;
     bool engineDecel;
+    //float throttle;
+    bool isCruisecontrol;
 
     public float jumpCooldown;
     public float jumpTimer;
@@ -128,10 +130,13 @@ public class TChassisScript : MonoBehaviour
                 SRRigidbody.velocity += Vector2.right * 3;
             }
         }
-        /*if(Input.GetKey(KeyCode.X)) // cursed vehicle rotation
+        if(Input.GetKey(KeyCode.O)) // cursed vehicle rotation
         {
             transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + 1 * Time.deltaTime, transform.rotation.z, transform.rotation.w);
-        }*/
+        }
+        if(Input.GetKey(KeyCode.X)) { // new lines
+            isCruisecontrol = !isCruisecontrol;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpTimer > jumpCooldown) // do a jumpy
         {
@@ -166,7 +171,7 @@ public class TChassisScript : MonoBehaviour
         // if input A, make EngineSpeed go more left, engage clutch
         
         // if reverse and not at top speed go faster
-        if (Input.GetKey(KeyCode.A) && EngineSpeed < (idleSpeed / (-10F)) && fuelQty > 0)
+        if ((Input.GetKey(KeyCode.A) || isCruisecontrol) && EngineSpeed < (idleSpeed / (-10F)) && fuelQty > 0)
         {
             increaseClutch();
             if(Mathf.Abs(EngineSpeed) < motorTopSpeed)
@@ -198,7 +203,7 @@ public class TChassisScript : MonoBehaviour
         // if input D, make EngineSpeed go more right, engage clutch
 
         // if forward and not at top speed go faster
-        if (Input.GetKey(KeyCode.D) && EngineSpeed > (idleSpeed / (10F)) && fuelQty > 0) 
+        if ((Input.GetKey(KeyCode.D) || isCruisecontrol) && EngineSpeed > (idleSpeed / (10F)) && fuelQty > 0) 
         {
             increaseClutch();
             if(Mathf.Abs(EngineSpeed) < motorTopSpeed)
