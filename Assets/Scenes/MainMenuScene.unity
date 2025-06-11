@@ -785,7 +785,7 @@ MonoBehaviour:
   thingsSpawnable: []
   cam: {fileID: 1756411454}
   collider: {fileID: 395355800}
-  isDebugMode: 0
+  isDebugMode: 1
 --- !u!212 &395355802
 SpriteRenderer:
   m_ObjectHideFlags: 0
