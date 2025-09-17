@@ -304,6 +304,7 @@ public class TChassisScript : MonoBehaviour
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.02F * fuelUsageMultiplier;
 
         updateTrack();
+        updateWheelParticles();
         //Debug.Log("Avg: " + AvgWheelVel() + "; Enginespeed: " + EngineSpeed + "; enginespeed effect: " + ((AvgWheelVel() - EngineSpeed) * clutch * 0.1F));
 
     }
@@ -336,6 +337,25 @@ public class TChassisScript : MonoBehaviour
             clutch += 3F * Time.deltaTime;
         } else {
             clutch = 1F;
+        }
+    }
+
+    void updateWheelParticles() {
+        for (int i = 0; i < ArrayWheels.Length; i++) {
+            /*// if velocity of wheel relative to ground is too great, particles
+            float relativeV = ArrayWheels[i].GetComponent<Rigidbody2D>().angularVelocity * (3.1415926535F*wheelDiameters[i]) - gameObject.GetComponent<Rigidbody2D>().velocity.x    ;
+            Debug.Log("rV[" + i + "]:" + relativeV);
+            //if(relativeV > 10) {
+                
+            //}*/
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.layerMask = LayerMask.GetMask("Terrain");
+            List<Collider2D> results = new List<Collider2D>();
+            ArrayWheels[i].GetComponent<CircleCollider2D>().Overlap(filter, results);
+            if (results.Capacity > 1) {
+                // particles yes
+                ArrayWheels[i].transform.parent.gameObject.GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 
