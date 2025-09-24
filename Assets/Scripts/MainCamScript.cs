@@ -23,6 +23,10 @@ public class MainCamScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //float camSize = cam.GetComponent<Camera>().orthographicSize
+        // show vehicle interior if cam close
+        //if (cam.GetComponent<Camera>().orthographicSize < 8) {}
+
         
         // decrease cam zoom speed to allow smooth camera zoom
         camZoomV /= (1F + (50F * Time.deltaTime));

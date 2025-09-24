@@ -304,7 +304,7 @@ public class TChassisScript : MonoBehaviour
         fuelQty -= frameFuelUsage * Time.deltaTime * 0.02F * fuelUsageMultiplier;
 
         updateTrack();
-        updateWheelParticles();
+        //updateWheelParticles();
         //Debug.Log("Avg: " + AvgWheelVel() + "; Enginespeed: " + EngineSpeed + "; enginespeed effect: " + ((AvgWheelVel() - EngineSpeed) * clutch * 0.1F));
 
     }
